@@ -74,7 +74,7 @@ function Formulario()
 
         <React.Fragment>
 
-            <label> Registro </label>
+            <label> Registro3: </label>
             <form>
                 <input type='text' placeholder="id" {...register("id")} /> <br/>
                 <input type='text' placeholder="name" {...register("name")} /> <br/>
