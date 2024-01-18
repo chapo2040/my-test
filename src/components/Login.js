@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Login() 
+function cmpLogin() 
 {
 
     return (
@@ -19,4 +19,4 @@ function Login()
 
 }
 
-export default Login;
+export default cmpLogin;
