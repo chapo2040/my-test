@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
+import {useNavigate} from 'react-router-dom';
 
 function Login() 
 {
-    const {register, handleSubmit, reset} = useForm();
-       
-
+    const {register, handleSubmit, reset} = useForm();   
+    const navigate = useNavigate(); 
+    
     function OnSubmit(data)
-    {
-        
-        //if(validateForm(data)===true)
-        //{
+    {           
+        if(validateForm(data)===true)
+        {
             //alert('Login ok ! ');            
-            window.location.href = "main.html";
-        //}
-    }
+            navigate('/dashboard');
+        }
+    }        
 
     function validateForm(data)
     {

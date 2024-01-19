@@ -1,18 +1,24 @@
-import React from 'react';
-//import RestApi from './components/RestApi';
-//import BookList from './components/BookList';
-//import BookAdd from './components/BookAdd';
-//import Formulario from './components/Formulario';
-//import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-function App() 
-{
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import Contact from "./components/Contact";
+import About from "./components/About";
+
+function App() {
   return (
-    <React.Fragment>
-      <Dashboard></Dashboard>
-    </React.Fragment>
-  )
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

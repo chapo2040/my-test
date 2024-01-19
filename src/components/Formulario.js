@@ -83,7 +83,6 @@ function Formulario()
                 <button onClick={handleSubmit(OnUpdate)}> Update </button>
                 <button onClick={handleSubmit(OnRefresh)}> Refresh </button>
             </form>
-
         
             <br/><br/>
 
