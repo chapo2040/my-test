@@ -1,4 +1,4 @@
-import "./App.css";
+import "./Style.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Login from "./components/Login";
@@ -6,7 +6,9 @@ import Dashboard from "./components/Dashboard";
 import Contact from "./components/Contact";
 import About from "./components/About";
 
-function App() {
+function App() 
+{
+
   return (
     <div className="App">
       <Router>
@@ -19,6 +21,7 @@ function App() {
       </Router>
     </div>
   );
+
 }
 
 export default App;
