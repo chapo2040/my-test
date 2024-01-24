@@ -1,4 +1,5 @@
 import React from 'react';
+import Utils, { Menu } from "./Utils";
 
 function Contact() 
 {
@@ -6,7 +7,9 @@ function Contact()
     return (
 
         <React.Fragment>
-            <label> Contacts </label>
+            <label> Mi Cuenta </label>
+            <br/><br/>
+            <Menu/>
         </React.Fragment>
     )
 

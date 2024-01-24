@@ -1,4 +1,5 @@
 import React from 'react';
+import Utils, { Menu, Cliente, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal } from "./Utils";
 
 function Dashboard() 
 {
@@ -12,9 +13,9 @@ function Dashboard()
         alert('TraerFacturas !'); 
     }
     
-    function GenerarPDF()
+    function GenerarPoliza()
     {
-        alert('GenerarPDF !'); 
+        alert('GenerarPoliza !'); 
     }
 
     return (
@@ -22,60 +23,56 @@ function Dashboard()
         <React.Fragment>
 
             <div class='container'>
-
-                <div class='pnlClientes'>
-
-                    <p class='txt-1'> Clientes 
-                        <button class='agregar' onClick={AgregarCliente}> + Agregar </button>
-                    </p>
-
-                    <div  class='itemCliente'>
-                        <p class='titulo'> MIZA0506937124 </p>
-                        <p class='info'> JUAN DE DIOS MIRANDA ZAZUETA </p> 
-                    </div>    
-
-                    <div  class='itemCliente'>
-                        <p class='titulo'> ROGO791025CQ1  </p>
-                        <p class='info'> OSCAR ARMANDO ROMO GUILLEN </p> 
-                    </div>                     
-
-                </div>
-
+                           
+                <Menu/>
 
                 <div class='pnlMovimientos'>
 
-                    <p class='txt-1'> Movimientos </p>
+                    <div class='pnlFiltros'>
+                        <select class='comboCliente'>
+                            <option value="MIZA0506937124"> JUAN DE DIOS MIRANDA ZAZUETA </option>
+                            <option value="ROGO791025CQ1">OSCAR ARMANDO ROMO GUILLEN </option>                        
+                        </select>
 
-                    <div  class='itemMovimiento'>
-                        <p class='titulo'> FACT #100 </p>   
-                        <p class='info'> PLASTICOS Y RESINAS | $1,254 - 0 </p> 
-                    </div>   
+                        <select class='comboAno'>
+                            <option value="2023"> 2023 </option>
+                            <option value="2024"> 2024 </option>
+                            <option value="2025"> 2025 </option>
+                            <option value="2026"> 2026 </option>
+                            <option value="2027"> 2027 </option>
+                            <option value="2028"> 2028 </option>
+                        </select> 
 
-                    <div  class='itemMovimiento'>
-                        <p class='titulo'> FACT #100 </p>   
-                        <p class='info'> PLASTICOS Y RESINAS | $1,254 - 0 </p> 
-                    </div>  
-
-                    <div  class='itemMovimiento'>
-                        <p class='titulo'> FACT #100 </p>   
-                        <p class='info'> PLASTICOS Y RESINAS | $1,254 - 0 </p> 
-                    </div>  
-
-                    <div  class='itemMovimiento'>
-                        <p class='titulo'> FACT #100 </p>   
-                        <p class='info'> PLASTICOS Y RESINAS | $1,254 - 0 </p> 
-                    </div>  
-
-                    <div  class='itemMovimiento'>
-                        <p class='titulo'> FACT #100 </p>   
-                        <p class='info'> PLASTICOS Y RESINAS | $1,254 - 0 </p> 
-                    </div>                      
+                        <select class='comboMes'>
+                            <option value="1"> ENERO </option>
+                            <option value="2"> FEBRERO </option>
+                            <option value="3"> MARZO </option>
+                            <option value="4"> ABRIL </option>
+                            <option value="5"> MAYO </option>
+                            <option value="6"> JUNIO </option>
+                            <option value="7"> JULIO </option>
+                            <option value="8"> AGOSTO </option>
+                            <option value="9"> SEPTIEMBRE </option>
+                            <option value="10"> OCTUBRE </option>
+                            <option value="11"> NOVIEMBRE </option>
+                            <option value="12"> DICIEMBRE </option>
+                        </select>
+                    </div>
+                    
+                    <MovimientoTitulo />
+                    <Movimiento factura='2345 ' descripcion='PLASTICOS Y RESINAS' cargo='200.00' abono='0'></Movimiento>
+                    <Movimiento factura='4530 ' descripcion='PAPELERIA ARMENTA' cargo='600.23' abono='0'></Movimiento>
+                    <Movimiento factura='9458' descripcion='GASOLINERA LOS CILOS' cargo='523.02' abono='0'></Movimiento>
+                    <Movimiento factura='4858' descripcion='ASESORIAS DE COMPUTACION' cargo='0' abono='300.00'></Movimiento>
+                    <Movimiento factura='8495' descripcion='REPARACION DE COMPUTADORA' cargo='0' abono='540.00'></Movimiento>
+                    <MovimientoRenglon/>
+                    <MovimientoTotal/>
 
                     <br />
                     
                     <p align="right">
                         <button class='boton' onClick={TraerFacturas}> TRAER FACTURAS </button>
-                        <button class='boton' onClick={GenerarPDF}> GENERAR .PDF </button>                
+                        <button class='boton' onClick={GenerarPoliza}> GENERAR POLIZA </button>                
                     </p>
 
                 </div>
@@ -87,3 +84,4 @@ function Dashboard()
 }
 
 export default Dashboard;
+

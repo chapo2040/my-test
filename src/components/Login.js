@@ -41,7 +41,8 @@ function Login()
         <div class='pnlLogin'>
             <form>
 
-                <h1 class='title'> Conta Express </h1>   
+                <text class='title'>Conta Express</text>
+                <br/>
 
                 <label>                     
                     <img src={imgUser} class='imgUser' />
@@ -50,11 +51,19 @@ function Login()
                 
                 <label> 
                     <img src={imgLock} class='imgLock' />
-                    <input type='password' id='password'  value='123' placeholder="contraseña" {...register("password")} />
+                    <input type='password' id='password'  value='123' placeholder="contraseña" {...register("password")} />                    
                 </label>
 
-                <a href='#' class='link'> Olvide contraseña </a>
+                <div class='chkLogin'>
+                        <input type = "checkbox" checked='true' name='chkRecordar'/>
+                        <span for='chkRecordar'> Recordarme </span>
+                </div>
+
+                <br/>
+                
                 <button id='button' class='submit' onClick={handleSubmit(OnSubmit)}> Login </button>
+
+                <a href='#' class='link'> Olvide contraseña </a>
 
             </form> 
         </div>
