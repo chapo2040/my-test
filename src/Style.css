@@ -33,6 +33,101 @@ body
     min-height: 95vh;
 }
 
+.pnlLogin .logo
+{        
+    width: 190px;
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+.frmLogin
+{
+    display: flex; 
+    flex-direction: column;
+    background: #fff;
+    text-align: center;
+    padding: 20px 25px;
+    box-shadow: 0 5px 10px rgba(71, 3, 6, 0.7);
+}
+
+.frmLogin .title 
+{
+    color: #252525;
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.frmLogin .imgUser 
+{
+    width: 20px;
+    margin-right: 10px;
+}
+
+.frmLogin .imgLock
+{
+    width: 15px;
+    margin-right: 10px;
+}
+
+.frmLogin label 
+{
+    margin-bottom: 30px;
+}
+
+.frmLogin label .fa-solid 
+{
+    font-size: 20px;
+    color: #cb232c;
+    margin-right: 10px;
+}
+
+.frmLogin label input 
+{
+    outline: none;
+    border: none;
+    color: #252525;
+    border-bottom: solid 1px #097EF6;
+    padding: 0 5px;
+    font-size: 18px;
+}
+
+.frmLogin label input::placeholder 
+{
+    color: rgba(37, 37, 37, 0.5);
+}
+
+.frmLogin .link 
+{
+    color: #097EF6;
+    text-decoration: none;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.frmLogin .submit 
+{
+    background-color: #097EF6;
+    color: white;
+    border: 0;    
+    padding: 12px;    
+    font-size: 18px;
+    text-transform: uppercase;
+    border-radius: 25px;
+    margin-bottom: 15px;
+}
+
+.frmLogin .chkLogin
+{    
+    color: black;
+    text-align: left;    
+    font-size: 16px;  
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
 .container
 {
     display: flex;
@@ -245,93 +340,6 @@ body
     font-size: 20px;      
 }
 
-form 
-{
-    display: flex; 
-    flex-direction: column;
-    background: #fff;
-    text-align: center;
-    padding: 20px 25px;
-    box-shadow: 0 5px 10px rgba(71, 3, 6, 0.7);
-}
-
-form .title 
-{
-    color: #252525;
-    font-size: 25px;
-    font-weight: 600;
-    margin-top: 20px;
-    margin-bottom: 15px;
-}
-
-.imgUser 
-{
-    width: 20px;
-    margin-right: 10px;
-}
-
-.imgLock
-{
-    width: 15px;
-    margin-right: 10px;
-}
-
-form label 
-{
-    margin-bottom: 30px;
-}
-
-form label .fa-solid 
-{
-    font-size: 20px;
-    color: #cb232c;
-    margin-right: 10px;
-}
-
-form label input 
-{
-    outline: none;
-    border: none;
-    color: #252525;
-    border-bottom: solid 1px #097EF6;
-    padding: 0 5px;
-    font-size: 18px;
-}
-
-form label input::placeholder 
-{
-    color: rgba(37, 37, 37, 0.5);
-}
-
-form .link 
-{
-    color: #097EF6;
-    text-decoration: none;
-    font-size: 15px;
-    margin-bottom: 10px;
-}
-
-form .submit 
-{
-    background-color: #097EF6;
-    color: white;
-    border: 0;    
-    padding: 12px;    
-    font-size: 18px;
-    text-transform: uppercase;
-    border-radius: 25px;
-    margin-bottom: 15px;
-}
-
-.chkLogin
-{    
-    color: black;
-    text-align: left;    
-    font-size: 16px;  
-    margin-left: 20px;
-    margin-bottom: 15px;
-}
-
 .link 
 {
     color: #097EF6;
@@ -360,4 +368,20 @@ form .submit
     padding: 5px 5px 5px 2px;
     font-size: 15px;
     margin-left: 5px;
+}
+
+.pnlMiCuenta
+{ 
+    width: 75%;
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.frmMiCuenta
+{    
+    background: #fff;
+    text-align: left;
+    padding: 20px 25px;
+    box-shadow: 0 5px 10px rgba(71, 3, 6, 0.7);
 }

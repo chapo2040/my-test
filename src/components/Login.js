@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 
 import imgUser from '../images/user.png'
 import imgLock from '../images/lock.png'
+import imgLogo from '../images/logo.jpg'
 
 function Login() 
 {
@@ -38,11 +39,12 @@ function Login()
     return (
 
     <React.Fragment>
+        
         <div class='pnlLogin'>
-            <form>
+            
+            <form class='frmLogin'>
 
-                <text class='title'>Conta Express</text>
-                <br/>
+                <img src={imgLogo} class='logo' />                
 
                 <label>                     
                     <img src={imgUser} class='imgUser' />

@@ -1,8 +1,23 @@
 import React from 'react';
-import Utils, { Menu, Cliente, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal } from "./Utils";
+import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal } from "./Utils";
 
 function Dashboard() 
 {
+    function handlerCbxCliente(event)
+    {
+        alert('Cliente: ' + event.target.value); 
+    }
+
+    function handlerCbxAno(event)
+    {
+        alert('Año: ' + event.target.value); 
+    }    
+
+    function handlerCbxMes(event)
+    {
+        alert('Mes: ' + event.target.value); 
+    }
+
     function AgregarCliente()
     {
         alert('AgregarCliente !'); 
@@ -29,12 +44,13 @@ function Dashboard()
                 <div class='pnlMovimientos'>
 
                     <div class='pnlFiltros'>
-                        <select class='comboCliente'>
+
+                        <select class='comboCliente' onChange={handlerCbxCliente}>
                             <option value="MIZA0506937124"> JUAN DE DIOS MIRANDA ZAZUETA </option>
                             <option value="ROGO791025CQ1">OSCAR ARMANDO ROMO GUILLEN </option>                        
                         </select>
 
-                        <select class='comboAno'>
+                        <select class='comboAno' onChange={handlerCbxAno}>
                             <option value="2023"> 2023 </option>
                             <option value="2024"> 2024 </option>
                             <option value="2025"> 2025 </option>
@@ -43,7 +59,7 @@ function Dashboard()
                             <option value="2028"> 2028 </option>
                         </select> 
 
-                        <select class='comboMes'>
+                        <select class='comboMes' onChange={handlerCbxMes}>
                             <option value="1"> ENERO </option>
                             <option value="2"> FEBRERO </option>
                             <option value="3"> MARZO </option>

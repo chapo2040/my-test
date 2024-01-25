@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import imgLogo from '../images/logo.jpg'
 
 export class Menu extends Component
 {
   render() 
   {
+    
+
     return(        
       <div class='pnlMenu'>       
                         
-            <span class='txt-conta'>Conta</span>
-            <span class='txt-express'>Express</span>
+            <img src={imgLogo} width={'130px'}/>
             <br/><br/>
 
             <Link to={`/dashboard`} class='link'> Contabilidad </Link> <br/>            
-            <Link to={`/about`} class='link'> Clientes </Link> <br/> 
-            <Link to={`/about`} class='link'> Facturas </Link> <br/> 
-            <Link to={`/contact`} class='link'> Mi Cuenta </Link> <br/> <br/> 
+            <Link to={`/clientes`} class='link'> Clientes </Link> <br/> 
+            <Link to={`/facturas`} class='link'> Facturas </Link> <br/> 
+            <Link to={`/cuenta`} class='link'> Mi Cuenta </Link> <br/> <br/> 
             <Link to={`/`} class='link'> Cerrar Sesion </Link> 
         </div>
     )
