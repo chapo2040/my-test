@@ -1,11 +1,82 @@
-import React from 'react';
-import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal } from "./Utils";
+import React, { useState, useEffect } from 'react';
+import {useForm} from 'react-hook-form'
+import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
+import { useLocation } from 'react-router-dom'
 
 function Dashboard() 
 {
+    const location = useLocation();  
+
+    const [Facturas, setFactura] = useState([]);
+    const [gdCargo, setCargo] = useState(0);
+    const [gdAbono, setAbono] = useState(0);
+ 
+    const clientes = 
+    [
+        {id: 1, nombre: 'JUAN DE DIOS MIRANDA ZAZUETA'},
+        {id: 2, nombre: 'OSCAR ARMANDO ROMO GUILLEN'}
+    ];
+
+    const facturas1 = 
+    [
+        {id: 4356, desc: 'PLASTICOS Y RESINAS', cargo: '560.90', abono: '0'},
+        {id: 3213, desc: 'PAPELERIA ARMENTA', cargo: '350.23', abono: '0'},
+        {id: 4356, desc: 'PLASTICOS Y RESINAS', cargo: '150.45', abono: '0'},
+        {id: 3213, desc: 'PAPELERIA ARMENTA', cargo: '830.34', abono: '0'},
+        {id: 4356, desc: 'NEOSIS SA DE CV', cargo: '0', abono: '320'},
+        {id: 3213, desc: 'NEOSIS SA DE CV', cargo: '0', abono: '230.12'},        
+    ];
+
+    const facturas2 = 
+    [
+        {id: 2046, desc: 'GASOLINERA LOS CILOS', cargo: '850.23', abono: '0'},
+        {id: 4053, desc: 'CARL JR HAMBURGUESAS', cargo: '530.67', abono: '0'},
+        {id: 5662, desc: 'ASESORIAS DE COMPUTACION', cargo: '0', abono: '1300.74'},
+        {id: 4356, desc: 'ECOHORU SUPER SISTEMAS', cargo: '0', abono: '320.45'},        
+    ];    
+
+    function LlenaFacturas(paFacturas)
+    {
+        //alert('LlenaFacturas !'); 
+        setFactura(paFacturas);
+        HazCuentas(paFacturas);
+    }
+
+    function HazCuentas(paFacturas)
+    {
+        //alert('HazCuentas | Facturas ' + paFacturas.length); 
+
+        var ldCargo = 0.0;
+        var ldAbono = 0.0;
+        var i;
+       
+        for(i=0; i < paFacturas.length; i++)
+        {
+            ldCargo = ldCargo + parseFloat(paFacturas[i].cargo);
+            ldAbono = ldAbono + parseFloat(paFacturas[i].abono);
+        }    
+        
+        /*
+        paFacturas.forEach((factura, index) => 
+        {
+            //alert('Facturas | cargo: ' + factura.cargo); 
+            ldCargo = ldCargo + parseFloat(factura.cargo);
+            ldAbono = ldAbono + parseFloat(factura.abono);
+        })
+        */
+
+        setCargo(ldCargo);
+        setAbono(ldAbono);
+    }
+
+    // FORM LOAD 
+    //useEffect(() => { LlenaFacturas(facturas1); }, []);
+
     function handlerCbxCliente(event)
     {
-        alert('Cliente: ' + event.target.value); 
+        //alert('Cliente: ' + event.target.value); 
+        if(event.target.value==1){ LlenaFacturas(facturas1); }
+        if(event.target.value==2){ LlenaFacturas(facturas2); }
     }
 
     function handlerCbxAno(event)
@@ -25,7 +96,10 @@ function Dashboard()
 
     function TraerFacturas()
     {
-        alert('TraerFacturas !'); 
+        alert('TraerFacturas !');
+        
+        // RUTINA API SAT
+        
     }
     
     function GenerarPoliza()
@@ -39,51 +113,20 @@ function Dashboard()
 
             <div class='container'>
                            
-                <Menu/>
+                <Menu path={location.pathname} />
 
                 <div class='pnlMovimientos'>
 
                     <div class='pnlFiltros'>
-
-                        <select class='comboCliente' onChange={handlerCbxCliente}>
-                            <option value="MIZA0506937124"> JUAN DE DIOS MIRANDA ZAZUETA </option>
-                            <option value="ROGO791025CQ1">OSCAR ARMANDO ROMO GUILLEN </option>                        
-                        </select>
-
-                        <select class='comboAno' onChange={handlerCbxAno}>
-                            <option value="2023"> 2023 </option>
-                            <option value="2024"> 2024 </option>
-                            <option value="2025"> 2025 </option>
-                            <option value="2026"> 2026 </option>
-                            <option value="2027"> 2027 </option>
-                            <option value="2028"> 2028 </option>
-                        </select> 
-
-                        <select class='comboMes' onChange={handlerCbxMes}>
-                            <option value="1"> ENERO </option>
-                            <option value="2"> FEBRERO </option>
-                            <option value="3"> MARZO </option>
-                            <option value="4"> ABRIL </option>
-                            <option value="5"> MAYO </option>
-                            <option value="6"> JUNIO </option>
-                            <option value="7"> JULIO </option>
-                            <option value="8"> AGOSTO </option>
-                            <option value="9"> SEPTIEMBRE </option>
-                            <option value="10"> OCTUBRE </option>
-                            <option value="11"> NOVIEMBRE </option>
-                            <option value="12"> DICIEMBRE </option>
-                        </select>
+                        <ComboCliente clientes={clientes} handlerChange={handlerCbxCliente}/>
+                        <ComboAno handlerChange={handlerCbxAno}/>
+                        <ComboMes handlerChange={handlerCbxMes}/>
                     </div>
                     
-                    <MovimientoTitulo />
-                    <Movimiento factura='2345 ' descripcion='PLASTICOS Y RESINAS' cargo='200.00' abono='0'></Movimiento>
-                    <Movimiento factura='4530 ' descripcion='PAPELERIA ARMENTA' cargo='600.23' abono='0'></Movimiento>
-                    <Movimiento factura='9458' descripcion='GASOLINERA LOS CILOS' cargo='523.02' abono='0'></Movimiento>
-                    <Movimiento factura='4858' descripcion='ASESORIAS DE COMPUTACION' cargo='0' abono='300.00'></Movimiento>
-                    <Movimiento factura='8495' descripcion='REPARACION DE COMPUTADORA' cargo='0' abono='540.00'></Movimiento>
+                    <MovimientoTitulo />                    
+                    {Facturas.map(factura =>(<Movimiento factura={factura.id} descripcion={factura.desc} cargo={factura.cargo} abono={factura.abono}></Movimiento>))}
                     <MovimientoRenglon/>
-                    <MovimientoTotal/>
-
+                    <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
                     <br />
                     
                     <p align="right">

@@ -1,18 +1,22 @@
 import React from 'react';
-import Utils, { Menu, Movimiento } from "./Utils";
+import Utils, { Menu, ClienteRenglon, ClienteTitulo, } from "./Utils";
+import { useLocation } from 'react-router-dom'
 
 function Clientes() 
 {       
+    const location = useLocation();  
+
     return (
         <React.Fragment>
 
-            <div class='container'>
-               <Menu/>
-
-               <div class='pnlMovimientos'>                    
-                   <div class='pnlFiltros'> Listado  de Clientes </div>
-                   <Movimiento factura='2345 ' descripcion='PLASTICOS Y RESINAS' cargo='200.00' abono='0'></Movimiento>                                     
-               </div>
+            <div class='container'>               
+                <Menu path={location.pathname} />
+                <div class='pnlClientes'>     
+                    <div class='pnlSeccion'> LISTADO DE CLIENTES </div>     
+                    <ClienteTitulo />            
+                    <ClienteRenglon rfc='MIZA0760911RPA' nombre='JUAN DE DIOS MIRANDA ZAZUETA' />
+                    <ClienteRenglon rfc='ROGO791025CQ1' nombre='ROMO GUILLEN OSCAR ARMANDO' />
+                </div>
             </div>
 
         </React.Fragment>
