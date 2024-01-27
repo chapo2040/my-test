@@ -48,12 +48,12 @@ function Login()
 
                 <label>                     
                     <img src={imgUser} class='imgUser' />
-                    <input type='text' id='username' value='admin' placeholder="usuario" {...register("user")} />
+                    <input type='text' id='username' value='admin' placeholder="usuario" class='input-underline' {...register("user")} />
                 </label>
                 
                 <label> 
                     <img src={imgLock} class='imgLock' />
-                    <input type='password' id='password'  value='123' placeholder="contraseña" {...register("password")} />                    
+                    <input type='password' id='password' value='123' placeholder="contraseña" class='input-underline' {...register("password")} />                    
                 </label>
 
                 <div class='chkLogin'>
@@ -63,7 +63,7 @@ function Login()
 
                 <br/>
                 
-                <button id='button' class='submit' onClick={handleSubmit(OnSubmit)}> Login </button>
+                <button id='button' class='custom-button submit' onClick={handleSubmit(OnSubmit)}> Login </button>
 
                 <a href='#' class='link'> Olvide contraseña </a>
 

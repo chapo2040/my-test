@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import imgLogo from '../images/logo.jpg'
 import imgMenuFlecha from '../images/menu.png'
+import imgMenuFlecha2 from '../images/menu2.png'
 import imgEditar from '../images/editar.png'
 import imgBorrar from '../images/borrar.png'
 
@@ -22,15 +23,15 @@ export class Menu extends Component
             <br/><br/>
             {this.props.path}
             <br/><br/>
-            <img src={imgMenuFlecha} class='menu' style={{ display: this.props.path=='/dashboard' ? "show" : "none" }}/>
+            <img src={ this.props.path=='/dashboard' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
             <Link to={`/dashboard`} class='link'> Contabilidad </Link> <br/>            
-            <img src={imgMenuFlecha} class='menu' style={{ display: this.props.path=='/clientes' ? "show" : "none" }}/>
+            <img src={ this.props.path=='/clientes' || this.props.path=='/clienteagregar' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
             <Link to={`/clientes`} class='link'> Clientes </Link> <br/> 
-            <img src={imgMenuFlecha} class='menu' style={{ display: this.props.path=='/facturas' ? "show" : "none" }}/>
+            <img src={ this.props.path=='/facturas' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
             <Link to={`/facturas`} class='link'> Facturas </Link> <br/> 
-            <img src={imgMenuFlecha} class='menu' style={{ display: this.props.path=='/cuenta' ? "show" : "none" }}/>
+            <img src={ this.props.path=='/cuenta' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
             <Link to={`/cuenta`} class='link'> Mi Cuenta </Link> <br/> <br/> 
-            <img src={imgMenuFlecha} class='menu' style={{ display: this.props.path=='/' ? "show" : "none" }}/>
+            <img src={ this.props.path=='/' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
             <Link to={`/`} class='link'> Cerrar Sesion </Link> 
         </div>
     )

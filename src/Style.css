@@ -10,10 +10,72 @@ body
     background-color: #E5ECF9; 
 }
 
-.menu
+
+/****************************** COMPONENTES BASE ***************************************/
+
+input 
 {
-    width: 10px;
+    color: #252525;
+    padding: 2px 5px;
+    font-size: 18px;
 }
+
+.input-underline 
+{
+    outline: none;
+    border:none;    
+    border-bottom: solid 1px #097EF6;
+}
+
+input::placeholder 
+{
+    color: rgba(37, 37, 37, 0.5);
+}
+
+button 
+{
+    font-size: 14px;
+    border: solid 1px #4a4c4d;
+    border-radius: 10px;    
+    padding: 10px;
+}
+
+.custom-button 
+{
+    font-size: 14px;
+    color: white;    
+    background-color: #097EF6;    
+    text-transform: uppercase;
+    border: 0;        
+    border-radius: 15px;    
+    padding: 8px;    
+}
+
+select
+{
+    font-size: 15px;
+    padding: 5px 5px 5px 10px;     
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;  
+    appearance: none; 
+    background: #ffffff url("images/arrow3.png") right 10px center/15px 15px no-repeat;
+}
+
+.custom-select
+{
+    font-family: Poppins;
+    border: 1px solid #FFFFFF !important;
+    font-size: 12px;
+    border-radius: 5px;
+    width: 55% !important;
+    height: 36px;
+    background-color: #5A71E1;
+    color: #FFFFFF!important;
+    appearance: none; 
+    background: #5A71E1 url("images/arrow.png") right .75rem center/8px 10px no-repeat!important;
+ }   
 
 .link 
 {
@@ -28,20 +90,36 @@ body
      font-size: 18px;
 }
 
+.pnlSeccion
+{   
+    background-color: #fcf3e7;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 10px 10px;    
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+
+/************************************ LOGIN ******************************************/
+
+
 .pnlLogin
 {
     display: flex;    
     align-items: center;
     justify-content: center;
+    border-radius: 15px;
     min-height: 95vh;
 }
 
 .pnlLogin .logo
 {        
     width: 190px;
-    margin-top: 30px;
-    margin-left: 30px;
-    margin-bottom: 30px;
+    margin-top: 30px;    
+    margin-bottom: 35px;
 }
 
 .frmLogin
@@ -50,8 +128,10 @@ body
     flex-direction: column;
     background: #fff;
     text-align: center;
+    align-items: center;
     padding: 20px 25px;
-    box-shadow: 0 5px 10px rgba(71, 3, 6, 0.7);
+    box-shadow: 0 5px 10px rgba(71, 3, 6, 0.7);    
+    border-radius: 10px;
 }
 
 .frmLogin .title 
@@ -87,21 +167,6 @@ body
     margin-right: 10px;
 }
 
-.frmLogin label input 
-{
-    outline: none;
-    border: none;
-    color: #252525;
-    border-bottom: solid 1px #097EF6;
-    padding: 0 5px;
-    font-size: 18px;
-}
-
-.frmLogin label input::placeholder 
-{
-    color: rgba(37, 37, 37, 0.5);
-}
-
 .frmLogin .link 
 {
     color: #097EF6;
@@ -110,37 +175,22 @@ body
     margin-bottom: 10px;
 }
 
-.frmLogin .submit 
-{
-    background-color: #097EF6;
-    color: white;
-    border: 0;    
-    padding: 12px;    
-    font-size: 18px;
-    text-transform: uppercase;
-    border-radius: 25px;
-    margin-bottom: 15px;
-}
-
 .frmLogin .chkLogin
 {    
-    color: black;
+    color: rgb(80, 76, 76);    
     text-align: left;    
-    font-size: 16px;  
-    margin-left: 20px;
+    font-size: 16px;    
     margin-bottom: 15px;
 }
 
-.container
-{
-    display: flex;
-    background-color: white;
-    width: 90%;
-    height: 100%;    
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    margin: auto;
-    margin-top: 50px;
+.frmLogin .submit 
+{   
+    font-size: 18px;
+    width: 180px;
+    margin-bottom: 15px;
 }
+
+/************************************** MENU *****************************************/
 
 .pnlMenu
 {   
@@ -154,6 +204,27 @@ body
     width: 20%;
     height: 650px;
 }
+
+.menu
+{
+    width: 10px;
+}
+
+
+.container
+{
+    display: flex;
+    background-color: white;
+    width: 90%;
+    height: 100%;    
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    margin: auto;
+    margin-top: 50px;
+}
+
+
+/******************************** MOVIMIENTOS ****************************************/
+
 
 .pnlMovimientos
 { 
@@ -173,49 +244,20 @@ body
     width: 100%;
 }
 
-select
-{
-    font-size: 15px;            
-    border: 1px solid #caced1;
-    border-radius: 0.25rem;
-    color: #000;
-    cursor: pointer;  
-    appearance: none; 
-    background: #ffffff url("images/arrow3.png") right 10px center/15px 15px no-repeat;
-}
-
 .pnlFiltros .comboCliente 
 {
-    width: 55%;    
-    padding: 5px 5px 5px 2px;
+    width: 55%;
 }
-
-.custom-select
-{
-    font-family: Poppins;
-    border: 1px solid #FFFFFF !important;
-    font-size: 12px;
-    border-radius: 5px;
-    width: 55% !important;
-    height: 36px;
-    background-color: #5A71E1;
-    color: #FFFFFF!important;
-    appearance: none; 
-    background: #5A71E1 url("images/arrow.png") right .75rem center/8px 10px no-repeat!important;
- }
-   
 
 .pnlFiltros .comboAno
 {
     width: 15%;    
-    padding: 5px 5px 5px 2px;    
     margin-left: 5px;
 }
 
 .pnlFiltros .comboMes
 {
     width: 27%;    
-    padding: 5px 5px 5px 2px;    
     margin-left: 5px;
 }
 
@@ -323,12 +365,7 @@ select
 
 .pnlMovimientos .boton 
 {
-    background-color: #097EF6;
-    color: white;
-    border: 0;  
-    padding: 8px;
-    font-size: 14px;    
-    border-radius: 9px;
+    font-size: 15px;    
     margin-left: 10px;    
     margin-right: 10px;
 }
@@ -339,17 +376,9 @@ select
     width: 10%;
 }
 
-.pnlSeccion
-{   
-    background-color: #fcf3e7;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    border-radius: 3px;
-    padding: 10px 10px;    
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: center;
-}
+
+/*********************************** CLIENTES ****************************************/
+
 
 .pnlClientes
 {
@@ -362,16 +391,24 @@ select
     margin-bottom: 30px;   
 }
 
+
+.pnlClientes .pnlSeccion
+{   
+    background-color: #fcf3e7;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 10px 10px;    
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: right;
+}
+
 .pnlClientes .agregar 
 {
-    background-color: #097EF6;
-    color: white;
-    border: 0;  
-    padding: 8px;
     font-size: 14px;    
-    border-radius: 9px;
-    margin-left: 10px;    
-    margin-right: 10px;
+    border-radius: 9px;    
+    margin-left: 100px;
 }
 
 .pnlClientes .itemCliente
@@ -416,6 +453,68 @@ select
     height: 20px;
     margin-left: 10px;    
 }
+
+
+/******************************** CLIENTE AGREGAR ****************************************/
+
+
+.pnlClienteAgregar
+{
+    display: flex;    
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    width: 75%;    
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-bottom: 30px;   
+}
+
+.frmClienteAgregar
+{    
+    display: flex; 
+    flex-direction: column;
+    background: #fff;
+    width: 60%;
+    text-align: left;
+    padding: 10px 15px;
+    box-shadow: 0 0px 1px rgba(71, 3, 6, 0.7);
+    margin-top: -100px;
+}
+
+.frmClienteAgregar .frmTitulo
+{   
+    background-color: #fcf3e7;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 7px;    
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.frmClienteAgregar .buscar
+{   
+    padding: 8px;  
+    margin-left: 10px;
+}
+
+.frmClienteAgregar .bntLupa
+{   
+    width: 20px;   
+}
+
+.frmClienteAgregar .submit 
+{   
+    width: 150px;    
+    margin-top: 10px;
+    margin-bottom: 10px;    
+}
+
+/*********************************** FACTURAS ****************************************/
+
 
 .pnlFacturas
 {
@@ -489,18 +588,55 @@ select
 }
 
 
+/******************************** MI CUENTA ****************************************/
+
+
 .pnlMiCuenta
-{ 
-    width: 75%;
+{
+    display: flex;    
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    width: 75%;    
     margin-top: 20px;
     margin-right: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 30px;   
 }
 
 .frmMiCuenta
 {    
+    display: flex; 
+    flex-direction: column;
     background: #fff;
+    width: 60%;
     text-align: left;
-    padding: 20px 25px;
-    box-shadow: 0 5px 10px rgba(71, 3, 6, 0.7);
+    padding: 10px 15px;
+    box-shadow: 0 0px 1px rgba(71, 3, 6, 0.7);
+    margin-top: -100px;
+}
+
+.frmTitulo
+{   
+    background-color: #fcf3e7;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 7px;    
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.frmMiCuenta .paquetes
+{
+    width: 100%;
+    margin-bottom: 15px;   
+}
+
+.frmMiCuenta .submit 
+{   
+    width: 150px;    
+    margin-top: 10px;
+    margin-bottom: 10px;    
 }

@@ -130,8 +130,8 @@ function Dashboard()
                     <br />
                     
                     <p align="right">
-                        <button class='boton' onClick={TraerFacturas}> TRAER FACTURAS </button>
-                        <button class='boton' onClick={GenerarPoliza}> GENERAR POLIZA </button>                
+                        <button class='custom-button boton' onClick={TraerFacturas}> TRAER FACTURAS </button>
+                        <button class='custom-button boton' onClick={GenerarPoliza}> GENERAR POLIZA </button>                
                     </p>
 
                 </div>

@@ -48,8 +48,8 @@ function Cuenta()
                <div class='pnlMiCuenta'>                    
                
                     <form class='frmMiCuenta'>
-                        
-                        <h2> MI CUENTA  </h2>
+                                                
+                        <div class='frmTitulo'> MI CUENTA </div>   
 
                         <br/>
                         NOMBRE:<input type='text' value='OSCAR ROMO' id='txtNombre' {...register("nombre")} />                        
@@ -58,17 +58,19 @@ function Cuenta()
                         <br/>
                         CONTRASEÑA:<input type='password' value='123' id='txtPassword' {...register("password")} />
                         <br/>
+
                         PLAN MEMBRESIA:
-                        <select id='cbxPlan' {...register("plan")}>
+                        <select id='cbxPlan' class='paquetes' {...register("plan")}>
+                            <option value='1'> NOVATO </option>
                             <option value='1'> BASICO </option>
                             <option value='2'> ESTANDART </option>
                             <option value='3'> AVANZADO </option>
                             <option value='4'> PROFESIONAL </option>
                         </select>
-                        <br/>
-                        <br/>                        
-
-                        <button id='button' onClick={handleSubmit(OnSubmit)}> Guardar </button>
+                    
+                        <center>
+                            <button id='button' class='custom-button submit' onClick={handleSubmit(OnSubmit)}> Guardar </button>
+                        </center>
 
                     </form> 
 
