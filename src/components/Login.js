@@ -44,28 +44,31 @@ function Login()
             
             <form class='frmLogin'>
 
-                <img src={imgLogo} class='logo' />                
+                <center> <img src={imgLogo} class='logo' /> </center>
 
                 <label>                     
-                    <img src={imgUser} class='imgUser' />
-                    <input type='text' id='username' value='admin' placeholder="usuario" class='input-underline' {...register("user")} />
+                    <text class='font-sans text-base'> Correo </text> <br/>
+                    <input type='text' id='username' value='admin' placeholder="usuario" class='input-underline input' {...register("user")} />
                 </label>
                 
                 <label> 
-                    <img src={imgLock} class='imgLock' />
-                    <input type='password' id='password' value='123' placeholder="contraseña" class='input-underline' {...register("password")} />                    
+                    <text class='font-sans text-base'> Contraseña </text> <br/>
+                    <input type='password' id='password' value='123' placeholder="contraseña" class='input-underline input' {...register("password")} />                    
                 </label>
 
                 <div class='chkLogin'>
                         <input type = "checkbox" checked='true' name='chkRecordar'/>
                         <span for='chkRecordar'> Recordarme </span>
+                        <a href='#' class='olvido'> ¿Olvido contraseña? </a>
                 </div>
 
                 <br/>
                 
                 <button id='button' class='custom-button submit' onClick={handleSubmit(OnSubmit)}> Login </button>
 
-                <a href='#' class='link'> Olvide contraseña </a>
+                <div>
+                <text class='font-sans text-sm'> ¿No tienes cuenta? </text>  <a href='#' class='link'> Registrarse </a>
+                </div>
 
             </form> 
         </div>
