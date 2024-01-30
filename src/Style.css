@@ -226,15 +226,6 @@ select
     margin-right: 10px;
 }
 
-.frmLogin .olvido 
-{
-    color: #097EF6;
-    text-decoration: none;
-    font-size: 14px;
-    margin-left: 80px;
-    margin-bottom: 10px;
-}
-
 .frmLogin .link 
 {
     color: #097EF6;
@@ -245,10 +236,21 @@ select
 
 .frmLogin .chkLogin
 {    
+    display: flex;
+    flex-direction:row;
     color: rgb(0, 0, 0);    
     text-align: left;    
     font-size: 14px;    
     margin-bottom: 8px;
+}
+
+.frmLogin .olvido 
+{
+    color: #097EF6;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 80px;
+    margin-bottom: 10px;
 }
 
 .frmLogin .submit 
@@ -266,20 +268,68 @@ select
 {   
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
-    padding: 15px 10px;
+    padding: 15px 0px;
     margin-top: 20px;  
     margin-left: 10px;  
     margin-right: 10px;
     margin-bottom: 10px;
     width: 20%;
     height: 650px;
+    text-align: left;
 }
 
-.menu
+.pnlMenu .logo
 {
-    width: 10px;
+    width: 120px;
+    margin-top: 7px;
+    margin-bottom: 13px;
 }
 
+.pnlMenu hr
+{
+    width: 100%;
+    border-bottom: lightblue;
+    margin-bottom: 20px;
+}
+
+.pnlMenu .menu
+{
+    color: #716262;
+    width: 100%;
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
+
+.pnlMenu .salir
+{    
+    color: #716262;
+    margin-left: 5px;    
+}
+
+.pnlMenu .icon
+{
+    width: 15px;
+    color: #716262;
+    margin-right: 10px;
+}
+
+.pnlMenu .link 
+{
+    color: #716262;
+    text-decoration: none;
+    font-size: 15px; 
+    font-weight: 500;
+    display: block;
+    padding: 10px 10px 10px;
+    background-color: transparent;
+    border-radius: 5px; 
+    margin-right: 10px;
+}
+
+.pnlMenu .link:hover 
+{
+     background-color: rgba(184, 185, 236, 0.2);     
+}
 
 .container
 {
@@ -435,6 +485,7 @@ select
 
 .pnlMovimientos .boton 
 {
+    width: 170px;
     font-size: 15px;    
     margin-left: 10px;    
     margin-right: 10px;

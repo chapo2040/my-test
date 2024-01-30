@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import Controles, { TextBox } from "./Controles";
 
 import imgLogo from '../images/logo.jpg'
 import imgMenuFlecha from '../images/menu.png'
 import imgMenuFlecha2 from '../images/menu2.png'
+
+import imgDashboard from '../images/dashboard.png'
+import imgCliente from '../images/cliente.png'
+import imgFactura from '../images/folder.png' 
+import imgHerramienta from '../images/herramienta.png'
+import imgConfiguracion from '../images/configuracion.png'
+import imgSalir from '../images/salir.png'
+
+
 import imgEditar from '../images/editar.png'
 import imgBorrar from '../images/borrar.png'
 
@@ -17,6 +27,60 @@ export class Menu extends Component
   render() 
   {
     return(        
+
+        <div class='pnlMenu'>
+
+          <center> <img src={imgLogo} class='logo'/> </center>
+          <hr/>
+          
+          <div class='menu'>            
+            <Link to={`/dashboard`} class='link font-sans'> 
+            <img src={imgDashboard} class='icon'/>
+              Contabilidad 
+            </Link>           
+          </div>
+          <div class='menu'>            
+            <Link to={`/clientes`} class='link font-sans'> 
+              <img src={imgCliente} class='icon'/>
+              Clientes 
+            </Link> 
+          </div>
+          <div class='menu'>            
+            <Link to={`/facturas`} class='link font-sans'>
+              <img src={imgFactura} class='icon'/>
+               Facturas 
+              </Link> 
+          </div>  
+          {/* 
+            <div class='menu'>              
+              <Link to={`/cuenta`} class='link font-sans'>
+                <img src={imgHerramienta} class='icon'/>
+                Herramientas 
+              </Link>
+            </div>
+          */}
+          <div class='menu'>            
+            <Link to={`/cuenta`} class='link font-sans'> 
+              <img src={imgConfiguracion} class='icon'/>
+              Configuración 
+            </Link>
+          </div>          
+          
+          <div class='salir'>            
+            <Link to={`/`} class='link font-sans'> 
+              <img src={imgSalir} class='icon'/>
+              Cerrar Sesion 
+            </Link> 
+          </div>
+
+        </div>
+
+    /*
+    return(        
+
+      {this.props.path}
+      <br/><br/>
+
       <div class='pnlMenu'>       
                         
             <img src={imgLogo} width={'120px'}/>
@@ -34,6 +98,7 @@ export class Menu extends Component
             <img src={ this.props.path=='/' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
             <Link to={`/`} class='link'> Cerrar Sesion </Link> 
         </div>
+        */
     )
   }
 }
@@ -154,29 +219,24 @@ export class Movimiento extends Component
   }
 }
 
-export class MovimientoRenglon extends Component
-{
-  render() 
-  {
-    return(
-        <div class='itemMovimiento'>
+export const MovimientoRenglon = ({ name, value, placeholder, className, register, validationSchema }) => 
+(    
+  <div class='itemMovimiento'>
 
-          <div class='descripcion'>           
-            <input type='text' class='txtDescripcion'></input>
-          </div>
+    <div class='descripcion'>
+      <TextBox name='txtDescripcion' className='txtDescripcion' register={register} validationSchema={validationSchema} />
+    </div>
 
-          <div class='cargo'>
-           <input type='text' class='txtCargo'></input>            
-          </div>
+    <div class='cargo'>      
+      <TextBox name='txtCargo' className='txtCargo' register={register} validationSchema={validationSchema} />
+    </div>
 
-          <div class='abono'>
-            <input type='text' class='txtAbono'></input>             
-          </div>         
+    <div class='abono'>        
+        <TextBox name='txtAbono' className='txtAbono' register={register} validationSchema={validationSchema} />
+    </div>         
 
-        </div>  
-    )
-  }
-}
+  </div>  
+);
 
 export class MovimientoTotal extends Component
 {

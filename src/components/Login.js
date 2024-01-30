@@ -1,33 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
 import {useNavigate} from 'react-router-dom';
+import Controles, { Button, Password, TextBox, CheckBox, Input } from "./Controles";
 
-import imgUser from '../images/user.png'
-import imgLock from '../images/lock.png'
 import imgLogo from '../images/logo.jpg'
+
 
 function Login() 
 {
-    const {register, handleSubmit, reset} = useForm();   
+    const {register, handleSubmit, reset, formState: { errors }} = useForm();   
     const navigate = useNavigate(); 
     
     function OnSubmit(data)
     {           
+        //alert('OnSubmit | user: ' + data.txtUsuario);
+
         if(validateForm(data)===true)
         {
-            //alert('Login ok ! ');            
+            //alert('Login ok !');
             navigate('/dashboard');
         }
     }        
 
     function validateForm(data)
     {
-        if(data.user==='')    
+        if(data.txtUsuario==='' || data.txtUsuario === undefined)    
         {
             alert("¡ usuario necesario !");
             return false;
         }
-        else if(data.password==='')    
+        else if(data.txtPassword==='' || data.txtPassword === undefined)    
         {
             alert("¡ contraseña necesaria !");
             return false;
@@ -47,24 +49,23 @@ function Login()
                 <center> <img src={imgLogo} class='logo' /> </center>
 
                 <label>                     
-                    <text class='font-sans text-base'> Correo </text> <br/>
-                    <input type='text' id='username' value='admin' placeholder="usuario" class='input-underline input' {...register("user")} />
+                    <text class='font-sans text-base'> Correo </text> <br/>                    
+                    <TextBox name='txtUsuario' placeholder="usuario" value="admin@contaexpress.com" className='input-underline input' register={register} validationSchema={{ required: "user required"}} />
                 </label>
                 
                 <label> 
                     <text class='font-sans text-base'> Contraseña </text> <br/>
-                    <input type='password' id='password' value='123' placeholder="contraseña" class='input-underline input' {...register("password")} />                    
+                    <Password name='txtPassword' placeholder="contraseña" value="123" className='input-underline input' register={register} validationSchema={{ required: "password required"}} />                    
                 </label>
 
-                <div class='chkLogin'>
-                        <input type = "checkbox" checked='true' name='chkRecordar'/>
-                        <span for='chkRecordar'> Recordarme </span>
-                        <a href='#' class='olvido'> ¿Olvido contraseña? </a>
+                <div class='chkLogin'>                        
+                    <CheckBox name='chkRecordar' text='Recordarme' checked='true'/>
+                    <div> <a href='#' class='olvido'> ¿Olvido contraseña? </a> </div>
                 </div>
 
                 <br/>
                 
-                <button id='button' class='custom-button submit' onClick={handleSubmit(OnSubmit)}> Login </button>
+                <Button name='btnLogin' text='LOGIN' class ='custom-button submit' handlerSubmit={handleSubmit(OnSubmit)} />
 
                 <div>
                 <text class='font-sans text-sm'> ¿No tienes cuenta? </text>  <a href='#' class='link'> Registrarse </a>

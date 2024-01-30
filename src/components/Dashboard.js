@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
 import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
 import { useLocation } from 'react-router-dom'
+import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
 
 function Dashboard() 
-{
+{    
+    const {register, handleSubmit, reset} = useForm();
     const location = useLocation();  
 
     const [Facturas, setFactura] = useState([]);
@@ -102,9 +104,9 @@ function Dashboard()
         
     }
     
-    function GenerarPoliza()
+    function Imprimir()
     {
-        alert('GenerarPoliza !'); 
+        alert('Imprimir !'); 
     }
 
     return (
@@ -117,22 +119,26 @@ function Dashboard()
 
                 <div class='pnlMovimientos'>
 
-                    <div class='pnlFiltros'>
-                        <ComboCliente clientes={clientes} handlerChange={handlerCbxCliente}/>
-                        <ComboAno handlerChange={handlerCbxAno}/>
-                        <ComboMes handlerChange={handlerCbxMes}/>
-                    </div>
-                    
-                    <MovimientoTitulo />                    
-                    {Facturas.map(factura =>(<Movimiento factura={factura.id} descripcion={factura.desc} cargo={factura.cargo} abono={factura.abono}></Movimiento>))}
-                    <MovimientoRenglon/>
-                    <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
-                    <br />
-                    
-                    <p align="right">
-                        <button class='custom-button boton' onClick={TraerFacturas}> TRAER FACTURAS </button>
-                        <button class='custom-button boton' onClick={GenerarPoliza}> GENERAR POLIZA </button>                
-                    </p>
+                    <form>
+
+                        <div class='pnlFiltros'>
+                            <ComboCliente clientes={clientes} handlerChange={handlerCbxCliente}/>
+                            <ComboAno handlerChange={handlerCbxAno}/>
+                            <ComboMes handlerChange={handlerCbxMes}/>
+                        </div>
+                        
+                        <MovimientoTitulo />                    
+                        {Facturas.map(factura =>(<Movimiento factura={factura.id} descripcion={factura.desc} cargo={factura.cargo} abono={factura.abono} /> ))}
+                        <MovimientoRenglon className='input-underline input' register={register} validationSchema={{ required: "data required"}}/>
+                        <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
+                        <br />
+                        
+                        <p align="right">
+                            <Button name='btnFacturas' text='FACTURAS' class ='custom-button boton' handlerSubmit={TraerFacturas} />
+                            <Button name='btnImprimir' text='IMPRIMIR' class ='custom-button boton' handlerSubmit={Imprimir} />
+                        </p>
+
+                    </form>
 
                 </div>
                 
