@@ -3,46 +3,43 @@ import {useForm} from 'react-hook-form'
 import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
 import { useLocation } from 'react-router-dom'
 import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
+import Wrapper from './Wrapper';
 
 function Dashboard() 
 {    
     const {register, handleSubmit, reset} = useForm();
     const location = useLocation();  
 
+    const [Clientes, setCliente] = useState([]);
     const [Facturas, setFactura] = useState([]);
     const [gdCargo, setCargo] = useState(0);
     const [gdAbono, setAbono] = useState(0);
- 
-    const clientes = 
-    [
-        {id: 1, nombre: 'JUAN DE DIOS MIRANDA ZAZUETA'},
-        {id: 2, nombre: 'OSCAR ARMANDO ROMO GUILLEN'}
-    ];
+    
 
-    const facturas1 = 
-    [
-        {id: 4356, desc: 'PLASTICOS Y RESINAS', cargo: '560.90', abono: '0'},
-        {id: 3213, desc: 'PAPELERIA ARMENTA', cargo: '350.23', abono: '0'},
-        {id: 4356, desc: 'PLASTICOS Y RESINAS', cargo: '150.45', abono: '0'},
-        {id: 3213, desc: 'PAPELERIA ARMENTA', cargo: '830.34', abono: '0'},
-        {id: 4356, desc: 'NEOSIS SA DE CV', cargo: '0', abono: '320'},
-        {id: 3213, desc: 'NEOSIS SA DE CV', cargo: '0', abono: '230.12'},        
-    ];
-
-    const facturas2 = 
-    [
-        {id: 2046, desc: 'GASOLINERA LOS CILOS', cargo: '850.23', abono: '0'},
-        {id: 4053, desc: 'CARL JR HAMBURGUESAS', cargo: '530.67', abono: '0'},
-        {id: 5662, desc: 'ASESORIAS DE COMPUTACION', cargo: '0', abono: '1300.74'},
-        {id: 4356, desc: 'ECOHORU SUPER SISTEMAS', cargo: '0', abono: '320.45'},        
-    ];    
-
-    function LlenaFacturas(paFacturas)
+    function LlenaClientes()
     {
-        //alert('LlenaFacturas !'); 
-        setFactura(paFacturas);
-        HazCuentas(paFacturas);
+        //alert('LlenaClientes ! ');   
+        Wrapper.get(`Clientes`).then(response => { setCliente(response.data); })
+        .catch(error => { alert(error);});
     }
+
+    function LlenaFacturas(cliente)
+    {
+        var liUsuario = 1;
+        var llFolio = 0;
+
+        //alert('LlenaFacturas | cliente: ' + cliente); 
+        //Wrapper.get(`Facturas`).then(response =>         
+        Wrapper.get(`Facturas/facturas?piUsuario=${liUsuario}&plCliente=${cliente}&plFolio=${llFolio}`).then(response =>         
+        {
+            //alert('LlenaFacturas | registros: ' + response.data.length);  
+            setFactura(response.data); 
+            HazCuentas(response.data);
+        })
+        .catch(error => { alert(error);});        
+    }
+
+    useEffect(() => { LlenaClientes(); }, []);  
 
     function HazCuentas(paFacturas)
     {
@@ -54,8 +51,9 @@ function Dashboard()
        
         for(i=0; i < paFacturas.length; i++)
         {
-            ldCargo = ldCargo + parseFloat(paFacturas[i].cargo);
-            ldAbono = ldAbono + parseFloat(paFacturas[i].abono);
+            //alert('Facturas | cargo: ' + paFacturas[i].faC_IMPORTE); 
+            ldCargo = ldCargo + parseFloat(paFacturas[i].faC_IMPORTE);
+            ldAbono = ldAbono + parseFloat(paFacturas[i].faC_IMPORTE);
         }    
         
         /*
@@ -77,8 +75,7 @@ function Dashboard()
     function handlerCbxCliente(event)
     {
         //alert('Cliente: ' + event.target.value); 
-        if(event.target.value==1){ LlenaFacturas(facturas1); }
-        if(event.target.value==2){ LlenaFacturas(facturas2); }
+        LlenaFacturas(event.target.value);
     }
 
     function handlerCbxAno(event)
@@ -119,26 +116,23 @@ function Dashboard()
 
                 <div class='pnlMovimientos'>
 
-                    <form>
-
                         <div class='pnlFiltros'>
-                            <ComboCliente clientes={clientes} handlerChange={handlerCbxCliente}/>
+                            <ComboCliente clientes={Clientes} handlerChange={handlerCbxCliente}/>
                             <ComboAno handlerChange={handlerCbxAno}/>
                             <ComboMes handlerChange={handlerCbxMes}/>
                         </div>
                         
                         <MovimientoTitulo />                    
-                        {Facturas.map(factura =>(<Movimiento factura={factura.id} descripcion={factura.desc} cargo={factura.cargo} abono={factura.abono} /> ))}
+
+                        { Facturas.map(factura =>(<Movimiento factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} cargo={factura.faC_IMPORTE} abono={factura.faC_IMPORTE} /> )) }                        
                         <MovimientoRenglon className='input-underline input' register={register} validationSchema={{ required: "data required"}}/>
                         <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
                         <br />
                         
                         <p align="right">
-                            <Button name='btnFacturas' text='FACTURAS' class ='custom-button boton' handlerSubmit={TraerFacturas} />
-                            <Button name='btnImprimir' text='IMPRIMIR' class ='custom-button boton' handlerSubmit={Imprimir} />
-                        </p>
-
-                    </form>
+                            <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={TraerFacturas} />
+                            <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={Imprimir} />
+                        </p>                    
 
                 </div>
                 

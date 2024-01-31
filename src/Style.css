@@ -102,6 +102,21 @@ button
     padding: 8px;    
 }
 
+.custom-check
+{    
+   padding: 5px;   
+}
+
+.custom-check-img
+{    
+    margin-right: 0px;
+}
+
+.custom-check-label
+{
+    margin-left: 2px;
+}
+
 select
 {
     font-size: 15px;
@@ -249,7 +264,7 @@ select
     color: #097EF6;
     text-decoration: none;
     font-size: 14px;
-    margin-left: 80px;
+    margin-left: 60px;
     margin-bottom: 10px;
 }
 
@@ -316,6 +331,19 @@ select
 .pnlMenu .link 
 {
     color: #716262;
+    text-decoration: none;
+    font-size: 15px; 
+    font-weight: 500;
+    display: block;
+    padding: 10px 10px 10px;
+    background-color: transparent;
+    border-radius: 5px; 
+    margin-right: 10px;
+}
+
+.pnlMenu .link-select 
+{
+    color: #ed852b;
     text-decoration: none;
     font-size: 15px; 
     font-weight: 500;

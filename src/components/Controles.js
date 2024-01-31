@@ -32,25 +32,14 @@ export const Input = ({ name, label, register, errors, required, type, validatio
     </div>    
 );
 
-export class CheckBox extends Component
-{
-  render() 
-  {
-    return(
-        <div>
-            <input id={this.props.name} type="checkbox" checked={this.props.checked} onChange={this.props.handlerChange} />
-            <label htmlFor={this.props.name}> {this.props.text} </label>
-        </div>        
-    )
-  }
-}
+export const CheckBox = ({ name, text, checked, className, handlerChange }) => 
+(    
+  <div class={className}>    
+    <label> <input id={name} type="checkbox" onChange={handlerChange} /> {text} </label>
+  </div>      
+);
 
-export class Button extends Component
-{
-  render() 
-  {
-    return(
-        <button id={this.props.name} class={this.props.class} onClick={this.props.handlerSubmit}> {this.props.text} </button>     
-    )
-  }
-}
+export const Button = ({ name, text, className, handlerSubmit }) => 
+(    
+    <button id={name} class={className} onClick={handlerSubmit}> {text} </button>    
+);

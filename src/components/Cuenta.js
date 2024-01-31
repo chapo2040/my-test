@@ -1,21 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
 import {useNavigate, useLocation} from 'react-router-dom';
-
 import Utils, { Menu, Movimiento } from "./Utils";
+import Wrapper from './Wrapper';
 
 function Cuenta() 
 {       
     const {register, handleSubmit, reset} = useForm();   
     const navigate = useNavigate(); 
     const location = useLocation();  
+    
+    const [Membresias, setMembresia] = useState([]);
+    const [Usuario, setUsuario] = useState([]);
+
+    function LlenaMembresias()
+    {
+        //alert('LlenaMembresias ! ');
+        Wrapper.get(`Membresias`).then(response => { setMembresia(response.data); })
+        .catch(error => { alert(error);});
+    }
+
+    useEffect(() => { LlenaMembresias(); }, []);  
 
     function OnSubmit(data)
     {           
         if(validateForm(data)===true)
         {
-            alert('GUARDAR ! ');   
-            //navigate('/dashboard');
+            //alert('GUARDAR ! ');            
+
+            Wrapper.get(`Usuarios`).then(response => 
+            {
+                alert('Login | Nombre ' + response.data[0].usU_NOMBRE);   
+                //navigate('/dashboard'); 
+                //setUsuario(response.data); 
+            })
+            .catch(error => { alert(error);});
+
         }
     }  
 
@@ -60,12 +80,10 @@ function Cuenta()
                         <br/>
 
                         PLAN MEMBRESIA:
-                        <select id='cbxPlan' class='paquetes' {...register("plan")}>
-                            <option value='1'> NOVATO </option>
-                            <option value='1'> BASICO </option>
-                            <option value='2'> ESTANDART </option>
-                            <option value='3'> AVANZADO </option>
-                            <option value='4'> PROFESIONAL </option>
+                        <select id='cbxPlan' class='paquetes' {...register("plan")}>                            
+                            {Membresias.map(membresia =>(            
+                                <option value={membresia.mbR_CLAVE}> {membresia.mbR_NOMBRE} </option>
+                            ))}
                         </select>
                     
                         <center>

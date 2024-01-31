@@ -34,40 +34,40 @@ export class Menu extends Component
           <hr/>
           
           <div class='menu'>            
-            <Link to={`/dashboard`} class='link font-sans'> 
+            <Link to={`/dashboard`} class={ this.props.path=='/dashboard' ? 'link-select' : 'link' }> 
             <img src={imgDashboard} class='icon'/>
               Contabilidad 
             </Link>           
           </div>
           <div class='menu'>            
-            <Link to={`/clientes`} class='link font-sans'> 
+            <Link to={`/clientes`} class={ this.props.path=='/clientes' ? 'link-select' : 'link' }> 
               <img src={imgCliente} class='icon'/>
               Clientes 
             </Link> 
           </div>
           <div class='menu'>            
-            <Link to={`/facturas`} class='link font-sans'>
+            <Link to={`/facturas`} class={ this.props.path=='/facturas' ? 'link-select' : 'link' }>
               <img src={imgFactura} class='icon'/>
                Facturas 
               </Link> 
           </div>  
           {/* 
             <div class='menu'>              
-              <Link to={`/cuenta`} class='link font-sans'>
+              <Link to={`/herramientas`} class={ this.props.path=='/herramientas' ? 'link-select' : 'link' }>
                 <img src={imgHerramienta} class='icon'/>
                 Herramientas 
               </Link>
             </div>
           */}
           <div class='menu'>            
-            <Link to={`/cuenta`} class='link font-sans'> 
+            <Link to={`/cuenta`} class={ this.props.path=='/cuenta' ? 'link-select' : 'link' }> 
               <img src={imgConfiguracion} class='icon'/>
               Configuración 
             </Link>
           </div>          
           
           <div class='salir'>            
-            <Link to={`/`} class='link font-sans'> 
+            <Link to={`/`} class={ this.props.path=='/' ? 'link-select' : 'link' }> 
               <img src={imgSalir} class='icon'/>
               Cerrar Sesion 
             </Link> 
@@ -124,7 +124,7 @@ export class ComboCliente extends Component
           <select class="comboCliente" onChange={this.props.handlerChange}>
             <option value={0}> SELECCIONA CLIENTE </option>
             {this.props.clientes.map(cliente =>(            
-              <option value={cliente.id}> {cliente.nombre} </option>
+              <option value={cliente.clI_CLAVE}> {cliente.clI_NOMBRE} </option>
             ))}
         </select>
     )
