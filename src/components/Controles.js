@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-export const TextBox = ({ name, value, placeholder, className, register, validationSchema }) => 
+export const TextBox = ({ name, value, defaultValue, placeholder, className, register, validationSchema }) => 
 (
-    <input type='text' id={name} value={value} placeholder={placeholder} class={className} {...register(name, validationSchema)} />   
+    <input type='text' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />   
 );
 
-export const Password = ({ name, value, placeholder, className, register, validationSchema }) => 
+export const Password = ({ name, value, defaultValue, placeholder, className, register, validationSchema }) => 
 (    
-    <input type='password' id={name} value={value} placeholder={placeholder} class={className} {...register(name, validationSchema)} />      
+    <input type='password' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />      
 );
 
 export const Input = ({ name, label, register, errors, required, type, validationSchema }) => 
@@ -32,10 +32,10 @@ export const Input = ({ name, label, register, errors, required, type, validatio
     </div>    
 );
 
-export const CheckBox = ({ name, text, checked, className, handlerChange }) => 
+export const CheckBox = ({ name, text, isChecked, className, handler, register }) => 
 (    
   <div class={className}>    
-    <label> <input id={name} type="checkbox" onChange={handlerChange} /> {text} </label>
+    <label> <input type="checkbox" id={name} checked={isChecked} {...register(name)} onChange={handler} /> {text} </label>
   </div>      
 );
 

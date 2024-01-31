@@ -11,12 +11,26 @@ function Cuenta()
     const location = useLocation();  
     
     const [Membresias, setMembresia] = useState([]);
-    const [Usuario, setUsuario] = useState([]);
+    const [Usuarios, setUsuario] = useState([]);
 
     function LlenaMembresias()
     {
         //alert('LlenaMembresias ! ');
-        Wrapper.get(`Membresias`).then(response => { setMembresia(response.data); })
+        Wrapper.get(`Membresias`).then(response => 
+        {
+             setMembresia(response.data); 
+             LlenaUsuario();
+        })
+        .catch(error => { alert(error);});
+    }
+
+    function LlenaUsuario()
+    {
+        //alert('LlenaUsuario ! ');
+        var liUsuario = 1;
+
+        //Wrapper.get(`Usuarios`).then(response => { setUsuario(response.data); })
+        Wrapper.get(`Usuarios/usuario?piUsuario=${liUsuario}`).then(response => { setUsuario(response.data); })
         .catch(error => { alert(error);});
     }
 
@@ -26,33 +40,29 @@ function Cuenta()
     {           
         if(validateForm(data)===true)
         {
-            //alert('GUARDAR ! ');            
-
-            Wrapper.get(`Usuarios`).then(response => 
+            //alert('GUARDAR ! ');
+            var liUsuario = 1;    
+            
+            if(validateForm(data)===true)
             {
-                alert('Login | Nombre ' + response.data[0].usU_NOMBRE);   
-                //navigate('/dashboard'); 
-                //setUsuario(response.data); 
-            })
-            .catch(error => { alert(error);});
-
+                Wrapper.put(`Usuarios/${liUsuario}`, { usU_CLAVE: liUsuario, usU_NOMBRE: data.txtNombre, usU_CORREO: data.txtCorreo, usU_PASSWORD: data.txtPassword, usU_PLAN: data.cbxPlan, usU_REGISTRO: data.txtRegistro})
+                .then(response => {  alert('Usuario actualizado ! ');  }).catch(error => { alert(error);});
+            }
         }
     }  
 
     function validateForm(data)
-    {
-        /*
-        if(data.user==='')    
+    {        
+        if(data.txtNombre==='')    
         {
-            alert("¡ usuario necesario !");
+            alert("¡ Nombre necesario !");
             return false;
         }
-        else if(data.password==='')    
+        else if(data.txtCorreo==='')    
         {
-            alert("¡ contraseña necesaria !");
+            alert("¡ Correo necesario !");
             return false;
-        } 
-        */  
+        }     
         
         return true;
     }
@@ -64,35 +74,40 @@ function Cuenta()
             <div class='container'>
                
                 <Menu path={location.pathname} />
-
-               <div class='pnlMiCuenta'>                    
+            
+                {Usuarios.map(usuario => (
+                             
+                <div class='pnlMiCuenta'>                    
                
                     <form class='frmMiCuenta'>
                                                 
                         <div class='frmTitulo'> MI CUENTA </div>   
 
                         <br/>
-                        NOMBRE:<input type='text' value='OSCAR ROMO' id='txtNombre' {...register("nombre")} />                        
+                        NOMBRE:<input type='text' defaultValue={usuario.usU_NOMBRE} id='txtNombre' {...register("txtNombre")} />
                         <br/>
-                        CORREO:<input type='text' value='chapo2040@hotmail.com' id='txtCorreo' {...register("correo")} />
+                        CORREO:<input type='text' defaultValue={usuario.usU_CORREO} id='txtCorreo' {...register("txtCorreo")} />
                         <br/>
-                        CONTRASEÑA:<input type='password' value='123' id='txtPassword' {...register("password")} />
-                        <br/>
-
+                        CONTRASEÑA:<input type='password' defaultValue={usuario.usU_PASSWORD} id='txtPassword' {...register("txtPassword")} />
+                        <br/>                        
                         PLAN MEMBRESIA:
-                        <select id='cbxPlan' class='paquetes' {...register("plan")}>                            
+                        <select id='cbxPlan' class='paquetes' defaultValue={usuario.usU_PLAN} {...register("cbxPlan")}>                            
                             {Membresias.map(membresia =>(            
                                 <option value={membresia.mbR_CLAVE}> {membresia.mbR_NOMBRE} </option>
                             ))}
-                        </select>
-                    
+                        </select>                        
+                        REGISTRO:<input type='text' defaultValue={usuario.usU_REGISTRO} id='txtRegistro' {...register("txtRegistro")} />
+                        <br/> 
+
                         <center>
                             <button id='button' class='custom-button submit' onClick={handleSubmit(OnSubmit)}> Guardar </button>
                         </center>
 
                     </form> 
 
-               </div>
+                </div>
+
+                ))}
 
             </div>
 

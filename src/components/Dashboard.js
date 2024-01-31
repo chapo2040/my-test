@@ -15,6 +15,18 @@ function Dashboard()
     const [gdCargo, setCargo] = useState(0);
     const [gdAbono, setAbono] = useState(0);
     
+    const [Sesion, setSesion] = useState();
+
+    function ObtenerSesion()
+    {
+        //alert('ObtenerSesion ! ');
+        var loUsuario = JSON.parse(localStorage.getItem('usuario'));
+        if (loUsuario) 
+        {
+            setSesion(loUsuario);
+        }
+        //alert('Sesion | Clave ' + Sesion.clave + ' - Nombre: ' + Sesion.nombre + ' - Plan: ' + Sesion.membresia);
+    }
 
     function LlenaClientes()
     {
@@ -24,13 +36,12 @@ function Dashboard()
     }
 
     function LlenaFacturas(cliente)
-    {
-        var liUsuario = 1;
+    {        
         var llFolio = 0;
 
         //alert('LlenaFacturas | cliente: ' + cliente); 
         //Wrapper.get(`Facturas`).then(response =>         
-        Wrapper.get(`Facturas/facturas?piUsuario=${liUsuario}&plCliente=${cliente}&plFolio=${llFolio}`).then(response =>         
+        Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}`).then(response =>         
         {
             //alert('LlenaFacturas | registros: ' + response.data.length);  
             setFactura(response.data); 
@@ -39,7 +50,11 @@ function Dashboard()
         .catch(error => { alert(error);});        
     }
 
-    useEffect(() => { LlenaClientes(); }, []);  
+    useEffect(() => 
+    { 
+        ObtenerSesion();
+       LlenaClientes();        
+    }, []);  
 
     function HazCuentas(paFacturas)
     {
