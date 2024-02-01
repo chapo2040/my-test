@@ -61,6 +61,11 @@ body
 
 /****************************** COMPONENTES BASE ***************************************/
 
+.errorMsg
+{
+    color: #fe0e0e; 
+    font-size: 14px;
+}
 
 input 
 {
@@ -104,7 +109,7 @@ button
 
 .custom-check
 {    
-   padding: 5px;   
+   margin-left: 5px;
 }
 
 .custom-check-img
@@ -256,7 +261,7 @@ select
     color: rgb(0, 0, 0);    
     text-align: left;    
     font-size: 14px;    
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .frmLogin .olvido 
@@ -264,8 +269,7 @@ select
     color: #097EF6;
     text-decoration: none;
     font-size: 14px;
-    margin-left: 60px;
-    margin-bottom: 10px;
+    margin-left: 65px;    
 }
 
 .frmLogin .submit 
@@ -277,26 +281,40 @@ select
     margin-bottom: 20px;
 }
 
+
+/************************************ CONTAINER **************************************/
+
+
+.container
+{
+    display: flex;
+    height: 700px;
+    align-items:flex-start;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.4);    
+    margin-top: 10px;
+    margin-left: 10px;    
+}
+
+
 /************************************** MENU *****************************************/
+
 
 .pnlMenu
 {   
+    background-color: white;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    border-radius: 3px;
-    padding: 15px 0px;
-    margin-top: 20px;  
-    margin-left: 10px;  
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 20%;
-    height: 650px;
+    border-radius: 3px;    
+    width: 190px;    
     text-align: left;
+    margin-top: 20px;  
+    margin-left: 20px;  
+    margin-right: 10px;    
 }
 
 .pnlMenu .logo
 {
     width: 120px;
-    margin-top: 7px;
+    margin-top: 20px;
     margin-bottom: 13px;
 }
 
@@ -318,7 +336,9 @@ select
 .pnlMenu .salir
 {    
     color: #716262;
-    margin-left: 5px;    
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-bottom: 25px;
 }
 
 .pnlMenu .icon
@@ -359,65 +379,106 @@ select
      background-color: rgba(184, 185, 236, 0.2);     
 }
 
-.container
-{
-    display: flex;
-    background-color: white;
-    width: 90%;
-    height: 100%;    
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    margin: auto;
-    margin-top: 50px;
-}
-
 
 /******************************** MOVIMIENTOS ****************************************/
 
 
 .pnlMovimientos
 { 
-    width: 75%;
-    margin-top: 20px;
-    margin-right: 30px;
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;  
+    box-shadow: 0 0 0px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    width: 85%;  
+    margin-top: 20px;    
+    margin-right: 10px;
 }
 
-.pnlFiltros
+.pnlMovimientos .pnlFiltros
 {   
+    background-color: white;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
-    padding: 10px 10px;    
-    margin-right: 10px;
-    margin-bottom: 10px;
+    padding: 10px 10px;
     width: 100%;
+    margin-right: 10px;    
 }
 
-.pnlFiltros .comboCliente 
+.pnlMovimientos .pnlFiltros .comboCliente 
 {
     width: 55%;
 }
 
-.pnlFiltros .comboAno
+.pnlMovimientos .pnlFiltros .comboAno
 {
     width: 15%;    
     margin-left: 5px;
 }
 
-.pnlFiltros .comboMes
+.pnlMovimientos .pnlFiltros .comboMes
 {
     width: 27%;    
     margin-left: 5px;
 }
 
-.pnlMovimientos .itemMovimiento
+.pnlMovimientos .pnlFacturas
+{     
+    background-color: #ffffff;   
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.pnlMovimientos .pnlFacturas .MovimientoTitulo
+{   
+    display: flex;
+    background: #d97b0f;
+    text-align: left;    
+    color: white;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.pnlMovimientos .pnlFacturas .MovimientoTitulo .descripcion
+{   
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 7px 10px;
+    width: 60%;
+    font-weight: 500;
+}
+
+.pnlMovimientos .pnlFacturas .MovimientoTitulo .cargo
+{   
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 7px 10px;
+    width: 20%;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.pnlMovimientos .pnlFacturas .MovimientoTitulo .abono
+{   
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    padding: 7px 10px;
+    width: 20%;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.pnlMovimientos .pnlFacturas .itemMovimiento
 {   
     display: flex;
     background: #fff;
     text-align: left;    
+    width: 100%;
     margin-bottom: 5px;
 }
 
-.pnlMovimientos .itemMovimiento .descripcion
+.pnlMovimientos .pnlFacturas .itemMovimiento .descripcion
 {   
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
@@ -425,7 +486,7 @@ select
     width: 60%;
 }
 
-.pnlMovimientos .itemMovimiento .cargo
+.pnlMovimientos .pnlFacturas .itemMovimiento .cargo
 {   
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
@@ -434,7 +495,7 @@ select
     margin-left: 5px;
 }
 
-.pnlMovimientos .itemMovimiento .abono
+.pnlMovimientos .pnlFacturas .itemMovimiento .abono
 {   
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
@@ -443,19 +504,19 @@ select
     margin-left: 5px;
 }
 
-.pnlMovimientos .itemMovimiento .titulo
+.pnlMovimientos .pnlFacturas .itemMovimiento .titulo
 {
     color: #097EF6;    
     font-size: 15px;      
 }
 
-.pnlMovimientos .itemMovimiento .info
+.pnlMovimientos .pnlFacturas .itemMovimiento .info
 {
     color: black;    
     font-size: 14px;    
 }
 
-.pnlMovimientos .titulo
+.pnlMovimientos .pnlFacturas .titulo
 {   
     display: flex;
     background: #fff;
@@ -463,25 +524,25 @@ select
     margin-bottom: 5px;
 }
 
-.pnlMovimientos .txtDescripcion 
+.pnlMovimientos .pnlFacturas .txtDescripcion 
 {   
     font-size: 16px;  
     width: 100%;
 }
 
-.pnlMovimientos .txtCargo
+.pnlMovimientos .pnlFacturas .txtCargo
 {   
     font-size: 16px;  
     width: 100%;
 }
 
-.pnlMovimientos .txtAbono
+.pnlMovimientos .pnlFacturas .txtAbono
 {   
     font-size: 16px;  
     width: 100%;
 }
 
-.itemMovimiento .descripcionTotal
+.descripcionTotal
 {   
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
@@ -490,36 +551,37 @@ select
     text-align: right;
 }
 
-.pnlMovimientos .total
+.total
 {   
     font-size: 16px;      
     font-weight: bold;    
     width: 100%;
 }
 
-.pnlMovimientos .totalCargo
+.totalCargo
 {   
     font-size: 16px;      
     font-weight: bold;    
     width: 100%;
 }
 
-.pnlMovimientos .totalAbono
+.totalAbono
 {   
     font-size: 16px;      
     font-weight: bold;    
     width: 100%;
 }
 
-.pnlMovimientos .boton 
+.pnlMovimientos .pnlFacturas .boton 
 {
     width: 170px;
     font-size: 15px;    
     margin-left: 10px;    
     margin-right: 10px;
+    margin-bottom: 30px;
 }
 
-.pnlTotales
+.pnlMovimientos .pnlFacturas .pnlTotales
 {
     padding: 30px 30px;
     width: 10%;
@@ -534,10 +596,9 @@ select
     background-color: #ffffff;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 5px;
-    width: 75%;
-    margin-top: 20px;
-    margin-right: 30px;
-    margin-bottom: 30px;   
+    width: 85%;  
+    margin-top: 20px;    
+    margin-right: 10px; 
 }
 
 
@@ -613,12 +674,10 @@ select
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    background-color: #ffffff;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    width: 75%;    
-    margin-top: 20px;
-    margin-right: 30px;
-    margin-bottom: 30px;   
+    box-shadow: 0 0 0px rgba(0, 0, 0, 1);
+    width: 85%;  
+    margin-top: 20px;    
+    margin-right: 10px;   
 }
 
 .frmClienteAgregar
@@ -626,16 +685,15 @@ select
     display: flex; 
     flex-direction: column;
     background: #fff;
-    width: 60%;
+    box-shadow: 0 0px 1px rgba(71, 3, 6, 0.7);      
+    width: 65%;
     text-align: left;
-    padding: 10px 15px;
-    box-shadow: 0 0px 1px rgba(71, 3, 6, 0.7);
-    margin-top: -100px;
+    padding: 10px 15px;  
 }
 
 .frmClienteAgregar .frmTitulo
 {   
-    background-color: #fcf3e7;
+    background-color: #d97b0f;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
     padding: 7px;    
@@ -670,10 +728,9 @@ select
     background-color: #ffffff;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 5px;
-    width: 75%;
-    margin-top: 20px;
-    margin-right: 30px;
-    margin-bottom: 30px;   
+    width: 85%;  
+    margin-top: 20px;    
+    margin-right: 10px; 
 }
 
 
@@ -746,12 +803,10 @@ select
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    background-color: #ffffff;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    width: 75%;    
-    margin-top: 20px;
-    margin-right: 30px;
-    margin-bottom: 30px;   
+    box-shadow: 0 0 0px rgba(0, 0, 0, 1);
+    width: 85%;  
+    margin-top: 20px;    
+    margin-right: 10px;  
 }
 
 .frmMiCuenta
@@ -759,22 +814,23 @@ select
     display: flex; 
     flex-direction: column;
     background: #fff;
-    width: 60%;
+    box-shadow: 0 0px 1px rgba(71, 3, 6, 0.7);      
+    width: 65%;
     text-align: left;
-    padding: 10px 15px;
-    box-shadow: 0 0px 1px rgba(71, 3, 6, 0.7);
-    margin-top: -100px;
+    padding: 10px 15px;    
 }
 
 .frmTitulo
 {   
-    background-color: #fcf3e7;
+    background-color: #d97b0f;
+    color: white;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
     padding: 7px;    
-    margin-bottom: 10px;
     width: 100%;
     text-align: center;
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
 .frmMiCuenta .paquetes

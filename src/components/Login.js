@@ -11,15 +11,7 @@ function Login()
 {
     const {register, handleSubmit, reset, formState: { errors }} = useForm();   
     const navigate = useNavigate(); 
-
-    const [Sesion, setSesion] = useState({
-                                    clave: 0, 
-                                    nombre: '', 
-                                    correo: '', 
-                                    password: '', 
-                                    membresia: 1,
-                                    recordarme: false
-                                });
+    const [Sesion, setSesion] = useState({});
     
     function ObtenerSesion()
     {
@@ -31,9 +23,14 @@ function Login()
             //alert('loUsuario | Clave ' + loUsuario.clave + ' - Nombre: ' + loUsuario.nombre + ' - Plan: ' + loUsuario.membresia + ' - Recordarme: ' + loUsuario.recordarme);
             if(loUsuario.recordarme===true)
             {                
-                //alert('Guardar Sesion ! ');
-                //loUsuario.correo = "Pedro@hotmail.com";
+                //alert('Guardar Sesion ! ');                
                 setSesion(loUsuario); 
+
+                reset({
+                    txtUsuario: loUsuario.correo,
+                    txtPassword: loUsuario.password,
+                    chkRecordar: loUsuario.recordarme
+                });
             }
         }
     }
@@ -58,10 +55,11 @@ function Login()
             }
             else
             {
-                alert('Login | recordarme ' + Sesion.recordarme);
+                //alert('Login | Sesion.recordarme: ' + Sesion.recordarme);
+                alert('Login | data.chkRecordar: ' + data.chkRecordar);
                 //alert('Login | Nombre ' + response.data[0].usU_NOMBRE);
                 
-                if(Sesion.recordarme===true)
+                if(data.chkRecordar===true)
                 {
                     var loUsuario = 
                     {
@@ -70,7 +68,7 @@ function Login()
                         correo: data.txtUsuario, 
                         password: data.txtPassword, 
                         membresia: response.data[0].usU_PLAN,
-                        recordarme: Sesion.recordarme
+                        recordarme: data.chkRecordar
                     };
 
                     localStorage.setItem('usuario', JSON.stringify(loUsuario));                
@@ -132,20 +130,17 @@ function Login()
 
                 <label>                     
                     <text class='font-sans text-base'> Correo </text> <br/>                    
-                    <TextBox name='txtUsuario' placeholder="usuario" defaultValue={Sesion.correo} className='input-underline input' register={register} validationSchema={{ required: "user required"}} />
+                    <TextBox name='txtUsuario' placeholder="usuario" className='input-underline input' register={register} validationSchema={{ required: "user required"}} />
                 </label>
                 
                 <label> 
                     <text class='font-sans text-base'> Contraseña </text> <br/>
-                    <Password name='txtPassword' placeholder="contraseña" defaultValue={Sesion.password} className='input-underline input' register={register} validationSchema={{ required: "password required"}} />                    
+                    <Password name='txtPassword' placeholder="contraseña" className='input-underline input' register={register} validationSchema={{ required: "password required"}} />                    
                 </label>
 
                 <div class='chkLogin'>
 
-                     <div class='custom-check'>    
-                      <label> <input type="checkbox" id='chkRecordar' {...register('chkRecordar')} checked={Sesion.recordarme} onChange={handleChange} /> Recordarme </label>
-                    </div>   
-
+                    <CheckBox name='chkRecordar' text='Recordarme' className ='custom-check' handler={handleChange} register={register} />
                     <div> <a href='#' class='olvido'> ¿Olvido contraseña? </a> </div>
                 </div>
 

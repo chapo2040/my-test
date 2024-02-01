@@ -51,14 +51,7 @@ export class Menu extends Component
                Facturas 
               </Link> 
           </div>  
-          {/* 
-            <div class='menu'>              
-              <Link to={`/herramientas`} class={ this.props.path=='/herramientas' ? 'link-select' : 'link' }>
-                <img src={imgHerramienta} class='icon'/>
-                Herramientas 
-              </Link>
-            </div>
-          */}
+
           <div class='menu'>            
             <Link to={`/cuenta`} class={ this.props.path=='/cuenta' ? 'link-select' : 'link' }> 
               <img src={imgConfiguracion} class='icon'/>
@@ -176,7 +169,7 @@ export class MovimientoTitulo extends Component
   render() 
   {
     return(
-        <div class='itemMovimiento'>
+        <div class='MovimientoTitulo'>
 
           <div class='descripcion'>           
             <span class='info'> CONCEPTO </span> 

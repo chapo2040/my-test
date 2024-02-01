@@ -131,11 +131,13 @@ function Dashboard()
 
                 <div class='pnlMovimientos'>
 
-                        <div class='pnlFiltros'>
-                            <ComboCliente clientes={Clientes} handlerChange={handlerCbxCliente}/>
-                            <ComboAno handlerChange={handlerCbxAno}/>
-                            <ComboMes handlerChange={handlerCbxMes}/>
-                        </div>
+                    <div class='pnlFiltros'>
+                        <ComboCliente clientes={Clientes} handlerChange={handlerCbxCliente}/>
+                        <ComboAno handlerChange={handlerCbxAno}/>
+                        <ComboMes handlerChange={handlerCbxMes}/>
+                    </div>
+
+                    <div class='pnlFacturas'>
                         
                         <MovimientoTitulo />                    
 
@@ -148,6 +150,8 @@ function Dashboard()
                             <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={TraerFacturas} />
                             <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={Imprimir} />
                         </p>                    
+
+                    </div>    
 
                 </div>
                 

@@ -35,7 +35,7 @@ export const Input = ({ name, label, register, errors, required, type, validatio
 export const CheckBox = ({ name, text, isChecked, className, handler, register }) => 
 (    
   <div class={className}>    
-    <label> <input type="checkbox" id={name} checked={isChecked} {...register(name)} onChange={handler} /> {text} </label>
+    <label> <input type="checkbox" id={name} {...register(name)} checked={isChecked} onChange={handler} /> {text} </label>
   </div>      
 );
 

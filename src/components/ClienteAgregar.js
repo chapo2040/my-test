@@ -67,7 +67,7 @@ function ClienteAgregar()
 
             <div class='container'>
                
-                <Menu path={location.pathname} />
+               <Menu path={location.pathname} />
 
                <div class='pnlClienteAgregar'>                    
                

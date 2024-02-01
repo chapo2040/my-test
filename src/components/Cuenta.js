@@ -1,68 +1,104 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
 import {useNavigate, useLocation} from 'react-router-dom';
+
+import Controles, { Button, Password, TextBox, CheckBox, Input } from "./Controles";
 import Utils, { Menu, Movimiento } from "./Utils";
 import Wrapper from './Wrapper';
 
 function Cuenta() 
 {       
-    const {register, handleSubmit, reset} = useForm();   
+    const {register, handleSubmit, reset, formState: { errors }} = useForm();   
+
     const navigate = useNavigate(); 
     const location = useLocation();  
     
     const [Membresias, setMembresia] = useState([]);
-    const [Usuarios, setUsuario] = useState([]);
+    const [Usuario, setUsuario] = useState({usU_CLAVE: 0, usU_NOMBRE: '', usU_CORREO: '', usU_PASSWORD: '', usU_PLAN: 0, usU_REGISTRO: '' });
+    const [Sesion, setSesion] = useState({clave: 0, nombre: '', correo: '', password: '', membresia: 1, recordarme: false });
+
+    function ObtenerSesion()
+    {
+        //alert('ObtenerSesion ! ');
+        var loUsuario = JSON.parse(localStorage.getItem('usuario'));
+        if (loUsuario) 
+        {
+            setSesion(loUsuario); 
+            LlenaUsuario();
+            //alert('ObtenerSesion | clave: ' + loUsuario.clave + ' - nombre: ' + loUsuario.nombre);
+        }
+    }    
 
     function LlenaMembresias()
     {
         //alert('LlenaMembresias ! ');
         Wrapper.get(`Membresias`).then(response => 
         {
-             setMembresia(response.data); 
-             LlenaUsuario();
+             setMembresia(response.data);            
         })
         .catch(error => { alert(error);});
     }
 
     function LlenaUsuario()
     {
-        //alert('LlenaUsuario ! ');
-        var liUsuario = 1;
+        //alert('LlenaUsuario: ' + Sesion.clave);
+        var liUsuario = Sesion.clave;
 
         //Wrapper.get(`Usuarios`).then(response => { setUsuario(response.data); })
-        Wrapper.get(`Usuarios/usuario?piUsuario=${liUsuario}`).then(response => { setUsuario(response.data); })
+        Wrapper.get(`Usuarios/usuario?piUsuario=${liUsuario}`).then(response => 
+        {             
+            //alert('Usuario: ' + response.data[0].usU_NOMBRE);
+            setUsuario(response.data[0]);
+
+            reset({
+                nombre: response.data[0].usU_NOMBRE,
+                correo: response.data[0].usU_CORREO,
+                password: response.data[0].usU_PASSWORD,
+                membresia: response.data[0].usU_PLAN,
+                registro: response.data[0].usU_REGISTRO
+            });
+
+         })
         .catch(error => { alert(error);});
     }
 
-    useEffect(() => { LlenaMembresias(); }, []);  
+    useEffect(() => 
+    {
+        ObtenerSesion();
+        LlenaMembresias(); 
+    }, []);  
 
-    function OnSubmit(data)
-    {           
+    const OnSubmit = (data) =>
+    {     
+        //alert('OnSubmit | nombre: ' + data.correo);
+        
         if(validateForm(data)===true)
         {
-            //alert('GUARDAR ! ');
-            var liUsuario = 1;    
-            
-            if(validateForm(data)===true)
-            {
-                Wrapper.put(`Usuarios/${liUsuario}`, { usU_CLAVE: liUsuario, usU_NOMBRE: data.txtNombre, usU_CORREO: data.txtCorreo, usU_PASSWORD: data.txtPassword, usU_PLAN: data.cbxPlan, usU_REGISTRO: data.txtRegistro})
-                .then(response => {  alert('Usuario actualizado ! ');  }).catch(error => { alert(error);});
-            }
+            //alert('Guardar: ' + Sesion.clave);  
+            Wrapper.put(`Usuarios/${Sesion.clave}`, { usU_CLAVE: Sesion.clave, usU_NOMBRE: data.nombre, usU_CORREO: data.correo, usU_PASSWORD: data.password, usU_PLAN: data.membresia, usU_REGISTRO: data.registro})
+            .then(response => {  alert('Usuario actualizado ! ');  }).catch(error => { alert(error);});
         }
     }  
 
     function validateForm(data)
     {        
-        if(data.txtNombre==='')    
+        //alert("validateForm | nombre: " + data.nombre);
+
+        if(data.nombre == '' || data.nombre == undefined)
         {
             alert("¡ Nombre necesario !");
             return false;
         }
-        else if(data.txtCorreo==='')    
+        else if(data.correo == '' || data.correo == undefined)    
         {
             alert("¡ Correo necesario !");
             return false;
         }     
+        else if(data.password == '' || data.password == undefined)    
+        {
+            alert("¡ Contraseña necesaria !");
+            return false;
+        } 
         
         return true;
     }
@@ -75,39 +111,48 @@ function Cuenta()
                
                 <Menu path={location.pathname} />
             
-                {Usuarios.map(usuario => (
-                             
                 <div class='pnlMiCuenta'>                    
                
-                    <form class='frmMiCuenta'>
+                    <form class='frmMiCuenta' onSubmit={handleSubmit(OnSubmit)}>
                                                 
-                        <div class='frmTitulo'> MI CUENTA </div>   
+                        <div class='frmTitulo'> CONFIGURACIÓN </div>   
+                        <br/>
 
+                        NOMBRE:                        
+                        <input type='text' id='txtNombre' {...register("nombre", {required:true})} />
+                        {errors.nombre && errors.nombre.type === "required" && (<p className="errorMsg"> Nombre requerido.</p>)}
                         <br/>
-                        NOMBRE:<input type='text' defaultValue={usuario.usU_NOMBRE} id='txtNombre' {...register("txtNombre")} />
+
+                        CORREO:
+                        <input type='text' id='txtCorreo' {...register("correo", {required:true, pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/})} />
+                        {errors.correo && errors.correo.type === "required" && (<p className="errorMsg"> Correo requerido.</p>)}
+                        {errors.correo && errors.correo.type === "pattern" && (<p className="errorMsg"> Correo no es valido.</p>)}
                         <br/>
-                        CORREO:<input type='text' defaultValue={usuario.usU_CORREO} id='txtCorreo' {...register("txtCorreo")} />
-                        <br/>
-                        CONTRASEÑA:<input type='password' defaultValue={usuario.usU_PASSWORD} id='txtPassword' {...register("txtPassword")} />
+
+                        CONTRASEÑA:
+                        <input type='password' id='txtPassword' {...register("password", {required:true})}/>
+                        {errors.password && errors.password.type === "required" && (<p className="errorMsg"> Contraseña requerida.</p>)}
                         <br/>                        
+
                         PLAN MEMBRESIA:
-                        <select id='cbxPlan' class='paquetes' defaultValue={usuario.usU_PLAN} {...register("cbxPlan")}>                            
+                        <select id='cbxPlan' class='paquetes' {...register("membresia")}>                            
                             {Membresias.map(membresia =>(            
                                 <option value={membresia.mbR_CLAVE}> {membresia.mbR_NOMBRE} </option>
                             ))}
                         </select>                        
-                        REGISTRO:<input type='text' defaultValue={usuario.usU_REGISTRO} id='txtRegistro' {...register("txtRegistro")} />
+
+                        REGISTRO:<input type='text' id='txtRegistro' disabled {...register("registro")}/>
                         <br/> 
 
                         <center>
-                            <button id='button' class='custom-button submit' onClick={handleSubmit(OnSubmit)}> Guardar </button>
+                            <button id='button' class='custom-button submit'> Guardar </button>
                         </center>
+
+                        Usuario | Clave: {Usuario.usU_CLAVE} - Nombre: {Usuario.usU_NOMBRE} - Correo: {Usuario.usU_CORREO} - Contraseña: {Usuario.usU_PASSWORD} - Plan: {Usuario.usU_PLAN} - Registro: {Usuario.usU_REGISTRO}
 
                     </form> 
 
-                </div>
-
-                ))}
+                </div>            
 
             </div>
 
