@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 
-export const TextBox = ({ name, value, defaultValue, placeholder, className, register, validationSchema }) => 
+export const TextBox = ({ name, value, defaultValue, placeholder, className, register, validationSchema, errors }) => 
 (
-    <input type='text' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />   
+    <div>        
+        <input type='text' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />
+        {errors[name] && errors[name]?.type === "required" && (<p className="errorMsg"> {errors[name]?.message} </p>)}
+        {errors[name] && errors[name]?.type === "pattern" && (<p className="errorMsg"> Formato no es valido.</p>)}
+    </div>
 );
 
-export const Password = ({ name, value, defaultValue, placeholder, className, register, validationSchema }) => 
+export const Password = ({ name, value, defaultValue, placeholder, className, register, validationSchema, errors }) => 
 (    
-    <input type='password' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />      
+    <div> 
+        <input type='password' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />
+        {errors[name] && errors[name]?.type === "required" && (<p className="errorMsg"> {errors[name]?.message} </p>)}
+    </div>
 );
 
 export const Input = ({ name, label, register, errors, required, type, validationSchema }) => 
@@ -31,6 +38,17 @@ export const Input = ({ name, label, register, errors, required, type, validatio
         )}
     </div>    
 );
+
+
+export const Select = ({ name, className, options, value, descripcion, register }) => 
+(    
+    <select name={name} class={className} {...register(name)}> 
+        {options.map(option =>(            
+            <option value={option[value]}> {option[descripcion]} </option>
+        ))}
+    </select>
+);
+
 
 export const CheckBox = ({ name, text, isChecked, className, handler, register }) => 
 (    

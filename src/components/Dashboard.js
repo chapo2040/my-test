@@ -6,8 +6,8 @@ import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
 import Wrapper from './Wrapper';
 
 function Dashboard() 
-{    
-    const {register, handleSubmit, reset} = useForm();
+{   
+    const {register, handleSubmit, reset, formState: { errors }} = useForm();   
     const location = useLocation();  
 
     const [Clientes, setCliente] = useState([]);
@@ -103,17 +103,48 @@ function Dashboard()
         alert('Mes: ' + event.target.value); 
     }
 
-    function AgregarCliente()
-    {
-        alert('AgregarCliente !'); 
-    }
+    function OnDelete(event)
+    { 
+        const llUsuario = event.currentTarget.getAttribute('usuario');
+        const llCliente = event.currentTarget.getAttribute('cliente');
+        const llFactura = event.currentTarget.getAttribute('factura');
+        //alert('Factura Borrar | Usuario: ' + llUsuario + ' - Cliente: ' + llCliente + ' - factura: ' + llFactura);
+        //navigate('/dashboard');
+        
+        Wrapper.delete(`Facturas/${Sesion.clave}, ${llCliente}, ${llFactura}`)
+        .then(response => 
+        {
+            alert('Factura borrada con éxito ! '); 
+            //LlenaClientes(); 
+        }).catch(error => { alert(error);});        
+    } 
 
     function TraerFacturas()
     {
-        alert('TraerFacturas !');
+        //alert('TraerFacturas !');
+        
+        // AUTENTIFICARSE A API SAT
+
+        // CHECAR SI YA ESTA EL PAQUETE
+
+        // BAJAR PAQUETE
+
+        // LEER FACTURAS XML  
+
+        // GUARDAR FACTURAS
+        GuardaFacturas();
+    }
+
+    function GuardaFacturas()
+    {
+        alert('GuardaFacturas !');
         
         // RUTINA API SAT
-        
+        Wrapper.post(`Facturas`, { faC_USUCVE: Sesion.clave, faC_CLICVE: 2, faC_CLAVE: 776, faC_DESCRIPCION: 'PRUEBA CDFI', faC_IMPORTE: 300, faC_FECHA: '2024-02-03T04:51:10.372Z' })
+        .then(response => 
+        {
+            alert('Factura agregada con éxito ! ');             
+        }).catch(error => { alert(error);});
     }
     
     function Imprimir()
@@ -139,10 +170,9 @@ function Dashboard()
 
                     <div class='pnlFacturas'>
                         
-                        <MovimientoTitulo />                    
-
-                        { Facturas.map(factura =>(<Movimiento factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} cargo={factura.faC_IMPORTE} abono={factura.faC_IMPORTE} /> )) }                        
-                        <MovimientoRenglon className='input-underline input' register={register} validationSchema={{ required: "data required"}}/>
+                        <MovimientoTitulo />
+                        { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} cargo={factura.faC_IMPORTE} abono={factura.faC_IMPORTE} handler={OnDelete} /> )) }                        
+                        <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
                         <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
                         <br />
                         

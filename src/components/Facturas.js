@@ -22,8 +22,15 @@ function Facturas()
 
             <div class='container'>               
                 <Menu path={location.pathname} />
-                <div class='pnlFacturas'>     
-                    <div class='pnlSeccion'> ARCHIVO DE FACTURAS </div> 
+                <div class='pnlFacturas'>    
+
+                    <div class='pnlSeccion'> 
+                        <div class='seccion1'>  FACTURAS  </div>
+                        <div class='seccion2'>
+                            -
+                        </div>                            
+                    </div>
+
                     <FacturaTitulo/>                                        
                     {Facturas.map(factura => (<FacturaRenglon factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} importe={factura.faC_IMPORTE}/> ))}                    
                 </div>

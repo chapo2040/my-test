@@ -196,7 +196,8 @@ export class Movimiento extends Component
         <div class='itemMovimiento'>
 
           <div class='descripcion'>
-            <label class='info'> {this.props.factura} - {this.props.descripcion} </label> 
+             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} onClick={this.props.handler}> <img src={imgBorrar} class='borrar' /> </a>
+            <label class='info'> {this.props.usuario} - {this.props.cliente} - {this.props.factura} - {this.props.descripcion} </label> 
           </div>
 
           <div class='cargo'>
@@ -212,21 +213,21 @@ export class Movimiento extends Component
   }
 }
 
-export const MovimientoRenglon = ({ name, value, placeholder, className, register, validationSchema }) => 
+export const MovimientoRenglon = ({ register, errors }) => 
 (    
   <div class='itemMovimiento'>
 
-    <div class='descripcion'>
-      <TextBox name='txtDescripcion' className='txtDescripcion' register={register} validationSchema={validationSchema} />
+    <div class='descripcion'>      
+      <TextBox name='txtDescripcion' placeholder="Concepto" className='txtDescripcion' register={register} validationSchema={{required:"Concepto requerido."}} errors={errors} />
     </div>
 
     <div class='cargo'>      
-      <TextBox name='txtCargo' className='txtCargo' register={register} validationSchema={validationSchema} />
+      <TextBox name='txtCargo' placeholder="Cargo" className='txtCargo' register={register} validationSchema={{required:"Cargo requerido."}} errors={errors} />
     </div>
 
     <div class='abono'>        
-        <TextBox name='txtAbono' className='txtAbono' register={register} validationSchema={validationSchema} />
-    </div>         
+      <TextBox name='txtAbono' placeholder="Abono" className='txtAbono' register={register} validationSchema={{required:"Abono requerido."}} errors={errors} />
+    </div>  
 
   </div>  
 );
@@ -285,8 +286,8 @@ export class ClienteRenglon extends Component
           </div>
 
           <div class='acciones'>
-              <a href='#'> <img src={imgEditar} class='editar' /> </a>
-              <a href='#'> <img src={imgBorrar} class='borrar' /> </a>
+              <a href='#' cliente={this.props.id} onClick={this.props.handlerEdit}> <img src={imgEditar} class='editar' /> </a>
+              <a href='#' cliente={this.props.id} onClick={this.props.handlerDelete}> <img src={imgBorrar} class='borrar' /> </a>
           </div>
 
         </div>  

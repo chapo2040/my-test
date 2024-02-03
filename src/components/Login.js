@@ -27,7 +27,7 @@ function Login()
                 setSesion(loUsuario); 
 
                 reset({
-                    txtUsuario: loUsuario.correo,
+                    txtCorreo: loUsuario.correo,
                     txtPassword: loUsuario.password,
                     chkRecordar: loUsuario.recordarme
                 });
@@ -44,8 +44,8 @@ function Login()
     function EnviarLogin(data)
     {
         //alert('EnviarLogin ! ');           
-        //Wrapper.ge(`Usuarios/login`, { psCorreo: data.txtUsuario, psPassword: data.txtPassword }).then(response => 
-        Wrapper.get(`Usuarios/login?psCorreo=${data.txtUsuario}&psPassword=${data.txtPassword}`).then(response => 
+        //Wrapper.ge(`Usuarios/login`, { psCorreo: data.txtCorreo, psPassword: data.txtPassword }).then(response => 
+        Wrapper.get(`Usuarios/login?psCorreo=${data.txtCorreo}&psPassword=${data.txtPassword}`).then(response => 
         {
             //alert('Login | Nombre ' + response.data.length);   
 
@@ -56,7 +56,7 @@ function Login()
             else
             {
                 //alert('Login | Sesion.recordarme: ' + Sesion.recordarme);
-                alert('Login | data.chkRecordar: ' + data.chkRecordar);
+                //alert('Login | data.chkRecordar: ' + data.chkRecordar);
                 //alert('Login | Nombre ' + response.data[0].usU_NOMBRE);
                 
                 if(data.chkRecordar===true)
@@ -65,7 +65,7 @@ function Login()
                     {
                         clave: response.data[0].usU_CLAVE, 
                         nombre: response.data[0].usU_NOMBRE, 
-                        correo: data.txtUsuario, 
+                        correo: data.txtCorreo, 
                         password: data.txtPassword, 
                         membresia: response.data[0].usU_PLAN,
                         recordarme: data.chkRecordar
@@ -98,9 +98,9 @@ function Login()
 
     function validateForm(data)
     {
-        if(data.txtUsuario==='' || data.txtUsuario === undefined)    
+        if(data.txtCorreo==='' || data.txtCorreo === undefined)    
         {
-            alert("¡ usuario necesario !");
+            alert("¡ Correo necesario !");
             return false;
         }
         else if(data.txtPassword==='' || data.txtPassword === undefined)    
@@ -129,17 +129,16 @@ function Login()
                 <center> <img src={imgLogo} class='logo' /> </center>
 
                 <label>                     
-                    <text class='font-sans text-base'> Correo </text> <br/>                    
-                    <TextBox name='txtUsuario' placeholder="usuario" className='input-underline input' register={register} validationSchema={{ required: "user required"}} />
+                    <text class='font-sans text-base'> Correo </text>                  
+                    <TextBox name='txtCorreo' placeholder="Correo" className='input-underline input' register={register} validationSchema={{required:"Correo requerido.", pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/}} errors={errors} />
                 </label>
                 
                 <label> 
-                    <text class='font-sans text-base'> Contraseña </text> <br/>
-                    <Password name='txtPassword' placeholder="contraseña" className='input-underline input' register={register} validationSchema={{ required: "password required"}} />                    
+                    <text class='font-sans text-base'> Contraseña </text>
+                    <Password name='txtPassword' placeholder="Contraseña" className='input-underline input' register={register} validationSchema={{ required: "Contraseña requerida."}} errors={errors} />                    
                 </label>
 
                 <div class='chkLogin'>
-
                     <CheckBox name='chkRecordar' text='Recordarme' className ='custom-check' handler={handleChange} register={register} />
                     <div> <a href='#' class='olvido'> ¿Olvido contraseña? </a> </div>
                 </div>

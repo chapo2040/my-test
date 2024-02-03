@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+//import Select from "react-select";
+
 import {useForm} from 'react-hook-form'
 import {useNavigate, useLocation} from 'react-router-dom';
 
-import Controles, { Button, Password, TextBox, CheckBox, Input } from "./Controles";
+import Controles, { Button, Password, TextBox, CheckBox, Input, Select } from "./Controles";
 import Utils, { Menu, Movimiento } from "./Utils";
 import Wrapper from './Wrapper';
 
@@ -42,20 +44,19 @@ function Cuenta()
     function LlenaUsuario()
     {
         //alert('LlenaUsuario: ' + Sesion.clave);
-        var liUsuario = Sesion.clave;
 
         //Wrapper.get(`Usuarios`).then(response => { setUsuario(response.data); })
-        Wrapper.get(`Usuarios/usuario?piUsuario=${liUsuario}`).then(response => 
+        Wrapper.get(`Usuarios/usuario?piUsuario=${Sesion.clave}`).then(response => 
         {             
             //alert('Usuario: ' + response.data[0].usU_NOMBRE);
             setUsuario(response.data[0]);
 
             reset({
-                nombre: response.data[0].usU_NOMBRE,
-                correo: response.data[0].usU_CORREO,
-                password: response.data[0].usU_PASSWORD,
-                membresia: response.data[0].usU_PLAN,
-                registro: response.data[0].usU_REGISTRO
+                txtNombre: response.data[0].usU_NOMBRE,
+                txtCorreo: response.data[0].usU_CORREO,
+                txtPassword: response.data[0].usU_PASSWORD,
+                cbxMembresia: response.data[0].usU_PLAN,
+                txtRegistro: response.data[0].usU_REGISTRO
             });
 
          })
@@ -70,39 +71,38 @@ function Cuenta()
 
     const OnSubmit = (data) =>
     {     
-        //alert('OnSubmit | nombre: ' + data.correo);
+        //alert('OnSubmit | nombre: ' + data.txtCorreo);
         
         if(validateForm(data)===true)
         {
             //alert('Guardar: ' + Sesion.clave);  
-            Wrapper.put(`Usuarios/${Sesion.clave}`, { usU_CLAVE: Sesion.clave, usU_NOMBRE: data.nombre, usU_CORREO: data.correo, usU_PASSWORD: data.password, usU_PLAN: data.membresia, usU_REGISTRO: data.registro})
+            Wrapper.put(`Usuarios/${Sesion.clave}`, { usU_CLAVE: Sesion.clave, usU_NOMBRE: data.txtNombre, usU_CORREO: data.txtCorreo, usU_PASSWORD: data.txtPassword, usU_PLAN: data.cbxMembresia, usU_REGISTRO: data.txtRegistro})
             .then(response => {  alert('Usuario actualizado ! ');  }).catch(error => { alert(error);});
         }
     }  
 
     function validateForm(data)
     {        
-        //alert("validateForm | nombre: " + data.nombre);
+        //alert("validateForm | nombre: " + data.txtNombre);
 
-        if(data.nombre == '' || data.nombre == undefined)
+        if(data.txtNombre == '' || data.txtNombre == undefined)
         {
             alert("¡ Nombre necesario !");
             return false;
         }
-        else if(data.correo == '' || data.correo == undefined)    
+        else if(data.txtCorreo == '' || data.txtCorreo == undefined)    
         {
             alert("¡ Correo necesario !");
             return false;
         }     
-        else if(data.password == '' || data.password == undefined)    
+        else if(data.txtPassword == '' || data.txtPassword == undefined)    
         {
             alert("¡ Contraseña necesaria !");
             return false;
         } 
         
         return true;
-    }
-
+    } 
 
     return (
         <React.Fragment>
@@ -119,33 +119,27 @@ function Cuenta()
                         <br/>
 
                         NOMBRE:                        
-                        <input type='text' id='txtNombre' {...register("nombre", {required:true})} />
-                        {errors.nombre && errors.nombre.type === "required" && (<p className="errorMsg"> Nombre requerido.</p>)}
+                        <TextBox name='txtNombre' placeholder="Nombre" className='input-underline input txtConfiguracion' register={register} validationSchema={{required:"Nombre requerido."}} errors={errors} />                        
                         <br/>
 
                         CORREO:
-                        <input type='text' id='txtCorreo' {...register("correo", {required:true, pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/})} />
-                        {errors.correo && errors.correo.type === "required" && (<p className="errorMsg"> Correo requerido.</p>)}
-                        {errors.correo && errors.correo.type === "pattern" && (<p className="errorMsg"> Correo no es valido.</p>)}
+                        <TextBox name='txtCorreo' placeholder="Correo" className='input-underline input txtConfiguracion' register={register} validationSchema={{required:"Correo requerido.", pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/}} errors={errors} />
                         <br/>
 
                         CONTRASEÑA:
-                        <input type='password' id='txtPassword' {...register("password", {required:true})}/>
-                        {errors.password && errors.password.type === "required" && (<p className="errorMsg"> Contraseña requerida.</p>)}
+                        <Password name='txtPassword' placeholder="Contraseña" className='input-underline input txtConfiguracion' register={register} validationSchema={{ required: "Contraseña requerida."}} errors={errors} /> 
                         <br/>                        
 
                         PLAN MEMBRESIA:
-                        <select id='cbxPlan' class='paquetes' {...register("membresia")}>                            
-                            {Membresias.map(membresia =>(            
-                                <option value={membresia.mbR_CLAVE}> {membresia.mbR_NOMBRE} </option>
-                            ))}
-                        </select>                        
+                        <Select name='cbxMembresia' className='paquetes' options={Membresias} value='mbR_CLAVE' descripcion='mbR_NOMBRE' register={register} />
+                        <br/>
 
-                        REGISTRO:<input type='text' id='txtRegistro' disabled {...register("registro")}/>
+                        REGISTRO:
+                        <input type='text' id='txtRegistro' className='lblRegistro' disabled {...register("txtRegistro")}/>
                         <br/> 
 
-                        <center>
-                            <button id='button' class='custom-button submit'> Guardar </button>
+                        <center>                            
+                            <Button name='btnGuardar' text='Guardar' className ='custom-button submit'/>
                         </center>
 
                         Usuario | Clave: {Usuario.usU_CLAVE} - Nombre: {Usuario.usU_NOMBRE} - Correo: {Usuario.usU_CORREO} - Contraseña: {Usuario.usU_PASSWORD} - Plan: {Usuario.usU_PLAN} - Registro: {Usuario.usU_REGISTRO}
