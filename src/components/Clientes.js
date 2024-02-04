@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Utils, { Menu, ClienteRenglon, ClienteTitulo, } from "./Utils";
+import Utils, { Menu, ClienteRenglon, ClienteTitulo, ClientePaginacion} from "./Utils";
 import { useNavigate, useLocation } from 'react-router-dom'
 import Wrapper from './Wrapper';
+import { Alert, Button, Dialog } from './Controles';
 
 function Clientes() 
 {       
@@ -10,6 +11,7 @@ function Clientes()
     
     const [Clientes, setCliente] = useState([]);
     const [Sesion, setSesion] = useState({clave: 0, nombre: '', correo: '', password: '', membresia: 1, recordarme: false });
+    const [isOpen, setOpen] = useState(false);
 
     function ObtenerSesion()
     {
@@ -48,15 +50,26 @@ function Clientes()
     function OnDelete(event)
     { 
         const llCliente = event.currentTarget.getAttribute('cliente');
-        //alert('Borrar | Sesion: ' + Sesion.clave + ' - Cliente: ' + llCliente);
+        const lsNombre = event.currentTarget.getAttribute('nombre');
+        
+        //alert('Borrar | Sesion: ' + Sesion.clave + ' - Cliente: ' + lsNombre);
         //navigate('/clientes');
 
-        Wrapper.delete(`Clientes/${Sesion.clave}, ${llCliente}`)
-        .then(response => 
+        var lbRespueta = window.confirm("¿Este seguro de borrar al cliente " + lsNombre + "?");
+        if (lbRespueta) 
+        {         
+            //alert('YES !');
+            Wrapper.delete(`Clientes/${Sesion.clave}, ${llCliente}`)
+            .then(response => 
+            {
+                //alert('Cliente borrado con éxito ! '); 
+                LlenaClientes(); 
+            }).catch(error => { alert(error);});
+        }
+        else 
         {
-            //alert('Cliente borrado con éxito ! '); 
-            LlenaClientes(); 
-        }).catch(error => { alert(error);});
+            //alert('NO !');
+        }        
     } 
 
     useEffect(() => 
@@ -64,6 +77,27 @@ function Clientes()
         ObtenerSesion();
         LlenaClientes(); 
     }, []);  
+
+
+
+    const AbrirAlerta = () => 
+    {
+        //alert('AbrirAlerta !');
+        setOpen(true);
+    }; 
+
+    const Confirmacion = () => 
+    {
+        //alert('Confirmacion !');
+        setOpen(false);
+    };   
+
+    const Cancelar = () => 
+    {
+        //alert('Cancelar !');
+        setOpen(false);
+    };   
+
 
     return (
         <React.Fragment>
@@ -78,13 +112,22 @@ function Clientes()
                             <button id='button' class='custom-button agregar' onClick={OnSubmit}> + AGREGAR </button>
                         </div>                            
                     </div>
-                  
-                    <ClienteTitulo />
-                    {Clientes.map(cliente => (<ClienteRenglon id={cliente.clI_CLAVE} rfc={cliente.clI_RFC} nombre={cliente.clI_NOMBRE} handlerEdit={OnEdit} handlerDelete={OnDelete} /> ))}
-                    
 
-                    
-                </div>
+                    <Dialog message='¿Deseas borrar este cliente?' isOpen={isOpen} handlerYes={Confirmacion} handlerNo={Cancelar} />
+                  
+                    <div class='contenido'>
+                        <ClienteTitulo />
+                        <div class='renglones'>
+                            {Clientes.map(cliente => (<ClienteRenglon id={cliente.clI_CLAVE} rfc={cliente.clI_RFC} nombre={cliente.clI_NOMBRE} handlerEdit={OnEdit} handlerDelete={OnDelete} /> ))}
+                        </div>
+                        <ClientePaginacion />
+                    </div>
+
+                    <br/>
+                    <Button name='btnTest' text='Prueba' className='custom-button' handlerSubmit={AbrirAlerta} />
+
+                </div>                
+            
             </div>
 
         </React.Fragment>

@@ -261,10 +261,10 @@ export class ClienteTitulo extends Component
   render() 
   {
     return(
-        <div class='itemCliente'>
-          <div class='rfc'> RFC </div>
-          <div class='descripcion'> NOMBRE </div>
-          <div class='acciones'> ACCIONES </div>
+        <div class='itemClienteTitulo'>
+          <div class='rfc text-base'> RFC </div>
+          <div class='descripcion text-base'> NOMBRE </div>
+          <div class='acciones text-base'> ACCIONES </div>
         </div>  
     )
   }
@@ -286,10 +286,26 @@ export class ClienteRenglon extends Component
           </div>
 
           <div class='acciones'>
-              <a href='#' cliente={this.props.id} onClick={this.props.handlerEdit}> <img src={imgEditar} class='editar' /> </a>
-              <a href='#' cliente={this.props.id} onClick={this.props.handlerDelete}> <img src={imgBorrar} class='borrar' /> </a>
+              <a href='#' cliente={this.props.id} nombre={this.props.nombre} onClick={this.props.handlerEdit}><img src={imgEditar} class='editar' /></a>
+              <a href='#' cliente={this.props.id} nombre={this.props.nombre} onClick={this.props.handlerDelete}><img src={imgBorrar} class='borrar' /></a>
           </div>
 
+        </div>  
+    )
+  }
+}
+
+export class ClientePaginacion extends Component
+{
+  render() 
+  {
+    return(
+        <div class='paginacion'>
+            Paginas  
+            <a href='#' class='pagina'> 1 </a>
+            <a href='#' class='pagina'> 2 </a>
+            <a href='#' class='pagina'> 3 </a>
+            <a href='#' class='pagina'> 4 </a>
         </div>  
     )
   }
@@ -300,7 +316,7 @@ export class FacturaTitulo extends Component
   render() 
   {
     return(
-        <div class='itemFactura'>
+        <div class='itemFacturaTitulo'>
           <div class='numero'> # </div>
           <div class='descripcion'> CONCEPTO </div>
           <div class='importe'> IMPORTE </div> 
@@ -335,6 +351,20 @@ export class FacturaRenglon extends Component
               <a href='#'><img src={imgDescargar} class='descargar' /></a>
           </div>
 
+        </div>  
+    )
+  }
+}
+
+export class FacturaPaginacion extends Component
+{
+  render() 
+  {
+    return(
+        <div class='paginacion'>
+            Paginas  
+            <a href='#' class='pagina'> 1 </a>
+            <a href='#' class='pagina'> 2 </a>            
         </div>  
     )
   }

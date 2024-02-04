@@ -61,3 +61,31 @@ export const Button = ({ name, text, className, handlerSubmit }) =>
 (    
     <button id={name} class={className} onClick={handlerSubmit}> {text} </button>    
 );
+
+export const Dialog = ({ message, isOpen, handlerYes, handlerNo }) => 
+(    
+    <dialog open={isOpen}>
+        <div class='win-dialog'>
+            <text class='text-base'> {message} </text> <br/><br/>
+            <button class='custom-button buttonYes' onClick={handlerYes}> SI </button>
+            <button class='custom-button buttonNo' onClick={handlerNo}> NO </button>
+        </div>
+    </dialog>  
+);
+
+/*
+export function Alert({ message, isOpen, handlerYes, handlerNo }) 
+{
+  //const [state, setState] = useState({ isOpen: false });
+
+  return (
+    <dialog open={isOpen}>
+        <div class='win-dialog'>
+            <text class='text-base'> {message} </text> <br/><br/>
+            <button class='custom-button buttonYes' onClick={handlerYes}> SI </button>
+            <button class='custom-button buttonNo'  onClick={handlerNo}> NO </button>
+        </div>
+    </dialog>
+  );
+}
+*/

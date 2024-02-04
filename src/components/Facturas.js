@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Utils, { Menu, FacturaRenglon, FacturaTitulo} from "./Utils";
+import Utils, { Menu, FacturaRenglon, FacturaTitulo, FacturaPaginacion} from "./Utils";
 import { useLocation } from 'react-router-dom'
 import Wrapper from './Wrapper';
 
@@ -31,8 +31,14 @@ function Facturas()
                         </div>                            
                     </div>
 
-                    <FacturaTitulo/>                                        
-                    {Facturas.map(factura => (<FacturaRenglon factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} importe={factura.faC_IMPORTE}/> ))}                    
+                    <div class='contenido'>
+                        <FacturaTitulo/>   
+                        <div class='renglones'>                                                                
+                            {Facturas.map(factura => (<FacturaRenglon factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} importe={factura.faC_IMPORTE}/> ))}                    
+                        </div>
+                        <FacturaPaginacion/>
+                    </div>
+                        
                 </div>
             </div>
 

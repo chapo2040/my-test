@@ -161,6 +161,36 @@ select
      font-size: 18px;
 }
 
+dialog
+{    
+    margin: auto;
+    position:fixed;
+    border: none;  
+    border-radius: 15px;  
+    margin-top: 150px;    
+ }
+
+dialog .win-dialog
+{    
+    background-color: white; 
+    box-shadow: 0px 0px 500px 800px rgba(92, 90, 88, 0.4);    
+    border: solid 1px rgb(219, 208, 208);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+dialog .buttonYes
+{    
+    width: 80px;
+}
+
+dialog .buttonNo
+{    
+    width: 80px;
+    margin-left: 10px;
+}
+
 .pnlSeccion
 {   
     display: flex;
@@ -168,9 +198,9 @@ select
     justify-content: left;
     background-color: #ffffff;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    border-radius: 3px;
-    padding: 5px;
+    border-radius: 3px;    
     width: 100%;
+    height: 50px;
     margin-bottom: 8px;
 }
 
@@ -178,14 +208,16 @@ select
 {       
     color:#d97b0f;      
     font-weight: 500;
-    text-align: left;
+    text-align: left;    
     width: 80%;
+    margin-top: 15px;
     margin-left: 10px;
 }
 
 .pnlSeccion .seccion2
 {       
-    align-items: right;    
+    align-items: right;
+    margin-top: 12px;
 }
 
 /************************************ LOGIN ******************************************/
@@ -613,6 +645,13 @@ select
     margin-right: 10px; 
 }
 
+.pnlClientes .contenido
+{
+    background-color: white;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;    
+}
+
 .pnlClientes .agregar 
 {
     font-size: 14px;
@@ -621,15 +660,65 @@ select
     width: 100px;
 }
 
-.pnlClientes .itemCliente
-{    
-    display: flex;
-    background: #fff;
-    text-align: left; 
-    text-align: left;
-    padding: 5px 5px;
+.pnlClientes .renglones
+{
+    background-color: white;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
+    height: 400px;    
+}
+
+.pnlClientes .paginacion
+{    
+    background-color: white;
+    border-top: solid 1px rgba(163, 163, 163, 0.805);
+    border-radius: 3px;    
+    padding: 5px 5px;  
+    text-align: center;
+}
+
+.pnlClientes .pagina
+{    
+    text-decoration: none;
+    color: blue;
+    margin-left: 10px;
+}
+
+.pnlClientes .itemClienteTitulo
+{    
+    display: flex;    
+    text-align: left;     
+    padding: 5px 5px;    
+    background-color: whitesmoke;
+    border-bottom: solid 1px rgba(163, 163, 163, 0.805);
+}
+
+.pnlClientes .itemClienteTitulo .rfc
+{       
+    padding: 2px 5px;
+    width: 25%;
+}
+
+.pnlClientes .itemClienteTitulo .descripcion
+{       
+    padding: 2px 5px;
+    width: 55%;
+}
+
+.pnlClientes .itemClienteTitulo .acciones
+{   
+    padding: 2px 5px;
+    width: 20%;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.pnlClientes .itemCliente
+{    
+    display: flex;    
+    text-align: left;     
+    padding: 5px 5px;
+    border-bottom: solid 1px rgba(163, 163, 163, 0.805);
 }
 
 .pnlClientes .itemCliente .rfc
@@ -726,23 +815,90 @@ select
 
 .pnlFacturas
 {
-    border-radius: 5px;
+    border-radius: 3px;
     width: 85%;  
     margin-top: 20px;    
     margin-right: 10px; 
 }
 
+.pnlFacturas .contenido
+{
+    background-color: white;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;    
+}
+
+.pnlFacturas .renglones
+{
+    background-color: white;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    height: 400px;    
+}
+
+.pnlFacturas .paginacion
+{    
+    background-color: white;
+    border-top: solid 1px rgba(163, 163, 163, 0.805);
+    border-radius: 3px;    
+    padding: 5px 5px;  
+    text-align: center;
+}
+
+.pnlFacturas .pagina
+{    
+    text-decoration: none;
+    color: blue;
+    margin-left: 10px;
+}
+
+.pnlFacturas .itemFacturaTitulo
+{    
+    display: flex;    
+    text-align: left; 
+    text-align: left;
+    padding: 3px 5px 0px 5px;   
+    background-color: whitesmoke;
+    border-bottom: solid 1px rgba(163, 163, 163, 0.805);
+}
+
+.pnlFacturas .itemFacturaTitulo .numero
+{       
+    font-size: 15px;
+    padding: 2px 5px;
+    width: 12%;
+}
+
+.pnlFacturas .itemFacturaTitulo .descripcion
+{       
+    font-size: 15px;
+    padding: 2px 5px;
+    width: 53%;
+}
+
+.pnlFacturas .itemFacturaTitulo .importe
+{       
+    font-size: 15px;
+    padding: 2px 5px;
+    width: 15%;
+}
+
+.pnlFacturas .itemFacturaTitulo .acciones
+{   
+    padding: 2px 5px;
+    width: 20%;
+    margin-left: 5px;
+    text-align: center;
+}
 
 .pnlFacturas .itemFactura
 {    
-    display: flex;
-    background: #fff;
+    display: flex;    
     text-align: left; 
     text-align: left;
-    padding: 3px 5px 0px 5px;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    border-radius: 3px;
-    margin-bottom: 5px;
+    padding: 3px 5px 0px 5px;   
+    background-color: white;
+    border-bottom: solid 1px rgba(163, 163, 163, 0.805);
 }
 
 .pnlFacturas .itemFactura .numero
@@ -774,19 +930,19 @@ select
     text-align: center;
 }
 
-.pnlFacturas .itemFactura .acciones .lupa
+.pnlFacturas .lupa
 { 
     width: 17px;
     margin-left: 5px;    
 }
 
-.pnlFacturas .itemFactura .acciones .pdf
+.pnlFacturas .pdf
 { 
     width: 17px;
     margin-left: 10px;    
 }
 
-.pnlFacturas .itemFactura .acciones .descargar
+.pnlFacturas .descargar
 { 
     width: 17px;
     margin-left: 10px;    
