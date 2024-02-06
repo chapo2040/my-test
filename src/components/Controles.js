@@ -65,8 +65,8 @@ export const Button = ({ name, text, className, handlerSubmit }) =>
 export const Dialog = ({ message, isOpen, handlerYes, handlerNo }) => 
 (    
     <dialog open={isOpen}>
-        <div class='win-dialog'>
-            <text class='text-base'> {message} </text> <br/><br/>
+      <div className='win-dialog'>
+          <text className='text-base'> {message} </text> <br/><br/>
             <button class='custom-button buttonYes' onClick={handlerYes}> SI </button>
             <button class='custom-button buttonNo' onClick={handlerNo}> NO </button>
         </div>

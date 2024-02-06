@@ -163,11 +163,14 @@ select
 
 dialog
 {    
-    margin: auto;
-    position:fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);    
     border: none;  
-    border-radius: 15px;  
-    margin-top: 150px;    
+    border-radius: 15px;      
  }
 
 dialog .win-dialog
@@ -189,6 +192,18 @@ dialog .buttonNo
 {    
     width: 80px;
     margin-left: 10px;
+}
+
+
+dialog .toast
+{    
+    background-color: white; 
+    box-shadow: 0px 0px 500px 800px rgba(92, 90, 88, 0.4);    
+    border: solid 1px rgb(219, 208, 208);
+    border-radius: 15px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;    
 }
 
 .pnlSeccion

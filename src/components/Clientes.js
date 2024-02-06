@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Utils, { Menu, ClienteRenglon, ClienteTitulo, ClientePaginacion} from "./Utils";
 import { useNavigate, useLocation } from 'react-router-dom'
-import Wrapper from './Wrapper';
+
 import { Alert, Button, Dialog } from './Controles';
+import { useConfirm } from './ConfirmationContext.tsx';
+
+import Wrapper from './Wrapper';
 
 function Clientes() 
 {       
     const location = useLocation();  
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();     
+    const confirmation = useConfirm();
     
     const [Clientes, setCliente] = useState([]);
     const [Sesion, setSesion] = useState({clave: 0, nombre: '', correo: '', password: '', membresia: 1, recordarme: false });
@@ -47,7 +51,7 @@ function Clientes()
         navigate('/clienteagregar', { state: { edit:true, cliente: llCliente } } );  
     }  
 
-    function OnDelete(event)
+    async function OnDelete(event)
     { 
         const llCliente = event.currentTarget.getAttribute('cliente');
         const lsNombre = event.currentTarget.getAttribute('nombre');
@@ -55,9 +59,10 @@ function Clientes()
         //alert('Borrar | Sesion: ' + Sesion.clave + ' - Cliente: ' + lsNombre);
         //navigate('/clientes');
 
-        var lbRespueta = window.confirm("¿Este seguro de borrar al cliente " + lsNombre + "?");
-        if (lbRespueta) 
-        {         
+        const choice = await confirmation({ message: '¿Esta seguro de borrar al cliente ' + lsNombre + ' ?'});
+        
+        if (choice) 
+        {
             //alert('YES !');
             Wrapper.delete(`Clientes/${Sesion.clave}, ${llCliente}`)
             .then(response => 
@@ -69,34 +74,15 @@ function Clientes()
         else 
         {
             //alert('NO !');
-        }        
-    } 
+        }    
+    }     
+
 
     useEffect(() => 
     {
         ObtenerSesion();
         LlenaClientes(); 
     }, []);  
-
-
-
-    const AbrirAlerta = () => 
-    {
-        //alert('AbrirAlerta !');
-        setOpen(true);
-    }; 
-
-    const Confirmacion = () => 
-    {
-        //alert('Confirmacion !');
-        setOpen(false);
-    };   
-
-    const Cancelar = () => 
-    {
-        //alert('Cancelar !');
-        setOpen(false);
-    };   
 
 
     return (
@@ -112,9 +98,7 @@ function Clientes()
                             <button id='button' class='custom-button agregar' onClick={OnSubmit}> + AGREGAR </button>
                         </div>                            
                     </div>
-
-                    <Dialog message='¿Deseas borrar este cliente?' isOpen={isOpen} handlerYes={Confirmacion} handlerNo={Cancelar} />
-                  
+                    
                     <div class='contenido'>
                         <ClienteTitulo />
                         <div class='renglones'>
@@ -122,9 +106,6 @@ function Clientes()
                         </div>
                         <ClientePaginacion />
                     </div>
-
-                    <br/>
-                    <Button name='btnTest' text='Prueba' className='custom-button' handlerSubmit={AbrirAlerta} />
 
                 </div>                
             

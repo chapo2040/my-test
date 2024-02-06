@@ -8,8 +8,6 @@ import ClienteAgregar from "./components/ClienteAgregar";
 import Facturas from "./components/Facturas";
 import Cuenta from "./components/Cuenta";
 
-
-
 function App() 
 {
 
