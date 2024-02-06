@@ -165,10 +165,7 @@ dialog
 {   
     top: 50%;
     left: 50%;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -ms-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);    
+    transform: translateX(-50%) translateY(-230%);    
     border: none;  
     border-radius: 15px;    
 }
@@ -182,7 +179,7 @@ dialog[open]
 {
     from 
     {
-      translate: 0 -100%;
+      translate: 0 150%;
       opacity: 0;
     }
 }
@@ -221,19 +218,20 @@ dialog .buttonNo
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: white;     
-    border: solid 1px rgb(178, 176, 173);
-    border-radius: 15px;    
-    width: 220px;
-    height: 60px;
-    text-align: center;    
+    background-color: rgb(247, 140, 26);     
+    border: solid 1px rgb(255, 255, 255);
+    border-radius: 5px;    
+    width: 180px;    
+    text-align: center;
 }
 
 .toast .texto
 {       
-    color:rgb(79, 75, 69);
+    color:rgb(255, 255, 255);
     border: none;
     border-radius: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .toast[open] 

@@ -7,6 +7,10 @@ import Controles, { Button, Password, TextBox, CheckBox, Input, Select } from ".
 import Utils, { Menu } from "./Utils";
 import Wrapper from './Wrapper';
 
+import { useConfirm } from './ConfirmationContext.tsx';
+import { useAlert } from './AlertContext.tsx';
+import { useToast } from './ToastContext.tsx';
+
 import imgLupa from '../images/btnLupa.png'
 
 function ClienteAgregar() 
@@ -15,6 +19,10 @@ function ClienteAgregar()
     const [file, setFile] = useState();
     const [Sesion, setSesion] = useState({clave: 0, nombre: '', correo: '', password: '', membresia: 1, recordarme: false });
     const [btnTitulo, setTitulo] = useState('Guardar');
+
+    const confirmation = useConfirm();
+    const Toast = useToast();
+    const Alert = useAlert();
 
     const navigate = useNavigate(); 
     const {state} = useLocation();
@@ -102,14 +110,15 @@ function ClienteAgregar()
             if(state.edit===true)
             {
                 Wrapper.put(`Clientes/${state.cliente}`, { clI_USUCVE: Sesion.clave, clI_CLAVE: 34,  clI_RFC: data.txtRFC, clI_NOMBRE: data.txtNombre})
-               .then(response => {  alert('Cliente actualizado ! ');  }).catch(error => { alert(error);});       
+               .then(response => {  Toast('Cliente actualizado.' );  }).catch(error => { alert(error);});       
             }
             else
             {
                 Wrapper.post(`Clientes`, { clI_USUCVE: Sesion.clave, clI_CLAVE: 34,  clI_RFC: data.txtRFC, clI_NOMBRE: data.txtNombre})
                 .then(response => 
                 {
-                    alert('Cliente agregado con éxito ! '); 
+                    //alert('Cliente agregado con éxito ! '); 
+                    Toast('Cliente agregado.' );
                     navigate('/clientes');
                 }).catch(error => { alert(error);});
             }

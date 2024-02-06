@@ -8,12 +8,20 @@ import Controles, { Button, Password, TextBox, CheckBox, Input, Select } from ".
 import Utils, { Menu, Movimiento } from "./Utils";
 import Wrapper from './Wrapper';
 
+import { useConfirm } from './ConfirmationContext.tsx';
+import { useAlert } from './AlertContext.tsx';
+import { useToast } from './ToastContext.tsx';
+
 function Cuenta() 
 {       
     const {register, handleSubmit, reset, formState: { errors }} = useForm();   
 
     const navigate = useNavigate(); 
     const location = useLocation();  
+
+    const confirmation = useConfirm();
+    const Toast = useToast();
+    const Alert = useAlert();
     
     const [Membresias, setMembresia] = useState([]);
     const [Usuario, setUsuario] = useState({usU_CLAVE: 0, usU_NOMBRE: '', usU_CORREO: '', usU_PASSWORD: '', usU_PLAN: 0, usU_REGISTRO: '' });
@@ -77,7 +85,7 @@ function Cuenta()
         {
             //alert('Guardar: ' + Sesion.clave);  
             Wrapper.put(`Usuarios/${Sesion.clave}`, { usU_CLAVE: Sesion.clave, usU_NOMBRE: data.txtNombre, usU_CORREO: data.txtCorreo, usU_PASSWORD: data.txtPassword, usU_PLAN: data.cbxMembresia, usU_REGISTRO: data.txtRegistro})
-            .then(response => {  alert('Usuario actualizado ! ');  }).catch(error => { alert(error);});
+            .then(response => { Toast('Usuario actualizado' );  }).catch(error => { alert(error);});
         }
     }  
 
