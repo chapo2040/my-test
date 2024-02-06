@@ -3,7 +3,10 @@ import Utils, { Menu, ClienteRenglon, ClienteTitulo, ClientePaginacion} from "./
 import { useNavigate, useLocation } from 'react-router-dom'
 
 import { Alert, Button, Dialog } from './Controles';
+
 import { useConfirm } from './ConfirmationContext.tsx';
+import { useAlert } from './AlertContext.tsx';
+import { useToast } from './ToastContext.tsx';
 
 import Wrapper from './Wrapper';
 
@@ -11,7 +14,11 @@ function Clientes()
 {       
     const location = useLocation();  
     const navigate = useNavigate();     
+        
     const confirmation = useConfirm();
+    const Toast = useToast();
+    const Alert = useAlert();
+
     
     const [Clientes, setCliente] = useState([]);
     const [Sesion, setSesion] = useState({clave: 0, nombre: '', correo: '', password: '', membresia: 1, recordarme: false });
@@ -59,7 +66,7 @@ function Clientes()
         //alert('Borrar | Sesion: ' + Sesion.clave + ' - Cliente: ' + lsNombre);
         //navigate('/clientes');
 
-        const choice = await confirmation({ message: '¿Esta seguro de borrar al cliente ' + lsNombre + ' ?'});
+        const choice = await confirmation('¿Esta seguro de borrar al cliente ' + lsNombre + ' ?');
         
         if (choice) 
         {
@@ -68,6 +75,7 @@ function Clientes()
             .then(response => 
             {
                 //alert('Cliente borrado con éxito ! '); 
+                Toast('¡ Cliente eliminado !' );
                 LlenaClientes(); 
             }).catch(error => { alert(error);});
         }

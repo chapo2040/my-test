@@ -3,10 +3,10 @@ import React from "react";
 export default function Toast({ message, isOpen }) 
 { 
   return (
-    <dialog open={isOpen}>
-      <div className='toast'>
-        <div>
-            <text className='text-base'> {message} </text> <br/><br/>          
+    <dialog className='toast' open={isOpen}>
+      <div className='contenido'>
+        <div className='texto'>
+            <text className='text-base'> {message} </text>        
         </div>
       </div>
     </dialog> 

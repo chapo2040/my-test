@@ -19,8 +19,8 @@ function Login()
     const confirmation = useConfirm();
     const Toast = useToast();
     const Alert = useAlert();
-
-    const [Sesion, setSesion] = useState({});
+        
+    const [Sesion, setSesion] = useState({});    
     
     function ObtenerSesion()
     {
@@ -102,23 +102,24 @@ function Login()
     
     async function OnSubmit(data)
     {           
+        //alert('OnSubmit | isOpenDialog: ' + isOpen);
         //alert('OnSubmit | chkRecordar: ' + data.chkRecordar);
         
         //confirmationDialog('¿Desea eliminar este cliente?', GuardarDato);        
-        //Toast('¡ Cliente eliminado !' );
         //Alert('¡ Cliente eliminado !', GuardarDato);
+        //Toast('¡ Cliente eliminado !' );
 
-        const choice = await confirmation({ message: '¿Esta seguro de borrar al cliente ?'});        
-        if (choice){ Toast('¡ Cliente eliminado !' ); }
-        else { Toast('¡ Cancelar !' );  }    
-        
         /*
+        const choice = await confirmation('¿Esta seguro de borrar al cliente ?');
+        if (choice){ Toast('¡ Cliente eliminado !' ); }
+        else { Toast('¡ Cancelar !' ); }
+        */
+        
         if(validateForm(data)===true)
         {
             //alert('Login ok !');
             EnviarLogin(data);            
         } 
-        */
     }
 
     function validateForm(data)

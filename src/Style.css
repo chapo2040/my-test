@@ -162,7 +162,7 @@ select
 }
 
 dialog
-{    
+{   
     top: 50%;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
@@ -170,8 +170,22 @@ dialog
     -ms-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);    
     border: none;  
-    border-radius: 15px;      
- }
+    border-radius: 15px;    
+}
+
+dialog[open] 
+{    
+    animation: modal-in 500ms forwards ease;
+}
+  
+@keyframes modal-in 
+{
+    from 
+    {
+      translate: 0 -100%;
+      opacity: 0;
+    }
+}
 
 dialog .win-dialog
 {    
@@ -194,17 +208,46 @@ dialog .buttonNo
     margin-left: 10px;
 }
 
-
-dialog .toast
+.toast
 {    
-    background-color: white; 
-    box-shadow: 0px 0px 500px 800px rgba(92, 90, 88, 0.4);    
-    border: solid 1px rgb(219, 208, 208);
-    border-radius: 15px;
-    padding: 20px;
-    width: 300px;
+    top: 5%;
+    left: 60%;
+    border: none;  
+    border-radius: 15px; 
+}
+
+.toast .contenido
+{    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;     
+    border: solid 1px rgb(178, 176, 173);
+    border-radius: 15px;    
+    width: 220px;
+    height: 60px;
     text-align: center;    
 }
+
+.toast .texto
+{       
+    color:rgb(79, 75, 69);
+    border: none;
+    border-radius: 15px;
+}
+
+.toast[open] 
+{
+    animation-name: toast-move;
+    animation-duration: 0.7s;
+    animation-direction: normal;
+}
+  
+@keyframes toast-move 
+{
+    0% { opacity: 0; transform: translateX(65%); }
+    100% { opacity: 1; transform: translateX(30%); }
+}  
 
 .pnlSeccion
 {   

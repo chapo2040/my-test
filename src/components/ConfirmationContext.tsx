@@ -1,31 +1,34 @@
 import React, { createContext, useContext, useRef, useState } from 'react';
 import ConfirmationDialog from './Dialogs.tsx';
- 
-interface ConfirmDialogProps 
-{  
-  message: string; 
-}
- 
-const ConfirmDialog = createContext<(data: ConfirmDialogProps) => Promise<boolean>>(() => 
+
+const ConfirmDialog = createContext<(message: string) => Promise<boolean>>(() => 
 {  throw new Error('ConfirmDialogProvider not found'); });
 
-export function ConfirmDialogProvider({ children, }: {  children: React.ReactNode; }) 
+interface ConfirmDialogProps 
+{  
+    children?: React.ReactNode;
+}
+
+export function ConfirmDialogProvider(props: ConfirmDialogProps) 
 { 
+  const { children } = props;
   const [state, setState] = useState({ visible: false });
   const [message, setMessage] = useState<string | undefined>();
   const fn = useRef<(choice: boolean) => void>(() => false);
 
-    const confirm = (data: ConfirmDialogProps): Promise<boolean> => 
+    const confirm = (message: string): Promise<boolean> => 
     {
         return new Promise((resolve, reject) => 
         {
             if (state.visible) 
             {
-                reject(new Error('Confirm already called'));
+                //alert('ya abierta !');
+                //reject(new Error('Confirm already called'));
+                return;
             }
             
-            setState({ ...data, visible: true });
-            setMessage(data.message);
+            setState({ visible: true });
+            setMessage(message);
 
             fn.current = (choice: boolean) => 
             {
@@ -38,12 +41,12 @@ export function ConfirmDialogProvider({ children, }: {  children: React.ReactNod
     return (
         <ConfirmDialog.Provider value={confirm}>
         {children}
-            <ConfirmationDialog
+        <ConfirmationDialog
             isOpen={state.visible}
             message={message}
             handlerYes={ ()=>{ fn.current(true) }}
             handlerNo={ ()=>{ fn.current(false) } }                      
-            />
+        />
 
         </ConfirmDialog.Provider>
     );
