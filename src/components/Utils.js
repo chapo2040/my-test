@@ -20,7 +20,7 @@ import imgBorrar from '../images/borrar.png'
 import imgLupa from '../images/lupa.png'
 import imgDescargar from '../images/descargar.png'
 import imgPDF from '../images/pdf.png'
-
+import imgXML from '../images/xml.png'
 
 export class Menu extends Component
 {  
@@ -171,16 +171,16 @@ export class Movimiento extends Component
         <div class='itemMovimiento'>
 
           <div class='descripcion'>
-             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} onClick={this.props.handler}> <img src={imgBorrar} class='borrar' /> </a>
-            <label class='info'> {this.props.usuario} - {this.props.cliente} - {this.props.factura} - {this.props.descripcion} </label> 
+             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} onClick={this.props.handler}> <img src={imgBorrar} class='borrar' /></a>
+            <label> {this.props.usuario} - {this.props.cliente} - {this.props.factura} - {this.props.descripcion} </label> 
           </div>
 
           <div class='cargo'>
-            <p class='cantidad'> ${this.props.cargo} </p>              
+            <p> ${this.props.cargo} </p>              
           </div>
 
           <div class='abono'>
-            <p class='cantidad'> ${this.props.abono} </p>              
+            <p> ${this.props.abono} </p>              
           </div>         
 
         </div>  
@@ -253,11 +253,11 @@ export class ClienteRenglon extends Component
         <div class='itemCliente'>
 
           <div class='rfc'>
-            <span class='titulo'> {this.props.rfc} </span>            
+            <span> {this.props.rfc} </span>            
           </div>
 
           <div class='descripcion'>            
-            <span class='titulo'> {this.props.nombre} </span>
+            <span> {this.props.nombre} </span>
           </div>
 
           <div class='acciones'>
@@ -309,21 +309,22 @@ export class FacturaRenglon extends Component
         <div class='itemFactura'>
 
           <div class='numero'>
-            <span class='titulo'> {this.props.factura} </span>
+            <span> {this.props.factura} </span>
           </div>
 
           <div class='descripcion'>
-            <span class='titulo'> {this.props.descripcion} </span>
+            <span> {this.props.descripcion} </span>
           </div>
 
           <div class='importe'>
-            <span class='titulo'> ${this.props.importe} </span>
+            <span> ${this.props.importe} </span>
           </div>          
 
           <div class='acciones'>
-              <a href='#'><img src={imgLupa} class='lupa' /></a>
+              {/*<a href='#'><img src={imgLupa} class='lupa' /></a>*/}
               <a href='#'><img src={imgPDF} class='pdf' /></a>
-              <a href='#'><img src={imgDescargar} class='descargar' /></a>
+              {/*<a href='#'><img src={imgDescargar} class='descargar' /></a>*/}
+              <a href='#'><img src={imgXML} class='xml' /></a>              
           </div>
 
         </div>  

@@ -29,6 +29,9 @@ function ClienteAgregar()
     const location = useLocation();      
     const inputFile = useRef(null);
 
+    const [isEdit, setEdit] = useState(false);
+    const [ClienteClave, setCliente] = useState(0);
+
     const onButtonClick = () => 
     {
         //alert('onButtonClick !');     
@@ -66,6 +69,9 @@ function ClienteAgregar()
 
         if(state.edit===true)
         {
+            setEdit(true);
+            setCliente(state.cliente);
+
             //alert('Cargar Cliente ! ');  
             Wrapper.get(`Clientes/cliente?piUsuario=${piUsuario}&plCliente=${state.cliente}`).then(response => 
             {             
@@ -75,7 +81,10 @@ function ClienteAgregar()
 
                 reset({
                     txtRFC: response.data[0].clI_RFC,
-                    txtNombre: response.data[0].clI_NOMBRE
+                    txtNombre: response.data[0].clI_NOMBRE,
+                    txtFiel: response.data[0].clI_FIEL,
+                    txtKey: response.data[0].clI_KEY,
+                    txtPassword: response.data[0].clI_PASSWORD
                 });
     
                 })
@@ -88,7 +97,7 @@ function ClienteAgregar()
                 txtNombre: 'cliente 3',
                 txtCorreo: 'prueba@hotmail.com',
                 txtFiel: 'fiel.cer',
-                txtKey: 'fie.key',
+                txtKey: 'archivo.key',
                 txtPassword: '123'
             });
         }
@@ -103,24 +112,38 @@ function ClienteAgregar()
     {           
         if(validateForm(data)===true)
         {
-            //alert('AGREGAR CLIENTE: ' + data.txtNombre);   
+            //alert('AGREGAR CLIENTE: ' + isEdit);   
             //navigate('/clientes');
-
-            if(state.edit===true)
+            
+            //alert('OnSubmit | Edit: ' + isEdit + " - Cliente: " + ClienteClave);
+                       
+            if(isEdit===false)
             {
-                Wrapper.put(`Clientes/${state.cliente}`, { clI_USUCVE: Sesion.clave, clI_CLAVE: 34,  clI_RFC: data.txtRFC, clI_NOMBRE: data.txtNombre})
-               .then(response => {  Toast('Cliente actualizado.' );  }).catch(error => { alert(error);});       
-            }
-            else
-            {
-                Wrapper.post(`Clientes`, { clI_USUCVE: Sesion.clave, clI_CLAVE: 34,  clI_RFC: data.txtRFC, clI_NOMBRE: data.txtNombre})
+                Wrapper.post(`Clientes/agregar`, { clI_USUCVE: Sesion.clave, clI_RFC: data.txtRFC, clI_NOMBRE: data.txtNombre, clI_FIEL: data.txtFiel, clI_KEY: data.txtKey, clI_PASSWORD: data.txtPassword } )
                 .then(response => 
                 {
                     //alert('Cliente agregado con éxito ! '); 
                     Toast('Cliente agregado.' );
                     navigate('/clientes');
-                }).catch(error => { alert(error);});
+                }
+                ).catch(error => 
+                {
+                    Alert(String(error));
+                });                
             }
+            else
+            {
+                Wrapper.post(`Clientes/actualizar/`, { clI_USUCVE: Sesion.clave, clI_CLAVE: ClienteClave, clI_RFC: data.txtRFC, clI_NOMBRE: data.txtNombre, clI_FIEL: data.txtFiel, clI_KEY: data.txtKey, clI_PASSWORD: data.txtPassword } )
+               .then(response => 
+                { 
+                     Toast('Cliente actualizado.' );  
+                     navigate('/clientes');
+                }
+                ).catch(error => 
+                {
+                    Alert(String(error));
+                });       
+            }            
 
         }
     }  
@@ -131,17 +154,17 @@ function ClienteAgregar()
 
         if(data.txtRFC == '' || data.txtRFC == undefined)      
         {
-            alert("¡ rfc necesario !");
+            Alert("RFC necesario");
             return false;
         }
         else if(data.txtNombre == '' || data.txtNombre == undefined)
         {
-            alert("¡ Nombre necesario !");            
+            Alert("Nombre necesario");
             return false;
         }     
         else if(data.txtPassword == '' || data.txtPassword == undefined)    
         {
-            alert("¡ Contraseña necesaria !");
+            Alert("Contraseña necesaria");
             return false;
         } 
         
@@ -163,32 +186,24 @@ function ClienteAgregar()
                         <div class='frmTitulo'> AGREGAR CLIENTE </div>   
 
                         <br/>
-                        RFC                        
                         <TextBox name='txtRFC' placeholder="RFC" className='input-underline input' register={register} validationSchema={{required:"RFC requerido."}} errors={errors} />
-                        <br/>
-
-                        NOMBRE
+                                                
                         <TextBox name='txtNombre' placeholder="Nombre" className='input-underline input' register={register} validationSchema={{required:"Nombre requerido."}} errors={errors} />
-                        <br/>
-
-                        <div>
-                            FIEL
+                        
+                        <div>                        
                             <TextBox name='txtFiel' placeholder="FIEL" className='input-underline input' register={register} validationSchema={{required:"FIEL requerida."}} errors={errors} />
                             <input type="file" ref={inputFile} onChange={handleChange} />
                         </div>
                         <br/>
 
                         <div>
-                            KEY
                             <TextBox name='txtKey' placeholder="Key" className='input-underline input' register={register} validationSchema={{required:"KEY requerido."}} errors={errors} />
                             <input type="file" ref={inputFile} onChange={handleChange} />
                         </div>
-                        <br/>
+                        <br/>                        
 
-                        CONTRASEÑA
                         <Password name='txtPassword' placeholder="Contraseña" className='input-underline input txtConfiguracion' register={register} validationSchema={{ required: "Contraseña requerida."}} errors={errors} /> 
-                        <br/>
-                    
+                                            
                         <center>                            
                             <Button name='btnGuardar' text={btnTitulo} className ='custom-button submit'/>
                         </center>
