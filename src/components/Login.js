@@ -10,7 +10,6 @@ import { useToast } from './ToastContext.tsx';
 
 import imgLogo from '../images/logo.jpg'
 
-
 function Login() 
 {
     const {register, handleSubmit, reset, formState: { errors }} = useForm();   
@@ -107,19 +106,19 @@ function Login()
         
         //confirmationDialog('¿Desea eliminar este cliente?', GuardarDato);        
         //Alert('¡ Cliente eliminado !', GuardarDato);
-        //Toast('¡ Cliente eliminado !' );
+        //Toast('Cliente eliminado' );
 
         /*
         const choice = await confirmation('¿Esta seguro de borrar al cliente ?');
         if (choice){ Toast('¡ Cliente eliminado !' ); }
         else { Toast('¡ Cancelar !' ); }
-        */
-        
+        */        
+
         if(validateForm(data)===true)
         {
             //alert('Login ok !');
             EnviarLogin(data);            
-        } 
+        }
     }
 
     function validateForm(data)
@@ -178,8 +177,8 @@ function Login()
                 <text class='font-sans text-sm'> ¿No tienes cuenta? </text>  <a href='#' class='link'> Registrarse </a>
                 </div>
                  
-                { /* <Alert message='hola' isOpen={true} /> */ }
-                { /*<Toast message='hola' isOpen={true} /> */ }
+                { /* <Alert message='hola' isOpen={true} /> 
+                  <Toast message='hola' isOpen={true} /> */ }
 
                 { /* Sesion | Clave: {Sesion.clave} - nombre: {Sesion.nombre} - correo: {Sesion.correo} - password: {Sesion.password} - membresia: {Sesion.membresia} -  recordarme: {String(Sesion.recordarme)} */}
 

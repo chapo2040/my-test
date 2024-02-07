@@ -157,7 +157,7 @@ select
 
 .link:hover 
 {
-     color: #e8a11e; 
+     color: #e97401;
      font-size: 18px;
 }
 
@@ -205,6 +205,45 @@ dialog .buttonNo
     margin-left: 10px;
 }
 
+.alert
+{   
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-150%);    
+    border: none;  
+    border-radius: 15px;   
+    width: 280px;    
+}
+
+.alert[open] 
+{    
+    animation: alert-in 500ms forwards ease;
+}
+  
+@keyframes alert-in 
+{
+    from 
+    {
+      translate: 0 150%;
+      opacity: 0;
+    }
+}
+
+.alert .contenido
+{    
+    background-color: white; 
+    box-shadow: 0px 0px 500px 800px rgba(92, 90, 88, 0.4);    
+    border: solid 1px #e97401;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.alert .buttonYes
+{    
+    width: 100px;
+}
+
 .toast
 {    
     top: 5%;
@@ -216,22 +255,49 @@ dialog .buttonNo
 .toast .contenido
 {    
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    background-color: rgb(247, 140, 26);     
-    border: solid 1px rgb(255, 255, 255);
+    background-color:rgba(255, 255, 255, 1);
+    border: solid 0px #e97401;
     border-radius: 5px;    
-    width: 180px;    
+    width: 220px; 
+    height: 50px;  
     text-align: center;
 }
 
-.toast .texto
+.toast .colBandaColor
+{  
+    background-color: #e97401;
+    width: 3%;
+}
+
+.toast .colImage
+{  
+    justify-content: center;    
+    border: solid 0px;
+    text-align: center;
+    width: 22%;
+}
+
+.toast .info
 {       
-    color:rgb(255, 255, 255);
-    border: none;
-    border-radius: 15px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 15px;
+    width: 22px;     
+}
+
+.toast .colTexto
+{  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    border: solid 0px;    
+    width: 75%;     
+}
+
+.toast .texto
+{      
+    text-align: left;
+    color: #e97401;
 }
 
 .toast[open] 
@@ -262,7 +328,7 @@ dialog .buttonNo
 
 .pnlSeccion .seccion1
 {       
-    color:#d97b0f;      
+    color:#e97401;      
     font-weight: 500;
     text-align: left;    
     width: 80%;
@@ -537,7 +603,7 @@ dialog .buttonNo
     display: flex;
     background: white;
     text-align: left;    
-    color: #d97b0f;
+    color: #e97401;
     width: 100%;
     margin-bottom: 5px;
 }
@@ -839,7 +905,7 @@ dialog .buttonNo
 .frmClienteAgregar .frmTitulo
 {   
     background-color: #ffffff;
-    color:#d97b0f;
+    color:#e97401;
     text-align: left;
     border-bottom: solid 1px;
     padding: 7px;   
@@ -1034,7 +1100,7 @@ dialog .buttonNo
 .frmTitulo
 {   
     background-color: #ffffff;
-    color: #d97b0f;
+    color: #e97401;
     border-bottom: solid 1px;    
     padding: 7px;    
     width: 100%;
