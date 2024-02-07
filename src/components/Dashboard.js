@@ -171,8 +171,10 @@ function Dashboard()
                     <div class='pnlFacturas'>
                         
                         <MovimientoTitulo />
-                        { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} cargo={factura.faC_IMPORTE} abono={factura.faC_IMPORTE} handler={OnDelete} /> )) }                        
-                        <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
+                        <div class='renglones'>
+                            { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} cargo={factura.faC_IMPORTE} abono={factura.faC_IMPORTE} handler={OnDelete} /> )) }                        
+                            <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
+                        </div>
                         <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
                         <br />
                         

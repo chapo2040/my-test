@@ -149,8 +149,9 @@ function Cuenta()
                         <center>                            
                             <Button name='btnGuardar' text='Guardar' className ='custom-button submit'/>
                         </center>
+                        
 
-                        Usuario | Clave: {Usuario.usU_CLAVE} - Nombre: {Usuario.usU_NOMBRE} - Correo: {Usuario.usU_CORREO} - Contraseña: {Usuario.usU_PASSWORD} - Plan: {Usuario.usU_PLAN} - Registro: {Usuario.usU_REGISTRO}
+                        { /* Usuario | Clave: {Usuario.usU_CLAVE} - Nombre: {Usuario.usU_NOMBRE} - Correo: {Usuario.usU_CORREO} - Contraseña: {Usuario.usU_PASSWORD} - Plan: {Usuario.usU_PLAN} - Registro: {Usuario.usU_REGISTRO} */}
 
                     </form> 
 

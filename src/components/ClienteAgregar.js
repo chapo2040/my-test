@@ -50,8 +50,7 @@ function ClienteAgregar()
 
     function ObtenerSesion()
     {
-        //alert('ObtenerSesion ! ');       
-        
+        //alert('ObtenerSesion ! ');        
         var loUsuario = JSON.parse(localStorage.getItem('usuario'));
         if (loUsuario) 
         {

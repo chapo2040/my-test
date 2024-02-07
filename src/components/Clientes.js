@@ -75,7 +75,7 @@ function Clientes()
             .then(response => 
             {
                 //alert('Cliente borrado con éxito ! '); 
-                Toast('¡ Cliente eliminado !' );
+                Toast('Cliente eliminado' );
                 LlenaClientes(); 
             }).catch(error => { alert(error);});
         }

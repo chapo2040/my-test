@@ -40,7 +40,7 @@ export class Menu extends Component
             </Link>           
           </div>
           <div class='menu'>            
-            <Link to={`/clientes`} class={ this.props.path=='/clientes' ? 'link-select' : 'link' }> 
+            <Link to={`/clientes`} class={ this.props.path=='/clientes' ||  this.props.path=='/clienteagregar'? 'link-select' : 'link' }> 
               <img src={imgCliente} class='icon'/>
               Clientes 
             </Link> 
@@ -66,32 +66,7 @@ export class Menu extends Component
             </Link> 
           </div>
 
-        </div>
-
-    /*
-    return(        
-
-      {this.props.path}
-      <br/><br/>
-
-      <div class='pnlMenu'>       
-                        
-            <img src={imgLogo} width={'120px'}/>
-            <br/><br/>
-            {this.props.path}
-            <br/><br/>
-            <img src={ this.props.path=='/dashboard' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
-            <Link to={`/dashboard`} class='link'> Contabilidad </Link> <br/>            
-            <img src={ this.props.path=='/clientes' || this.props.path=='/clienteagregar' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
-            <Link to={`/clientes`} class='link'> Clientes </Link> <br/> 
-            <img src={ this.props.path=='/facturas' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
-            <Link to={`/facturas`} class='link'> Facturas </Link> <br/> 
-            <img src={ this.props.path=='/cuenta' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
-            <Link to={`/cuenta`} class='link'> Mi Cuenta </Link> <br/> <br/> 
-            <img src={ this.props.path=='/' ? imgMenuFlecha : imgMenuFlecha2 } class='menu'/>
-            <Link to={`/`} class='link'> Cerrar Sesion </Link> 
-        </div>
-        */
+        </div>           
     )
   }
 }

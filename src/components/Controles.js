@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import imgInfo from '../images/info.png'
 
 export const TextBox = ({ name, value, defaultValue, placeholder, className, register, validationSchema, errors }) => 
 (
     <div>        
         <input type='text' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />
-        {errors[name] && errors[name]?.type === "required" && (<p className="errorMsg"> {errors[name]?.message} </p>)}
-        {errors[name] && errors[name]?.type === "pattern" && (<p className="errorMsg"> Formato no es valido.</p>)}
+        {errors[name] && errors[name]?.type === "required" && (<div className='pnlError'><img src={imgInfo} className='info' /> <p className="errorMsg"> {errors[name]?.message} </p> </div> )}
+        {errors[name] && errors[name]?.type === "pattern" && (<div className='pnlError'><img src={imgInfo} className='info' /> <p className="errorMsg"> Formato no es valido.</p> </div>)}
     </div>
 );
 
@@ -13,7 +14,7 @@ export const Password = ({ name, value, defaultValue, placeholder, className, re
 (    
     <div> 
         <input type='password' id={name} value={value} defaultValue={defaultValue} placeholder={placeholder} class={className} {...register(name, validationSchema)} />
-        {errors[name] && errors[name]?.type === "required" && (<p className="errorMsg"> {errors[name]?.message} </p>)}
+        {errors[name] && errors[name]?.type === "required" && (<div className='pnlError'><img src={imgInfo} className='info' /> <p className="errorMsg"> {errors[name]?.message} </p> </div>)}
     </div>
 );
 
@@ -72,20 +73,3 @@ export const Dialog = ({ message, isOpen, handlerYes, handlerNo }) =>
         </div>
     </dialog>  
 );
-
-/*
-export function Alert({ message, isOpen, handlerYes, handlerNo }) 
-{
-  //const [state, setState] = useState({ isOpen: false });
-
-  return (
-    <dialog open={isOpen}>
-        <div class='win-dialog'>
-            <text class='text-base'> {message} </text> <br/><br/>
-            <button class='custom-button buttonYes' onClick={handlerYes}> SI </button>
-            <button class='custom-button buttonNo'  onClick={handlerNo}> NO </button>
-        </div>
-    </dialog>
-  );
-}
-*/

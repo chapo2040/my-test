@@ -59,7 +59,8 @@ function Login()
 
             if(response.data.length===0)
             {
-                alert('Usuario y/o Password incorrecto ! ');   
+                //alert('¡ Usuario y/o Password incorrecto ! ');   
+                Alert("Usuario y/o contraseña incorrectos");
             }
             else
             {
@@ -93,19 +94,13 @@ function Login()
         .catch(error => { alert(error);});
     }
    
-    function GuardarDato() 
-    {
-        alert('GuardarDato !');
-
-    }; 
-    
     async function OnSubmit(data)
     {           
         //alert('OnSubmit | isOpenDialog: ' + isOpen);
         //alert('OnSubmit | chkRecordar: ' + data.chkRecordar);
         
         //confirmationDialog('¿Desea eliminar este cliente?', GuardarDato);        
-        //Alert('¡ Cliente eliminado !', GuardarDato);
+        //Alert('¡ Cliente eliminado !');
         //Toast('Cliente eliminado' );
 
         /*
@@ -125,12 +120,14 @@ function Login()
     {
         if(data.txtCorreo==='' || data.txtCorreo === undefined)    
         {
-            alert("¡ Correo necesario !");
+            //alert("¡ Correo necesario !");
+            Alert("¡ Correo necesario !");
             return false;
         }
         else if(data.txtPassword==='' || data.txtPassword === undefined)    
         {
-            alert("¡ contraseña necesaria !");
+            //alert("¡ contraseña necesaria !");
+            Alert("¡ Contraseña necesaria !");
             return false;
         }   
         
@@ -177,9 +174,6 @@ function Login()
                 <text class='font-sans text-sm'> ¿No tienes cuenta? </text>  <a href='#' class='link'> Registrarse </a>
                 </div>
                  
-                { /* <Alert message='hola' isOpen={true} /> 
-                  <Toast message='hola' isOpen={true} /> */ }
-
                 { /* Sesion | Clave: {Sesion.clave} - nombre: {Sesion.nombre} - correo: {Sesion.correo} - password: {Sesion.password} - membresia: {Sesion.membresia} -  recordarme: {String(Sesion.recordarme)} */}
 
             </form> 
