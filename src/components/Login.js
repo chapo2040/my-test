@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
 import {useNavigate} from 'react-router-dom';
+
+import axios from 'axios';
+import XMLParser from 'react-xml-parser';
+
+
 import Controles, { Button, Password, TextBox, CheckBox, Input } from "./Controles";
 import Wrapper from './Wrapper';
 
@@ -95,7 +100,68 @@ function Login()
     }
    
     async function OnSubmit(data)
-    {           
+    {   
+        //alert('OnSubmit ');   
+                
+        axios.get(process.env.PUBLIC_URL + '/docs/factura1.xml', {"Content-Type": "application/xml; charset=utf-8"})
+        .then((response) => 
+         {          
+            const xmlDoc = new XMLParser().parseFromString(response.data);
+            //console.log('Your xml file as string: ', xmlDoc);
+            //console.log(xmlDoc.getElementsByTagName('cfdi:Comprobante'));
+            
+            var rootElement = xmlDoc.getElementsByTagName("cfdi:Comprobante");
+            //console.log("rootElement: " + rootElement.length);
+
+            var atrFecha = rootElement[0].attributes['Fecha'];
+            var atrFolio = rootElement[0].attributes['Folio'];
+            //console.log("Fecha: " + atrFecha);
+            //console.log("Folio: " + atrFolio);
+
+            
+            /************** CONCEPTOS ***************/ 
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0]);
+            var loConceptos = rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0];          
+            var atrCantidad = loConceptos.attributes['Cantidad'];
+            var atrDescripcion = loConceptos.attributes['Descripcion'];
+            var atrValorUnitario = loConceptos.attributes['ValorUnitario'];
+            var atrImporte= loConceptos.attributes['Importe'];
+            //console.log("Cantidad: " + atrCantidad);
+            //console.log("Descripcion: " + atrDescripcion);
+            //console.log("ValorUnitario: " + atrValorUnitario);
+            //console.log("Importe: " + atrImporte);
+
+
+
+            /************** IMPUESTOS ***************/    
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0]);
+            console.log(rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0]);
+            var loImpuestos = rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0];
+            
+            var loTraslados = rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0];
+            var atrImporte = loTraslados.attributes['Importe'];
+            console.log("Importe: " + atrImporte);
+
+
+
+            /************** COMPLEMENTOS ***************/  
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0]);
+            //var loComplemento = rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0];            
+            //var atrCertificadoSAT = loComplemento.attributes['NoCertificadoSAT'];
+            //console.log("NoCertificadoSAT: " + atrCertificadoSAT);
+          
+            /************** TIMBRE ***************/ 
+            //console.log(rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0]);
+            //var loTimbre = rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0];            
+            //var SelloSAT = loTimbre.attributes['NoCertificadoSAT'];
+            //console.log("NoCertificadoSAT: " + SelloSAT);
+
+
+         });        
+
         //alert('OnSubmit | isOpenDialog: ' + isOpen);
         //alert('OnSubmit | chkRecordar: ' + data.chkRecordar);
         
@@ -109,11 +175,13 @@ function Login()
         else { Toast('¡ Cancelar !' ); }
         */        
 
+        /*
         if(validateForm(data)===true)
         {
             //alert('Login ok !');
             EnviarLogin(data);            
         }
+        */
     }
 
     function validateForm(data)
