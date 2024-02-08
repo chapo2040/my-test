@@ -171,16 +171,17 @@ export class Movimiento extends Component
         <div class='itemMovimiento'>
 
           <div class='descripcion'>
-             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} onClick={this.props.handler}> <img src={imgBorrar} class='borrar' /></a>
+             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerBorrar}><img src={imgBorrar} class='borrar' /></a>             
+             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerVer}><img src={imgXML} class='borrar' /></a>
             <label> {this.props.usuario} - {this.props.cliente} - {this.props.factura} - {this.props.descripcion} </label> 
           </div>
 
           <div class='cargo'>
-            <p> ${this.props.cargo} </p>              
+            <p> $ {this.props.tipo==1 ? this.props.importe : 0 } </p>
           </div>
 
           <div class='abono'>
-            <p> ${this.props.abono} </p>              
+            <p> $ {this.props.tipo==2 ? this.props.importe : 0 } </p>       
           </div>         
 
         </div>  
@@ -321,10 +322,10 @@ export class FacturaRenglon extends Component
           </div>          
 
           <div class='acciones'>
-              {/*<a href='#'><img src={imgLupa} class='lupa' /></a>*/}
-              <a href='#'><img src={imgPDF} class='pdf' /></a>
+              {/*<a href='#'><img src={imgLupa} class='lupa' /></a>*/}              
+              <a href='#'factura={this.props.factura} archivo={1} onClick={this.props.handler}><img src={imgPDF} class='pdf' /></a>              
               {/*<a href='#'><img src={imgDescargar} class='descargar' /></a>*/}
-              <a href='#'><img src={imgXML} class='xml' /></a>              
+              <a href='#'factura={this.props.factura} archivo={2} onClick={this.props.handler}><img src={imgXML} class='xml' /></a>              
           </div>
 
         </div>  

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
-import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
 import { useLocation } from 'react-router-dom'
-import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
 import Wrapper from './Wrapper';
+
+import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
+import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
+
+import { useConfirm } from './ConfirmationContext.tsx';
+import { useAlert } from './AlertContext.tsx';
+import { useToast } from './ToastContext.tsx';
 
 function Dashboard() 
 {   
@@ -16,6 +21,10 @@ function Dashboard()
     const [gdAbono, setAbono] = useState(0);
     
     const [Sesion, setSesion] = useState();
+
+    const confirmation = useConfirm();
+    const Toast = useToast();
+    const Alert = useAlert();
 
     function ObtenerSesion()
     {
@@ -41,7 +50,7 @@ function Dashboard()
 
         //alert('LlenaFacturas | cliente: ' + cliente); 
         //Wrapper.get(`Facturas`).then(response =>         
-        Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}`).then(response =>         
+        Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}&piStatus=1`).then(response =>         
         {
             //alert('LlenaFacturas | registros: ' + response.data.length);  
             setFactura(response.data); 
@@ -53,7 +62,7 @@ function Dashboard()
     useEffect(() => 
     { 
         ObtenerSesion();
-       LlenaClientes();        
+        LlenaClientes();        
     }, []);  
 
     function HazCuentas(paFacturas)
@@ -103,20 +112,47 @@ function Dashboard()
         alert('Mes: ' + event.target.value); 
     }
 
-    function OnDelete(event)
+    async function OnDelete(event)
     { 
-        const llUsuario = event.currentTarget.getAttribute('usuario');
+        const liUsuario = event.currentTarget.getAttribute('usuario');
         const llCliente = event.currentTarget.getAttribute('cliente');
         const llFactura = event.currentTarget.getAttribute('factura');
-        //alert('Factura Borrar | Usuario: ' + llUsuario + ' - Cliente: ' + llCliente + ' - factura: ' + llFactura);
-        //navigate('/dashboard');
+        const liTipo = event.currentTarget.getAttribute('tipo');
         
-        Wrapper.delete(`Facturas/${Sesion.clave}, ${llCliente}, ${llFactura}`)
-        .then(response => 
+        //alert('Factura Borrar | Usuario: ' + liUsuario + ' - Cliente: ' + llCliente + ' - factura: ' + llFactura + ' - tipo: ' + liTipo);
+        //navigate('/dashboard');        
+        
+        const choice = await confirmation('¿Esta seguro de borrar la factura ' + llFactura + ' ?');
+        
+        if (choice) 
+        {       
+            //Wrapper.delete(`Facturas/${Sesion.clave}, ${llCliente}, ${llFactura}`)                
+            //Wrapper.post(`Facturas/actualizar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: llCliente, faC_CLAVE: llFactura, faC_FOLIO: '', faC_DESCRIPCION: '', faC_TIPO: liTipo, faC_IMPORTE: 0, faC_FECHA: null, faC_STATUS: 1 })
+            Wrapper.post(`Facturas/actualizar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: llCliente, faC_CLAVE: llFactura, faC_TIPO: liTipo, faC_STATUS: 0 })
+            .then(response => 
+            {
+                //alert('Factura borrada con éxito ! '); 
+                Toast('Factura borrada');
+                LlenaFacturas(llCliente);
+            }).catch(error => { alert(error);});
+        }
+    } 
+
+    function OnView(event)
+    { 
+        const liUsuario = event.currentTarget.getAttribute('usuario');
+        const llCliente = event.currentTarget.getAttribute('cliente');
+        const llFactura = event.currentTarget.getAttribute('factura');
+        const liTipo = event.currentTarget.getAttribute('tipo');
+        
+        //alert('OnView | Usuario: ' + liUsuario + ' - Cliente: ' + llCliente + ' - factura: ' + llFactura + ' - tipo: ' + liTipo);
+        const windowFeatures = "left=100,top=100,width=800,height=800";        
+        const handle = window.open(process.env.PUBLIC_URL + "/docs/factura1.pdf", "_blank", windowFeatures);
+                
+        if (!handle) 
         {
-            alert('Factura borrada con éxito ! '); 
-            //LlenaClientes(); 
-        }).catch(error => { alert(error);});        
+
+        }   
     } 
 
     function TraerFacturas()
@@ -137,13 +173,14 @@ function Dashboard()
 
     function GuardaFacturas()
     {
-        alert('GuardaFacturas !');
+        //alert('GuardaFacturas !');
         
         // RUTINA API SAT
-        Wrapper.post(`Facturas`, { faC_USUCVE: Sesion.clave, faC_CLICVE: 2, faC_CLAVE: 776, faC_DESCRIPCION: 'PRUEBA CDFI', faC_IMPORTE: 300, faC_FECHA: '2024-02-03T04:51:10.372Z' })
+        Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: 2, faC_CLAVE: 0, faC_FOLIO: '9483', faC_DESCRIPCION: 'PRUEBA CDFI', faC_TIPO: 1, faC_IMPORTE: 300, faC_FECHA: null })
         .then(response => 
         {
-            alert('Factura agregada con éxito ! ');             
+            Toast('Factura agregada');
+            LlenaFacturas(2);         
         }).catch(error => { alert(error);});
     }
     
@@ -172,7 +209,7 @@ function Dashboard()
                         
                         <MovimientoTitulo />
                         <div class='renglones'>
-                            { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} cargo={factura.faC_IMPORTE} abono={factura.faC_IMPORTE} handler={OnDelete} /> )) }                        
+                            { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} tipo={factura.faC_TIPO} importe={factura.faC_IMPORTE} handlerBorrar={OnDelete} handlerVer={OnView} /> )) }                        
                             <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
                         </div>
                         <MovimientoTotal cargo={gdCargo} abono={gdAbono} />

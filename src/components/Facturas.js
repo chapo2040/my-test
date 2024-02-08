@@ -15,6 +15,25 @@ function Facturas()
         .catch(error => { alert(error);});
     }
 
+    function OnView(event)
+    {         
+        const llFactura = event.currentTarget.getAttribute('factura');
+        const liArchivo = event.currentTarget.getAttribute('archivo');
+
+        //alert('OnView | factura: ' + llFactura + '- archivo: ' + liArchivo);
+        
+        var lsExtencion = '';
+        if(liArchivo==1){lsExtencion='pdf';}
+        else if(liArchivo==2){lsExtencion='xml';}        
+        
+        const windowFeatures = "left=100,top=100,width=800,height=800";        
+        const handle = window.open(process.env.PUBLIC_URL + "/docs/factura" + llFactura + "." + lsExtencion, "_blank", windowFeatures);                
+        
+        if (!handle){
+
+        }   
+    }     
+
     useEffect(() => { LlenaFacturas(); }, []);  
 
     return (
@@ -34,7 +53,7 @@ function Facturas()
                     <div class='contenido'>
                         <FacturaTitulo/>   
                         <div class='renglones'>                                                                
-                            {Facturas.map(factura => (<FacturaRenglon factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} importe={factura.faC_IMPORTE}/> ))}                    
+                            {Facturas.map(factura => (<FacturaRenglon factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} importe={factura.faC_IMPORTE} handler= {OnView} /> ))}                    
                         </div>
                         <FacturaPaginacion/>
                     </div>
