@@ -177,11 +177,11 @@ export class Movimiento extends Component
           </div>
 
           <div class='cargo'>
-            <p> $ {this.props.tipo==1 ? FormatNumber(this.props.impuestoImporte) : 0 } </p>
+            <p> $ {this.props.tipo==2 ? FormatNumber(this.props.impuestoImporte) : 0 } </p>
           </div>
 
           <div class='abono'>
-            <p> $ {this.props.tipo==2 ? FormatNumber(this.props.impuestoImporte) : 0 } </p>       
+            <p> $ {this.props.tipo==1 ? FormatNumber(this.props.impuestoImporte) : 0 } </p>       
           </div>         
 
         </div>  
@@ -191,9 +191,19 @@ export class Movimiento extends Component
 
 export default function FormatNumber(numero) 
 {   
-  const options = { maximumFractionDigits: 2   }   
-  const formattedNumber = Intl.NumberFormat("en-US", options).format(numero); 
-  //const formattedNumber = Intl.NumberFormat('en-US', { style: 'currency' });
+  //const newNumbeR = Number(numero).toFixed(2);
+  //const formattedNumber = newNumbeR.toLocaleString(navigator.language, { maximumFractionDigits: 2 })  
+
+  //const options = { maximumFractionDigits: 2 }     
+  //const formattedNumber = Intl.NumberFormat("en-US", options).format(numero); 
+    
+  //const formattedNumber = numero.toLocaleString('en-US', { maximumFractionDigits: 2 })
+  //const actualNumber = +formatted.replace(/,/g, '')
+  //const formattedNumber = actualNumber.toLocaleString('en-US', {maximumFractionDigits: 2})
+
+  //newNumbeR.toLocaleString(navigator.language, { maximumFractionDigits: 2 }); 
+  const formattedNumber = numero.toLocaleString(undefined, {maximumFractionDigits:2}) // "1,234.57"
+
   return formattedNumber; 
 }  
 

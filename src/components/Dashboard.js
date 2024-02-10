@@ -224,12 +224,12 @@ function Dashboard()
         for(i=0; i < paFacturas.length; i++)
         {
             //alert('Facturas | cargo: ' + paFacturas[i].faC_IMPORTE); 
-            if(paFacturas[i].faC_TIPO==1)
+            if(paFacturas[i].faC_TIPO==2)
             {
                 ldCargo = ldCargo + parseFloat(paFacturas[i].faC_IMPUESTO_IMPORTE);
             }
 
-            if(paFacturas[i].faC_TIPO==2)
+            if(paFacturas[i].faC_TIPO==1)
             {
                 ldAbono = ldAbono + parseFloat(paFacturas[i].faC_IMPUESTO_IMPORTE);
             }           
