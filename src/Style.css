@@ -347,6 +347,16 @@ dialog .buttonNo
     100% { opacity: 1; transform: translateX(30%); }
 }  
 
+.ayudaFactura
+{   
+    top: 80%;
+    left: 60%;
+    border: solid 1px black; 
+    border-radius: 5px;   
+    width: 320px;   
+    height: 250px; 
+}
+
 .pnlSeccion
 {   
     display: flex;

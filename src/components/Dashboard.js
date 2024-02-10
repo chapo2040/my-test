@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import Wrapper from './Wrapper';
 
-import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
+import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes, AyuFacturas } from "./Utils";
 import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
 
 import { useConfirm } from './ConfirmationContext';
@@ -326,6 +326,8 @@ function Dashboard()
 
                     <div class='pnlFacturas'>
                         
+                        <AyuFacturas isOpen={false} />
+
                         <MovimientoTitulo />
                         <div class='renglones'>
                             { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} folio={factura.faC_FOLIO} descripcion={factura.faC_DESCRIPCION} tipo={factura.faC_TIPO} importe={factura.faC_IMPORTE} impuesto={factura.faC_IMPUESTO} impuestoImporte={factura.faC_IMPUESTO_IMPORTE} handlerBorrar={OnDelete} handlerVer={OnView} /> )) }                        

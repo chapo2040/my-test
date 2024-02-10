@@ -139,6 +139,23 @@ export class ComboMes extends Component
   }
 }
 
+export class AyuFacturas extends Component
+{
+  render() 
+  {
+    return(
+        <dialog class='ayudaFactura' open={this.props.isOpen}>
+          FACTURAS <br/>
+          <input type='text'></input> <button> Buscar </button> 
+          <div> Factura 1 </div>
+          <div> Factura 2 </div>
+          <div> Factura 3 </div>
+          <div> Factura 4 </div>
+        </dialog>
+    )
+  }
+}
+
 export class MovimientoTitulo extends Component
 {
   render() 
