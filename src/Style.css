@@ -103,6 +103,25 @@ input::placeholder
     color: rgba(37, 37, 37, 0.5);
 }
 
+input::file-selector-button 
+{
+    background-color: rgb(228, 222, 222);
+    color: black;
+    padding: 5px;
+    border: solid 1px grey;
+    border-radius: 5px;    
+    width: 150px;
+}
+
+.custom-file-selector 
+{
+    background-color: rgb(228, 222, 222);
+    color: black;
+    padding: 5px;
+    border: solid 1px grey;
+    border-radius: 5px;    
+}
+
 button 
 {
     font-size: 14px;
@@ -969,6 +988,42 @@ dialog .buttonNo
 {   
     width: 100%;    
     margin-bottom: 20px;
+}
+
+.frmClienteAgregar .renglon-file-selector 
+{   
+    display:flex;
+    flex-direction: row;
+    border: solid 0px black;
+    width:100%;    
+}
+
+.frmClienteAgregar .renglon-file-selector .textbox
+{   
+    border: solid 0px black;
+}
+
+.frmClienteAgregar .renglon-file-selector .input-field-selector 
+{   
+    width:100%;    
+}
+
+.frmClienteAgregar .renglon-file-selector .button
+{   
+    display: flex;
+    border: solid 0px black;
+    align-items: center;
+    justify-content: center;
+    width:35%;    
+}
+
+.frmClienteAgregar .renglon-file-selector .button .custom-file-selector 
+{
+    background-color: rgb(228, 222, 222);
+    color: black;
+    padding: 4px;
+    border: solid 1px grey;
+    border-radius: 3px;
 }
 
 .frmClienteAgregar .buscar

@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function Alert({ message, isOpen, handler }) 
-{ 
+export default function Alert({ message, isOpen, handler }: any) 
+{   
   return (
     <dialog className='alert' open={isOpen}>
       <div className='contenido'>

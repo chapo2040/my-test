@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
-import ConfirmationDialog from './Dialogs.tsx';
+import ConfirmationDialog from './Dialogs';
 
 const ConfirmationDialogContext = React.createContext((message: string, handler: () => void) => {});
                 

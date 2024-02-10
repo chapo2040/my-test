@@ -125,24 +125,24 @@ function Cuenta()
                                                 
                         <div class='frmTitulo'> CONFIGURACIÓN </div>   
                         <br/>
-
-                        NOMBRE:                        
+                        
+                        <span className='text-sm'> NOMBRE </span>                     
                         <TextBox name='txtNombre' placeholder="Nombre" className='input-underline input txtConfiguracion' register={register} validationSchema={{required:"Nombre requerido."}} errors={errors} />                        
                         <br/>
 
-                        CORREO:
+                        <span className='text-sm'> CORREO </span>
                         <TextBox name='txtCorreo' placeholder="Correo" className='input-underline input txtConfiguracion' register={register} validationSchema={{required:"Correo requerido.", pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/}} errors={errors} />
                         <br/>
 
-                        CONTRASEÑA:
+                        <span className='text-sm'> CONTRASEÑA </span>
                         <Password name='txtPassword' placeholder="Contraseña" className='input-underline input txtConfiguracion' register={register} validationSchema={{ required: "Contraseña requerida."}} errors={errors} /> 
                         <br/>                        
 
-                        PLAN MEMBRESIA:
+                        <span className='text-sm'> PLAN MEMBRESIA: </span>
                         <Select name='cbxMembresia' className='paquetes' options={Membresias} value='mbR_CLAVE' descripcion='mbR_NOMBRE' register={register} />
                         <br/>
 
-                        REGISTRO:
+                        <span className='text-sm'> REGISTRO </span>
                         <input type='text' id='txtRegistro' className='lblRegistro' disabled {...register("txtRegistro")}/>
                         <br/> 
 

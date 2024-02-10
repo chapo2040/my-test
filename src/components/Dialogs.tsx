@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ConfirmationDialog({ message, isOpen, handlerYes, handlerNo }) 
+export default function ConfirmationDialog({ message, isOpen, handlerYes, handlerNo }: any) 
 { 
   return (
     <dialog open={isOpen} >

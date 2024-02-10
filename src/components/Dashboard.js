@@ -6,9 +6,9 @@ import Wrapper from './Wrapper';
 import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
 import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
 
-import { useConfirm } from './ConfirmationContext.tsx';
-import { useAlert } from './AlertContext.tsx';
-import { useToast } from './ToastContext.tsx';
+import { useConfirm } from './ConfirmationContext';
+import { useAlert } from './AlertContext';
+import { useToast } from './ToastContext';
 
 function Dashboard() 
 {   
@@ -26,6 +26,120 @@ function Dashboard()
     const Toast = useToast();
     const Alert = useAlert();
 
+    const dir = process.env.PUBLIC_URL + '/docs';
+
+    function LeerXM()
+    {
+        //alert('LeerXM ');
+        var llCliente = 2;
+        var liTipo = 1;    //  1: Emitidas  2: Recividas
+
+        fetch(process.env.PUBLIC_URL + '/docs/factura1.xml') 
+        .then((response) => response.text())
+        .then((xmlText) => 
+        {
+            //console.log(xmlText);
+            const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml");
+
+            //const xmlDoc = new XMLParser().parseFromString(xmlText);
+            var rootElement = xmlDoc.getElementsByTagName("cfdi:Comprobante");
+            //console.log(xmlDoc.getElementsByTagName("cfdi:Comprobante")[0]);
+
+            var atrCondicionesDePago = rootElement[0].attributes['CondicionesDePago'];            
+            //var atrFecha = rootElement[0].attributes['Fecha'];
+            var atrFolio = rootElement[0].attributes['Folio'];            
+            var atrTotal = rootElement[0].attributes['Total'];            
+            //console.log("Fecha: " + atrFecha.value);
+            console.log("Folio: " + atrFolio.value);            
+            console.log("atrTotal: " + atrTotal.value);
+
+
+            /*********************** EMISOR *********************/ 
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Emisor')[0]);
+            var loEmisor = rootElement[0].getElementsByTagName('cfdi:Emisor')[0];          
+            var atrEmisorNombre = loEmisor.attributes['Nombre'];
+            console.log("atrEmisorNombre: " + atrEmisorNombre.value);
+
+
+            /*********************** RECEPTOR *********************/ 
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Receptor')[0]);
+            var loReceptor = rootElement[0].getElementsByTagName('cfdi:Receptor')[0];          
+            var atrReceptorNombre = loReceptor.attributes['Nombre'];
+            console.log("atrReceptorNombre: " + atrReceptorNombre.value);
+
+  
+            /*********************** CONCEPTOS *********************/ 
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0]);
+            //var loConceptos = rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0];          
+            //var atrCantidad = loConceptos.attributes['Cantidad'];
+            //var atrDescripcion = loConceptos.attributes['Descripcion'];
+            //var atrValorUnitario = loConceptos.attributes['ValorUnitario'];
+            //var atrImporte= loConceptos.attributes['Importe'];
+            //console.log("Cantidad: " + atrCantidad);
+            //console.log("Descripcion: " + atrDescripcion);
+            //console.log("ValorUnitario: " + atrValorUnitario);
+            //console.log("Importe: " + atrImporte);
+
+
+            /************** IMPUESTOS ***************/    
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0]);
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0]);
+            //var loImpuestos = rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0];
+            
+            //var loTraslados = rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0];
+            //var atrImporte = loTraslados.attributes['Importe'];
+            //console.log("Importe: " + atrImporte);
+
+
+            /************** COMPLEMENTOS ***************/  
+
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0]);
+            //var loComplemento = rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0];            
+            //var atrCertificadoSAT = loComplemento.attributes['NoCertificadoSAT'];
+            //console.log("NoCertificadoSAT: " + atrCertificadoSAT);
+          
+
+            /************** TIMBRE ***************/ 
+            //console.log(rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0]);
+            //var loTimbre = rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0];            
+            //var atrNoCertificadoSAT = loTimbre.attributes['NoCertificadoSAT'];
+            //var atrUUID = loTimbre.attributes['UUID'];            
+            //console.log("NoCertificadoSAT: " + atrNoCertificadoSAT.value);
+            //console.log("UUID: " + atrUUID.value);
+
+
+            GuardaFacturas(llCliente, atrFolio.value, atrEmisorNombre.value, liTipo, atrTotal.value);
+
+
+        })
+        .catch((error) => 
+        {
+          console.error('Error fetching XML data:', error);
+        }); 
+    }
+
+    function GuardaFacturas(plCliente, psFolio, psDescripcion, piTipo, pdImporte)
+    {
+        //alert('GuardaFacturas | clientes: ' + plCliente + ' - Folio: ' + psFolio);        
+        
+        // RUTINA API SAT
+        Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: plCliente, faC_CLAVE: 0, faC_FOLIO: psFolio, faC_DESCRIPCION: psDescripcion, faC_TIPO: piTipo, faC_IMPORTE: pdImporte, faC_FECHA: null })
+        .then(response => 
+        {
+            Toast('Factura agregada');
+            LlenaFacturas(2);         
+        }).catch(error => { alert(error);});
+    }
+    
+    function Imprimir()
+    {
+        alert('Imprimir !'); 
+    }
+   
     function ObtenerSesion()
     {
         //alert('ObtenerSesion ! ');
@@ -92,9 +206,6 @@ function Dashboard()
         setCargo(ldCargo);
         setAbono(ldAbono);
     }
-
-    // FORM LOAD 
-    //useEffect(() => { LlenaFacturas(facturas1); }, []);
 
     function handlerCbxCliente(event)
     {
@@ -165,29 +276,10 @@ function Dashboard()
 
         // BAJAR PAQUETE
 
-        // LEER FACTURAS XML  
-
-        // GUARDAR FACTURAS
-        GuardaFacturas();
-    }
-
-    function GuardaFacturas()
-    {
-        //alert('GuardaFacturas !');
-        
-        // RUTINA API SAT
-        Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: 2, faC_CLAVE: 0, faC_FOLIO: '9483', faC_DESCRIPCION: 'PRUEBA CDFI', faC_TIPO: 1, faC_IMPORTE: 300, faC_FECHA: null })
-        .then(response => 
-        {
-            Toast('Factura agregada');
-            LlenaFacturas(2);         
-        }).catch(error => { alert(error);});
-    }
-    
-    function Imprimir()
-    {
-        alert('Imprimir !'); 
-    }
+        // LEER FACTURAS XML Y GUARDARLAS
+        //LeerArchivos();
+        LeerXM();
+    }   
 
     return (
 

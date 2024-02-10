@@ -1,7 +1,7 @@
 import React from "react";
 import imgInfo from '../images/info.png'
 
-export default function Toast({ message, isOpen }) 
+export default function Toast({ message, isOpen }: any) 
 { 
   return (
     <dialog className='toast' open={isOpen}>

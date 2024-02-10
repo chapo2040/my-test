@@ -15,7 +15,7 @@ import imgLupa from '../images/btnLupa.png'
 
 function ClienteAgregar() 
 {   
-    const {register, handleSubmit, reset, formState: { errors }} = useForm();
+    const {register, handleSubmit, setValue, reset, formState: { errors }} = useForm();
     const [file, setFile] = useState();
     const [Sesion, setSesion] = useState({clave: 0, nombre: '', correo: '', password: '', membresia: 1, recordarme: false });
     const [btnTitulo, setTitulo] = useState('Guardar');
@@ -27,7 +27,6 @@ function ClienteAgregar()
     const navigate = useNavigate(); 
     const {state} = useLocation();
     const location = useLocation();      
-    const inputFile = useRef(null);
 
     const [isEdit, setEdit] = useState(false);
     const [ClienteClave, setCliente] = useState(0);
@@ -35,14 +34,19 @@ function ClienteAgregar()
     const onButtonClick = () => 
     {
         //alert('onButtonClick !');     
-        //inputFile.current.click();
-        inputFile.current?.click(); 
+
     };
 
-    const handleChange = e => 
+    const handleChangeFIEL = e => 
     {
-        //alert('handleChange: ' +  e.target.files[0].name);     
-        setFile(e.target.files[0].name);
+        //alert('handleChangeFIEL: ' +  e.target.files[0].name);   
+        setValue("txtFiel", e.target.files[0].name);
+    }    
+
+    const handleChangeKey = e => 
+    {
+        //alert('handleChangeKey: ' +  e.target.files[0].name);   
+        setValue("txtKey", e.target.files[0].name);
     }
 
     function BuscarFIEL()
@@ -186,22 +190,37 @@ function ClienteAgregar()
                         <div class='frmTitulo'> AGREGAR CLIENTE </div>   
 
                         <br/>
+                        <span className='text-sm'> RFC </span>
                         <TextBox name='txtRFC' placeholder="RFC" className='input-underline input' register={register} validationSchema={{required:"RFC requerido."}} errors={errors} />
-                                                
+
+                        <span className='text-sm'> NOMBRE </span>
                         <TextBox name='txtNombre' placeholder="Nombre" className='input-underline input' register={register} validationSchema={{required:"Nombre requerido."}} errors={errors} />
                         
-                        <div>                        
-                            <TextBox name='txtFiel' placeholder="FIEL" className='input-underline input' register={register} validationSchema={{required:"FIEL requerida."}} errors={errors} />
-                            <input type="file" ref={inputFile} onChange={handleChange} />
-                        </div>
+                        <span className='text-sm'> FIEL </span>
+                        <div class='renglon-file-selector'>
+                            <div className='textbox'>                                   
+                                <TextBox name='txtFiel' placeholder="FIEL" className='input-underline input-field-selector' register={register} validationSchema={{required:"FIEL requerida."}} errors={errors} />
+                            </div>
+                            <div className='button'>
+                                <input type="file" id="btnFiel" accept=".*" onChange={handleChangeFIEL} hidden />
+                                <label for="btnFiel" className='custom-file-selector'> Elegir Archivo  </label>
+                            </div>
+                        </div>                        
                         <br/>
 
-                        <div>
-                            <TextBox name='txtKey' placeholder="Key" className='input-underline input' register={register} validationSchema={{required:"KEY requerido."}} errors={errors} />
-                            <input type="file" ref={inputFile} onChange={handleChange} />
+                        <span className='text-sm'> KEY </span>
+                        <div class='renglon-file-selector'>
+                            <div className='textbox'>
+                                <TextBox name='txtKey' placeholder="Key" className='input-underline input-field-selector' register={register} validationSchema={{required:"KEY requerido."}} errors={errors} />
+                            </div>
+                            <div className='button'>
+                                <input type="file" id="btnKey" accept=".*" onChange={handleChangeKey} hidden />
+                                <label for="btnKey" className='custom-file-selector'> Elegir Archivo  </label>
+                            </div>
                         </div>
                         <br/>                        
 
+                        <span className='text-sm'> CONTRASEÑA </span>
                         <Password name='txtPassword' placeholder="Contraseña" className='input-underline input txtConfiguracion' register={register} validationSchema={{ required: "Contraseña requerida."}} errors={errors} /> 
                                             
                         <center>                            

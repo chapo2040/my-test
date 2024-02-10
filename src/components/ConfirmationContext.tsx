@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useRef, useState } from 'react';
-import ConfirmationDialog from './Dialogs.tsx';
+import ConfirmationDialog from './Dialogs';
 
 const ConfirmDialog = createContext<(message: string) => Promise<boolean>>(() => 
 {  throw new Error('ConfirmDialogProvider not found'); });
