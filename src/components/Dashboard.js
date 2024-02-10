@@ -28,13 +28,30 @@ function Dashboard()
 
     const dir = process.env.PUBLIC_URL + '/docs';
 
-    function LeerXM()
+    function TraerFacturas()
     {
-        //alert('LeerXM ');
+        //alert('TraerFacturas !');
+        
+        // AUTENTIFICARSE A API SAT
+
+        // CHECAR SI YA ESTA EL PAQUETE
+
+        // BAJAR PAQUETE
+
+        // LEER FACTURAS XML Y GUARDARLAS
+        //LeerArchivos();
+        LeerXML('factura1.xml');
+        LeerXML('factura4.xml');
+        LeerXML('factura5.xml');
+    } 
+
+    function LeerXML(psFileXML)
+    {
+        //alert('LeerXML: ' + psFileXML);
         var llCliente = 2;
         var liTipo = 1;    //  1: Emitidas  2: Recividas
 
-        fetch(process.env.PUBLIC_URL + '/docs/factura1.xml') 
+        fetch(process.env.PUBLIC_URL + '/docs/' + psFileXML) 
         .then((response) => response.text())
         .then((xmlText) => 
         {
@@ -52,6 +69,15 @@ function Dashboard()
             //console.log("Fecha: " + atrFecha.value);
             console.log("Folio: " + atrFolio.value);            
             console.log("atrTotal: " + atrTotal.value);
+
+            
+            /*********************** SECCIONES *********************/ 
+
+            //console.log(xmlDoc.children[0].children[0]); // EMISOR
+            //console.log(xmlDoc.children[0].children[1]);  // RECEPTOR
+            //console.log(xmlDoc.children[0].children[2]);  // CONCEPTOS
+            //console.log(xmlDoc.children[0].children[3]);  // IMPUESTOS
+            //console.log(xmlDoc.children[0].children[4]);  // COMPLEMENTOS
 
 
             /*********************** EMISOR *********************/ 
@@ -85,14 +111,20 @@ function Dashboard()
 
 
             /************** IMPUESTOS ***************/    
+ 
+            //console.log(xmlDoc.children[0].children[3]);  // IMPUESTOS
+            //console.log(xmlDoc.children[0].children[3].children[0]);  // TRASLADOS
+            //console.log(xmlDoc.children[0].children[3].children[0].children[0]);  // TRASLADO
 
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0]);
+            //console.log(rootElement[0].getElementsByTagName('cfdi:Impuestos')[1]);
             //console.log(rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0]);
-            //var loImpuestos = rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0];
+            //var loImpuestos = rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0];            
             
-            //var loTraslados = rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0];
-            //var atrImporte = loTraslados.attributes['Importe'];
-            //console.log("Importe: " + atrImporte);
+            var loTraslados = xmlDoc.children[0].children[3].children[0].children[0];
+            var atrImpuesto = loTraslados.attributes['Impuesto'];
+            var atrImporte = loTraslados.attributes['Importe'];            
+            console.log("Impuesto: " + atrImpuesto.value);
+            console.log("Importe: " + atrImporte.value);
 
 
             /************** COMPLEMENTOS ***************/  
@@ -104,6 +136,7 @@ function Dashboard()
           
 
             /************** TIMBRE ***************/ 
+
             //console.log(rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0]);
             //var loTimbre = rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0];            
             //var atrNoCertificadoSAT = loTimbre.attributes['NoCertificadoSAT'];
@@ -111,9 +144,10 @@ function Dashboard()
             //console.log("NoCertificadoSAT: " + atrNoCertificadoSAT.value);
             //console.log("UUID: " + atrUUID.value);
 
+            
+            /********************** GUARDAR FACTURA ********************/ 
 
-            GuardaFacturas(llCliente, atrFolio.value, atrEmisorNombre.value, liTipo, atrTotal.value);
-
+            GuardaFacturas(llCliente, atrFolio.value, atrEmisorNombre.value, liTipo, atrTotal.value, atrImpuesto.value, atrImporte.value);
 
         })
         .catch((error) => 
@@ -122,12 +156,12 @@ function Dashboard()
         }); 
     }
 
-    function GuardaFacturas(plCliente, psFolio, psDescripcion, piTipo, pdImporte)
+    function GuardaFacturas(plCliente, psFolio, psDescripcion, piTipo, pdImporte, psImpuesto, pdImpuestoImporte)
     {
         //alert('GuardaFacturas | clientes: ' + plCliente + ' - Folio: ' + psFolio);        
         
         // RUTINA API SAT
-        Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: plCliente, faC_CLAVE: 0, faC_FOLIO: psFolio, faC_DESCRIPCION: psDescripcion, faC_TIPO: piTipo, faC_IMPORTE: pdImporte, faC_FECHA: null })
+        Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: plCliente, faC_CLAVE: 0, faC_FOLIO: psFolio, faC_DESCRIPCION: psDescripcion, faC_TIPO: piTipo, faC_IMPORTE: pdImporte, faC_FECHA: null, faC_IMPUESTO: psImpuesto, faC_IMPUESTO_IMPORTE: pdImpuestoImporte })
         .then(response => 
         {
             Toast('Factura agregada');
@@ -190,8 +224,15 @@ function Dashboard()
         for(i=0; i < paFacturas.length; i++)
         {
             //alert('Facturas | cargo: ' + paFacturas[i].faC_IMPORTE); 
-            ldCargo = ldCargo + parseFloat(paFacturas[i].faC_IMPORTE);
-            ldAbono = ldAbono + parseFloat(paFacturas[i].faC_IMPORTE);
+            if(paFacturas[i].faC_TIPO==1)
+            {
+                ldCargo = ldCargo + parseFloat(paFacturas[i].faC_IMPUESTO_IMPORTE);
+            }
+
+            if(paFacturas[i].faC_TIPO==2)
+            {
+                ldAbono = ldAbono + parseFloat(paFacturas[i].faC_IMPUESTO_IMPORTE);
+            }           
         }    
         
         /*
@@ -254,31 +295,17 @@ function Dashboard()
         const liUsuario = event.currentTarget.getAttribute('usuario');
         const llCliente = event.currentTarget.getAttribute('cliente');
         const llFactura = event.currentTarget.getAttribute('factura');
+        const lsFolio = event.currentTarget.getAttribute('folio');
         const liTipo = event.currentTarget.getAttribute('tipo');
         
         //alert('OnView | Usuario: ' + liUsuario + ' - Cliente: ' + llCliente + ' - factura: ' + llFactura + ' - tipo: ' + liTipo);
         const windowFeatures = "left=100,top=100,width=800,height=800";        
-        const handle = window.open(process.env.PUBLIC_URL + "/docs/factura1.pdf", "_blank", windowFeatures);
+        const handle = window.open(process.env.PUBLIC_URL + "/docs/factura" + lsFolio + ".pdf", "_blank", windowFeatures);
                 
         if (!handle) 
         {
 
         }   
-    } 
-
-    function TraerFacturas()
-    {
-        //alert('TraerFacturas !');
-        
-        // AUTENTIFICARSE A API SAT
-
-        // CHECAR SI YA ESTA EL PAQUETE
-
-        // BAJAR PAQUETE
-
-        // LEER FACTURAS XML Y GUARDARLAS
-        //LeerArchivos();
-        LeerXM();
     }   
 
     return (
@@ -301,10 +328,10 @@ function Dashboard()
                         
                         <MovimientoTitulo />
                         <div class='renglones'>
-                            { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} descripcion={factura.faC_DESCRIPCION} tipo={factura.faC_TIPO} importe={factura.faC_IMPORTE} handlerBorrar={OnDelete} handlerVer={OnView} /> )) }                        
+                            { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} folio={factura.faC_FOLIO} descripcion={factura.faC_DESCRIPCION} tipo={factura.faC_TIPO} importe={factura.faC_IMPORTE} impuesto={factura.faC_IMPUESTO} impuestoImporte={factura.faC_IMPUESTO_IMPORTE} handlerBorrar={OnDelete} handlerVer={OnView} /> )) }                        
                             <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
                         </div>
-                        <MovimientoTotal cargo={gdCargo} abono={gdAbono} />
+                        <MovimientoTotal totalCargo={gdCargo} totalAbono={gdAbono} />
                         <br />
                         
                         <p align="right">

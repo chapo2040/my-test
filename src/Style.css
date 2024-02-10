@@ -713,6 +713,9 @@ dialog .buttonNo
     padding: 7px 10px;
     width: 20%;
     margin-left: 5px;
+    color: #ed852b;
+    font-size: 15px;
+    font-weight: 500;    
 }
 
 .pnlMovimientos .pnlFacturas .itemMovimiento .abono
@@ -722,6 +725,9 @@ dialog .buttonNo
     padding: 7px 10px;
     width: 20%;
     margin-left: 5px;
+    color: rgb(113, 113, 13);
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .pnlMovimientos .pnlFacturas .itemMovimiento .titulo

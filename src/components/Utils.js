@@ -171,23 +171,31 @@ export class Movimiento extends Component
         <div class='itemMovimiento'>
 
           <div class='descripcion'>
-             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerBorrar}><img src={imgBorrar} class='borrar' /></a>             
-             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerVer}><img src={imgXML} class='borrar' /></a>
-            <label> {this.props.usuario} - {this.props.cliente} - {this.props.factura} - {this.props.descripcion} </label> 
+             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} folio={this.props.folio} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerBorrar}><img src={imgBorrar} class='borrar' /></a>             
+             <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} folio={this.props.folio} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerVer}><img src={imgXML} class='borrar' /></a>
+            <label> FAC {this.props.folio} - {this.props.descripcion} </label> 
           </div>
 
           <div class='cargo'>
-            <p> $ {this.props.tipo==1 ? this.props.importe : 0 } </p>
+            <p> $ {this.props.tipo==1 ? FormatNumber(this.props.impuestoImporte) : 0 } </p>
           </div>
 
           <div class='abono'>
-            <p> $ {this.props.tipo==2 ? this.props.importe : 0 } </p>       
+            <p> $ {this.props.tipo==2 ? FormatNumber(this.props.impuestoImporte) : 0 } </p>       
           </div>         
 
         </div>  
     )
   }
 }
+
+export default function FormatNumber(numero) 
+{   
+  const options = { maximumFractionDigits: 2   }   
+  const formattedNumber = Intl.NumberFormat("en-US", options).format(numero); 
+  //const formattedNumber = Intl.NumberFormat('en-US', { style: 'currency' });
+  return formattedNumber; 
+}  
 
 export const MovimientoRenglon = ({ register, errors }) => 
 (    
@@ -220,11 +228,11 @@ export class MovimientoTotal extends Component
         </div>
 
         <div class='cargo'>
-          <p class='totalCargo'> ${this.props.cargo} </p>              
+          <p class='totalCargo'> ${ FormatNumber(this.props.totalCargo) } </p>              
         </div>
 
         <div class='abono'>
-          <p class='totalAbono'> ${this.props.abono} </p>              
+          <p class='totalAbono'> ${  FormatNumber(this.props.totalAbono) } </p>              
         </div>         
 
       </div>  
