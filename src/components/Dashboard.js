@@ -3,12 +3,13 @@ import {useForm} from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import Wrapper from './Wrapper';
 
-import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes, AyuFacturas } from "./Utils";
+import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
 import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
 
 import { useConfirm } from './ConfirmationContext';
 import { useAlert } from './AlertContext';
 import { useToast } from './ToastContext';
+import { AyuFacturas } from './ayuFacturas';
 
 function Dashboard() 
 {   
@@ -19,8 +20,10 @@ function Dashboard()
     const [Facturas, setFactura] = useState([]);
     const [gdCargo, setCargo] = useState(0);
     const [gdAbono, setAbono] = useState(0);
+    const [isOpenFacturas, setAyudaFacturas] = useState(false);
     
     const [Sesion, setSesion] = useState();
+    const [Archivos, setArchivo] = useState([]);
 
     const confirmation = useConfirm();
     const Toast = useToast();
@@ -28,10 +31,50 @@ function Dashboard()
 
     const dir = process.env.PUBLIC_URL + '/docs';
 
+    function abrirAyuda()
+    {
+        //alert('abrirAyuda !');
+        setAyudaFacturas(true)
+    }
+
+    function cerrarAyuda()
+    {
+        //alert('cerrarAyuda !');
+        setAyudaFacturas(false)
+    }
+
+    function LeerArchivos()
+    {        
+        //alert('LeerArchivos !');
+        
+        //LeerXML('factura1.xml');
+        //LeerXML('factura4.xml');
+        //LeerXML('factura5.xml');
+
+        //var llFolio = 0;
+        
+        Wrapper.get(`Archivo/Archivos`).then(response => 
+        //Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}&piStatus=1`).then(response =>         
+        {
+            //alert('archivos: ' + response.data.length);  
+            setArchivo(response.data);
+
+            var factura1 = response.data[0];
+            var factura2 = response.data[1];
+            var factura3 = response.data[2];
+            LeerXML(factura1.arC_NOMBRE);
+            //LeerXML(factura2.arC_NOMBRE);
+            //LeerXML(factura3.arC_NOMBRE);
+
+            //alert('facturas: ' + factura2.arC_NOMBRE); 
+        })
+        .catch(error => { alert(error);});        
+    }
+
     function TraerFacturas()
     {
         //alert('TraerFacturas !');
-        
+
         // AUTENTIFICARSE A API SAT
 
         // CHECAR SI YA ESTA EL PAQUETE
@@ -39,15 +82,12 @@ function Dashboard()
         // BAJAR PAQUETE
 
         // LEER FACTURAS XML Y GUARDARLAS
-        //LeerArchivos();
-        LeerXML('factura1.xml');
-        LeerXML('factura4.xml');
-        LeerXML('factura5.xml');
+        LeerArchivos();
     } 
 
     function LeerXML(psFileXML)
     {
-        //alert('LeerXML: ' + psFileXML);
+        alert('LeerXML: ' + psFileXML);
         var llCliente = 2;
         var liTipo = 1;    //  1: Emitidas  2: Recividas
 
@@ -326,7 +366,7 @@ function Dashboard()
 
                     <div class='pnlFacturas'>
                         
-                        <AyuFacturas isOpen={false} />
+                        <AyuFacturas isOpen={isOpenFacturas} handler={cerrarAyuda} />
 
                         <MovimientoTitulo />
                         <div class='renglones'>
@@ -337,15 +377,21 @@ function Dashboard()
                         <br />
                         
                         <p align="right">
+                            <Button name='btnAyuda' text='Catalogo' className ='custom-button boton' handlerSubmit={abrirAyuda} />
                             <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={TraerFacturas} />
-                            <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={Imprimir} />
+                            <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={Imprimir} />                            
                         </p>                    
 
                     </div>    
 
-                </div>
+                </div>                
                 
-            </div>                                    
+            </div>       
+
+            <center>
+                Archivos: 
+                { Archivos.map(archivo =>(  <p> {archivo.arC_NOMBRE} </p> )) }
+            </center>
 
         </React.Fragment>
     )
