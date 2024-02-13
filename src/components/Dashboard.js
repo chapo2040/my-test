@@ -65,7 +65,7 @@ function Dashboard()
 
         //var llFolio = 0;
         
-        Wrapper.get(`Archivo/Archivos`).then(response => 
+        Wrapper.get(`Archivo/Archivos`).then(async response => 
         //Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}&piStatus=1`).then(response =>         
         {
             //alert('archivos: ' + response.data.length);  
@@ -74,138 +74,147 @@ function Dashboard()
             var factura1 = response.data[0];
             var factura2 = response.data[1];
             var factura3 = response.data[2];
-            LeerXML(factura1.arC_NOMBRE);
-            //LeerXML(factura2.arC_NOMBRE);
-            //LeerXML(factura3.arC_NOMBRE);
+            await LeerXML(factura1.arC_NOMBRE);
+            await LeerXML(factura2.arC_NOMBRE);
+            await LeerXML(factura3.arC_NOMBRE);
 
             //alert('facturas: ' + factura2.arC_NOMBRE); 
         })
         .catch(error => { alert(error);});        
     }
 
-    function LeerXML(psFileXML)
+    async function LeerXML(psFileXML)
     {
-        alert('LeerXML: ' + psFileXML);
+        //alert('LeerXML: ' + psFileXML);
         var llCliente = 2;
         var liTipo = 1;    //  1: Emitidas  2: Recividas
 
-        var lsFilePath = process.env.PUBLIC_URL + '/ws/Library/docs/' + psFileXML;        
-        fetch(lsFilePath).then((response) => response.text())
-        .then((xmlText) => 
-        {
-            console.log(xmlText);
-            //console.log(xmlText);
-            const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml");
+        var lsFilePath = process.env.PUBLIC_URL + '/ws/Library/facturas/' + psFileXML;    
+        
+        const response = await fetch(lsFilePath);
+        const xmlText = await response.text();
+        //console.log(xmlText);        
 
-            //const xmlDoc = new XMLParser().parseFromString(xmlText);
-            var rootElement = xmlDoc.getElementsByTagName("cfdi:Comprobante");
-            //console.log(xmlDoc.getElementsByTagName("cfdi:Comprobante")[0]);
+        const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml");
 
-            var atrCondicionesDePago = rootElement[0].attributes['CondicionesDePago'];            
-            //var atrFecha = rootElement[0].attributes['Fecha'];
-            var atrFolio = rootElement[0].attributes['Folio'];            
-            var atrTotal = rootElement[0].attributes['Total'];            
-            //console.log("Fecha: " + atrFecha.value);
-            console.log("Folio: " + atrFolio.value);            
-            console.log("atrTotal: " + atrTotal.value);
+        //const xmlDoc = new XMLParser().parseFromString(xmlText);
+        var rootElement = xmlDoc.getElementsByTagName("cfdi:Comprobante");
+        //console.log(xmlDoc.getElementsByTagName("cfdi:Comprobante")[0]);
 
-            
-            /*********************** SECCIONES *********************/ 
+        var atrCondicionesDePago = rootElement[0].attributes['CondicionesDePago'];            
+        //var atrFecha = rootElement[0].attributes['Fecha'];
+        var atrFolio = rootElement[0].attributes['Folio'];            
+        var atrTotal = rootElement[0].attributes['Total'];            
+        //console.log("Fecha: " + atrFecha.value);
+        console.log("Folio: " + atrFolio.value);            
+        console.log("atrTotal: " + atrTotal.value);
 
-            //console.log(xmlDoc.children[0].children[0]); // EMISOR
-            //console.log(xmlDoc.children[0].children[1]);  // RECEPTOR
-            //console.log(xmlDoc.children[0].children[2]);  // CONCEPTOS
-            //console.log(xmlDoc.children[0].children[3]);  // IMPUESTOS
-            //console.log(xmlDoc.children[0].children[4]);  // COMPLEMENTOS
+        
+        /*********************** SECCIONES *********************/ 
 
-
-            /*********************** EMISOR *********************/ 
-
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Emisor')[0]);
-            var loEmisor = rootElement[0].getElementsByTagName('cfdi:Emisor')[0];          
-            var atrEmisorNombre = loEmisor.attributes['Nombre'];
-            console.log("atrEmisorNombre: " + atrEmisorNombre.value);
+        //console.log(xmlDoc.children[0].children[0]); // EMISOR
+        //console.log(xmlDoc.children[0].children[1]);  // RECEPTOR
+        //console.log(xmlDoc.children[0].children[2]);  // CONCEPTOS
+        //console.log(xmlDoc.children[0].children[3]);  // IMPUESTOS
+        //console.log(xmlDoc.children[0].children[4]);  // COMPLEMENTOS
 
 
-            /*********************** RECEPTOR *********************/ 
+        /*********************** EMISOR *********************/ 
 
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Receptor')[0]);
-            var loReceptor = rootElement[0].getElementsByTagName('cfdi:Receptor')[0];          
-            var atrReceptorNombre = loReceptor.attributes['Nombre'];
-            console.log("atrReceptorNombre: " + atrReceptorNombre.value);
-
-  
-            /*********************** CONCEPTOS *********************/ 
-
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0]);
-            //var loConceptos = rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0];          
-            //var atrCantidad = loConceptos.attributes['Cantidad'];
-            //var atrDescripcion = loConceptos.attributes['Descripcion'];
-            //var atrValorUnitario = loConceptos.attributes['ValorUnitario'];
-            //var atrImporte= loConceptos.attributes['Importe'];
-            //console.log("Cantidad: " + atrCantidad);
-            //console.log("Descripcion: " + atrDescripcion);
-            //console.log("ValorUnitario: " + atrValorUnitario);
-            //console.log("Importe: " + atrImporte);
+        //console.log(rootElement[0].getElementsByTagName('cfdi:Emisor')[0]);
+        var loEmisor = rootElement[0].getElementsByTagName('cfdi:Emisor')[0];          
+        var atrEmisorNombre = loEmisor.attributes['Nombre'];
+        console.log("atrEmisorNombre: " + atrEmisorNombre.value);
 
 
-            /************** IMPUESTOS ***************/    
- 
-            //console.log(xmlDoc.children[0].children[3]);  // IMPUESTOS
-            //console.log(xmlDoc.children[0].children[3].children[0]);  // TRASLADOS
-            //console.log(xmlDoc.children[0].children[3].children[0].children[0]);  // TRASLADO
+        /*********************** RECEPTOR *********************/ 
 
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Impuestos')[1]);
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0]);
-            //var loImpuestos = rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0];            
-            
-            var loTraslados = xmlDoc.children[0].children[3].children[0].children[0];
-            var atrImpuesto = loTraslados.attributes['Impuesto'];
-            var atrImporte = loTraslados.attributes['Importe'];            
-            console.log("Impuesto: " + atrImpuesto.value);
-            console.log("Importe: " + atrImporte.value);
+        //console.log(rootElement[0].getElementsByTagName('cfdi:Receptor')[0]);
+        var loReceptor = rootElement[0].getElementsByTagName('cfdi:Receptor')[0];          
+        var atrReceptorNombre = loReceptor.attributes['Nombre'];
+        console.log("atrReceptorNombre: " + atrReceptorNombre.value);
 
 
-            /************** COMPLEMENTOS ***************/  
+        /*********************** CONCEPTOS *********************/ 
 
-            //console.log(rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0]);
-            //var loComplemento = rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0];            
-            //var atrCertificadoSAT = loComplemento.attributes['NoCertificadoSAT'];
-            //console.log("NoCertificadoSAT: " + atrCertificadoSAT);
-          
+        //console.log(rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0]);
+        //var loConceptos = rootElement[0].getElementsByTagName('cfdi:Conceptos')[0].children[0];          
+        //var atrCantidad = loConceptos.attributes['Cantidad'];
+        //var atrDescripcion = loConceptos.attributes['Descripcion'];
+        //var atrValorUnitario = loConceptos.attributes['ValorUnitario'];
+        //var atrImporte= loConceptos.attributes['Importe'];
+        //console.log("Cantidad: " + atrCantidad);
+        //console.log("Descripcion: " + atrDescripcion);
+        //console.log("ValorUnitario: " + atrValorUnitario);
+        //console.log("Importe: " + atrImporte);
 
-            /************** TIMBRE ***************/ 
 
-            //console.log(rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0]);
-            //var loTimbre = rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0];            
-            //var atrNoCertificadoSAT = loTimbre.attributes['NoCertificadoSAT'];
-            //var atrUUID = loTimbre.attributes['UUID'];            
-            //console.log("NoCertificadoSAT: " + atrNoCertificadoSAT.value);
-            //console.log("UUID: " + atrUUID.value);
+        /************** IMPUESTOS ***************/    
 
-            
-            /********************** GUARDAR FACTURA ********************/ 
+        //console.log(xmlDoc.children[0].children[3]);  // IMPUESTOS
+        //console.log(xmlDoc.children[0].children[3].children[0]);  // TRASLADOS
+        //console.log(xmlDoc.children[0].children[3].children[0].children[0]);  // TRASLADO
 
-            GuardaFacturas(llCliente, atrFolio.value, atrEmisorNombre.value, liTipo, atrTotal.value, atrImpuesto.value, atrImporte.value);
+        //console.log(rootElement[0].getElementsByTagName('cfdi:Impuestos')[1]);
+        //console.log(rootElement[0].getElementsByTagName('cfdi:Traslados')[0].children[0]);
+        //var loImpuestos = rootElement[0].getElementsByTagName('cfdi:Impuestos')[0].children[0];            
+        
+        var loTraslados = xmlDoc.children[0].children[3].children[0].children[0];
+        var atrImpuesto = loTraslados.attributes['Impuesto'];
+        var atrImporte = loTraslados.attributes['Importe'];            
+        console.log("Impuesto: " + atrImpuesto.value);
+        console.log("Importe: " + atrImporte.value);
 
-        })
-        .catch((error) => 
-        {
-          console.error('Error fetching XML data:', error);
-        }); 
+
+        /************** COMPLEMENTOS ***************/  
+
+        //console.log(rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0]);
+        //var loComplemento = rootElement[0].getElementsByTagName('cfdi:Complemento')[0].children[0];            
+        //var atrCertificadoSAT = loComplemento.attributes['NoCertificadoSAT'];
+        //console.log("NoCertificadoSAT: " + atrCertificadoSAT);
+      
+
+        /************** TIMBRE ***************/ 
+
+        //console.log(rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0]);
+        //var loTimbre = rootElement[0].getElementsByTagName('tfd:TimbreFiscalDigital')[0];            
+        //var atrNoCertificadoSAT = loTimbre.attributes['NoCertificadoSAT'];
+        //var atrUUID = loTimbre.attributes['UUID'];            
+        //console.log("NoCertificadoSAT: " + atrNoCertificadoSAT.value);
+        //console.log("UUID: " + atrUUID.value);
+
+        
+        /********************** GUARDAR FACTURA ********************/ 
+
+        var resGuardar = await GuardaFacturas(llCliente, atrFolio.value, atrEmisorNombre.value, liTipo, atrTotal.value, atrImpuesto.value, atrImporte.value);
+
     }
 
-    function GuardaFacturas(plCliente, psFolio, psDescripcion, piTipo, pdImporte, psImpuesto, pdImpuestoImporte)
+    async function GuardaFacturas(plCliente, psFolio, psDescripcion, piTipo, pdImporte, psImpuesto, pdImpuestoImporte)
     {
         //alert('GuardaFacturas | clientes: ' + plCliente + ' - Folio: ' + psFolio);        
         
-        // RUTINA API SAT
+        try
+        {
+            let res = await Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: plCliente, faC_CLAVE: 0, faC_FOLIO: psFolio, faC_DESCRIPCION: psDescripcion, faC_TIPO: piTipo, faC_IMPORTE: pdImporte, faC_FECHA: null, faC_IMPUESTO: psImpuesto, faC_IMPUESTO_IMPORTE: pdImpuestoImporte });
+            let { data } = res.data;
+            Toast('Factura agregada');
+            LlenaFacturas(2);  
+        }
+        catch (error) 
+        {
+            // Handle errors
+
+        }
+
+        /*
         Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: plCliente, faC_CLAVE: 0, faC_FOLIO: psFolio, faC_DESCRIPCION: psDescripcion, faC_TIPO: piTipo, faC_IMPORTE: pdImporte, faC_FECHA: null, faC_IMPUESTO: psImpuesto, faC_IMPUESTO_IMPORTE: pdImpuestoImporte })
         .then(response => 
         {
             Toast('Factura agregada');
             LlenaFacturas(2);         
         }).catch(error => { alert(error);});
+        */
     }
     
     function Imprimir()

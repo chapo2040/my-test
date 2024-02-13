@@ -31,7 +31,7 @@ namespace Library.Controllers
                 // HACER BUQUEDA DE ARCHIVOS EN CARPETA DEL HOSTING  FILE IO
 
                 string executingPath = Directory.GetCurrentDirectory();
-                string lsPath = executingPath + @"\docs\";
+                string lsPath = executingPath + @"\facturas\";
                 int liContador = 1;
 
                 List<Archivo> lstArchivos = new List<Archivo>();
