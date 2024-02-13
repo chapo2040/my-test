@@ -29,8 +29,6 @@ function Dashboard()
     const Toast = useToast();
     const Alert = useAlert();
 
-    const dir = process.env.PUBLIC_URL + '/docs';
-
     function abrirAyuda()
     {
         //alert('abrirAyuda !');
@@ -42,6 +40,20 @@ function Dashboard()
         //alert('cerrarAyuda !');
         setAyudaFacturas(false)
     }
+
+    function TraerFacturas()
+    {
+        //alert('TraerFacturas !');
+
+        // AUTENTIFICARSE A API SAT
+
+        // CHECAR SI YA ESTA EL PAQUETE
+
+        // BAJAR PAQUETE
+
+        // LEER FACTURAS XML Y GUARDARLAS
+        LeerArchivos();
+    } 
 
     function LeerArchivos()
     {        
@@ -71,30 +83,17 @@ function Dashboard()
         .catch(error => { alert(error);});        
     }
 
-    function TraerFacturas()
-    {
-        //alert('TraerFacturas !');
-
-        // AUTENTIFICARSE A API SAT
-
-        // CHECAR SI YA ESTA EL PAQUETE
-
-        // BAJAR PAQUETE
-
-        // LEER FACTURAS XML Y GUARDARLAS
-        LeerArchivos();
-    } 
-
     function LeerXML(psFileXML)
     {
         alert('LeerXML: ' + psFileXML);
         var llCliente = 2;
         var liTipo = 1;    //  1: Emitidas  2: Recividas
 
-        fetch(process.env.PUBLIC_URL + '/docs/' + psFileXML) 
-        .then((response) => response.text())
+        var lsFilePath = process.env.PUBLIC_URL + '/ws/Library/docs/' + psFileXML;        
+        fetch(lsFilePath).then((response) => response.text())
         .then((xmlText) => 
         {
+            console.log(xmlText);
             //console.log(xmlText);
             const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml");
 
