@@ -1,0 +1,36 @@
+
+
+  React Cursos:
+
+  * Curso Basico de React (Librerias)
+  * Curso CSS Estilos
+  * Curso Formularios Hook
+  * Curso Formulario 2 hook 
+  * Curso Rest Api con React (Axios)
+  * Curso de Next.js para conectar con sql server (no funciono por los permisos)
+  * Curso .Net Core API con POSTMAN / Swagger
+  * Curso GitHub
+
+
+
+  Comandos
+  --------------------------------------------------------------------
+  npm start  iniciar servidor
+  Ctl + C    Detener servidor
+  npm run build
+  npm install react-router-dom@6
+  npm install react-hook-form
+  npm install cors
+  npm i express
+  npm i axios
+  npm i react-html-parser --force
+  npm install xml-js --force
+  npm i --save react-select
+  npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+   
+
+
+
+
+
+

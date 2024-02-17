@@ -1,0 +1,320 @@
+
+  Conta Express Pendientes
+
+  -----------------------------------------------------------------------
+
+     SQL SERVER
+
+      user: sa
+  password: 123
+  
+
+  COLOR: #e97401
+
+
+  -----------------------------------------------------------------------
+
+  SEMANA 1
+
+  * Estudiar react
+  * Hacer base de datos test
+  * Hacer un ejemplo de formulario que inserte datos a sql
+
+  * Login 
+    * Redireccionar a Dashboard
+
+  * Poner Estilo a Login
+    * Crear hoja de estilo Style.css
+
+
+  -----------------------------------------------------------------------
+
+   SEMANA 2
+
+   Dashboard:
+
+   * Poner Estilo a dash board
+
+   * Poner en libreria:
+     * el item del cliente
+     * el movmiento
+     * menu: poner estilos y logo
+     * Agregar combos de clientes, fecha
+     * poner bien la plantilla del cargo y abono 
+     * agregar renglon al cargo / abono
+
+       
+   * crear logo ContaExpress
+
+   * poner eventos a combos
+     * cargar datos ficticios de facturas al seleccionar combo de mes 
+
+   * Meter combos en librerias
+     * Mandar handler y datos al combo 
+
+   * hacer la funcion HazCuentas()  
+
+   * Agregar pagina de listado de clientes (solo plantilla)
+   * Agregar pagina de factura (solo plantilla)
+   * Agregar pagina de mi cuenta (solo plantilla)
+
+
+  -----------------------------------------------------------------------
+
+   Formularios 
+
+   * Mi Cuenta (terminar el diseño)
+   * Agregar Cliente
+   * mejorar login y diseño
+   * menu poner iconos
+ 
+   https://github.com/refinedev/refine/tree/master/examples/app-crm-minimal
+
+
+  -----------------------------------------------------------------------
+
+
+    SEMANA 3:
+ 
+   AVANZADO - Base de Datos:
+
+     Server: localhost\\SQLEXPRESS
+         bd: test
+       User: sa
+   Password: 123
+
+
+
+   LUNES:
+   * crear componente personalizados  
+   * creacion de web services
+     * usuarios
+     * clientes
+     * facturas
+
+
+   MARTES:
+   * Login
+     * crear sp 
+     * crear metodo en web services (usar sp en metodo del ws)
+
+
+   * cargar facturas de base de datos en el dashboard 
+
+
+   * actualizar datos de mi cuenta
+     * traer datos de la cuenta  
+     * crear sp update
+     * crear metodo en web services
+
+   * variables de sesion: localstorage
+  
+
+   MIERCOLES:
+   * cargar lista de clientes de la base de datos
+   * aprender a usar form hook
+   * catalogo de actualizar usuario datos mejorado
+   * login reparado :)
+   * mejora de estilo del sistema
+ 
+
+   JUEVES:
+   + guardar cliente y certificado de la fiel 
+     * insert
+     + update (mejorar metodo usando sp para que deje actualizar con 2 llaves)
+     * delete
+
+   + mejorar metodos de los web services usando sp para poder enviar y recibir los datos de manera personalizada
+
+
+   VIERNES:
+   * cargar facturas en el almacen de facturas
+   + insert a factura maestro 
+  
+
+  ---------------------------------------------------------------------
+
+
+  SEMANA 4 / MEJORAS SIGUIENTE SEMANA 
+  
+  DOMINGO:
+
+  * clientes borrado: window.confirm de si y no
+  * mejorar acomodo de renglones diseño de clientes y facturas  
+  * paginacion en facturas y clientes
+  * titulo en facturas y clientes
+
+  LUNES:
+
+  * hacer ventanas modales personalizadas windows.dialog
+    * dialog
+    * alert
+    * toast   #e97401
+
+
+  MARTES Y MIERCOLES:
+
+  * Mejorar web services con post y sp
+
+  * dashboard: abrir pdf en ventana modal windows.open
+    <a href='#' usuario={this.props.usuario} cliente={this.props.cliente} factura={this.props.factura} tipo={this.props.tipo} onClick={this.props.handlerVer}><img src={imgXML} class='borrar' /></a>
+    <a href={`${process.env.PUBLIC_URL}/docs/factura1.pdf`} target='_blank' rel='noopener noreferrer'> <img src={imgXML} class='borrar' /> </a>
+
+  * facturas: poner link para bajar el xml y el pdf (simular que los archivos ya estan guardados)
+
+
+  JUEVES:
+
+  * leer archivos xml y meterlos a la base de datos
+
+    * leer archivo xml
+    * convertirlo a nodo
+    * guardarlos en la base de datos
+ 
+
+  VIERNES:
+
+   * cliente: mejorar el boton de open dialog 
+   * guardar iva y nombre del archivo en la factura
+   * realizar cuentas contables de los ivas en el dashboard
+   * 2 decimales en el cargo y abono
+   * arreglar el error de cargo y abono, abono es tipo 1 y cargo tipo 2
+
+
+   DOMINGO:
+
+   * dashboard: 
+
+     * leer los nombres xml que estan descargados, usando un web services del la API en asp net,
+       para insertar los 3 xml de las facturas que me mando el juan (facturas: usuario / cliente / ano / mes)
+
+
+  ---------------------------------------------------------------------
+  
+   SEMANA 5 / API SAT
+
+
+   LUNES:
+   * carpetas de ws y codigo react meterlas en una sola carpeta en el c:\contaexpres
+   * ponerle asyn a funciones del dash board para sincronizar bien con los web services
+   * cambiar el nombre de carpeta docs por facturas y corregir eso en codigo
+
+
+   MARTES:
+   * Loguiarse api del sat
+     * crear carpeta certificados y poner ahi el certificador del cliente
+     * leer manual 
+     * crear web services
+     * cargar archivo X509Certificate2
+     * loguearse
+
+
+
+    openssl pkcs12 -export -in casp910730et8.cer -inkey casp910730et8.key -out mycert.pfx
+
+   ------------------------------------------------------------------------------------------------------
+	
+    CREAR ARCHIVO PFX COMANDOS:
+	
+    openssl pkcs8 -inform der -in casp910730et8.key -passin pass:RENTAS01 -out key.pem
+    openssl x509 -inform der -in casp910730et8.cer -out cer.pem
+    openssl pkcs12 -export -in cer.pem -inkey key.pem -out casp910730et8.pfx
+    openssl enc -base64 -in casp910730et8.pfx -out casp910730et8.txt    (opcional)
+
+
+
+   MIERCOLES:
+
+   * hacer peticion para descarga
+   * descomprimir documentos en la carpeta  :)  
+   * bajar documentos PDF / XML y guardarlo en carpetas (facturas: usuario / cliente / ano / mes)
+   * crear carpeta del usuario, cliente, ano y mes si no exiten
+
+
+   JUEVES:
+
+   * pasar todo a .net  (no funciona bien en su totalidad el proceso de descarga)
+   * pasar todo a metodos con web services (soap, si funciona bien y rapido, pero es mas complejo)
+    
+   
+   VIERNES:
+
+   - pasar a la pagina web y ligarlo con el sistema en react
+ 
+   
+
+
+
+   ----------------------------------------------------------------------------------------------------------------------------
+
+   
+
+   PENDIENTES
+
+ 
+   Dashboard:
+
+   - ventana de facturas borradas, para poder bajarlas  
+   - boton para cambiar un cargo a abono o viceversa
+   - cajas de captura de un nuevo movimiento, guardar en tabla Contabilidad_adicionales
+
+   - generar tabla de contabilidad donde se llevara el control del
+     proceso de descarga del sat y las facturas de cada mes 
+
+     - tabla contabidad_detalle (facturas)
+     - tabla contabilidad_adicionales  (renglones de movimientos nuevos)
+     - tabla contabilidad impuestos  (linea de captura)
+
+
+   - generar documento pdf de los totales a pagar en hacienda (linea de captura)
+   - generar factura pdf apartir de los datos guardados cuando la quieren visualizar la primera vez, 
+     y mostrarla si ya exite
+
+
+   Fcaturas:
+   - agregar tabla de ivas por separado a la factura (aprender a enviar arreglos atraves de los web services)
+   - agregar los detalles de la factura, ver como mandar arreglos por web services
+
+
+   Clientes:
+
+   - Agregar cliente: certificado de la fiel y llave, subirlos y guardar los archivos en 
+     una carpeta de la pagina web (certificados: usuario / cliente )
+
+   - generar archivo pfx cuando guarden al cliente (herramient openssl)
+     - bajar openssl portable y poner en carpeta en el servidor web para ver si funciona
+     - ver video de youtube que dice como hacerlo
+   
+   - si el servidor de hosting no permite subir el pdx, tratar con el metodo de la libreria: 
+     using Org.BouncyCastle.Crypto.Parameters;  using Org.BouncyCastle.Security;  using Org.BouncyCastle.OpenSsl;
+     donde conviert el .cer y el key en pfx, y despues guardarlo en el servidor para usarlo de ahi en adelante 
+
+   - crear dll para encripar y desencriptar la contraseña del certificado al guardala en la base de datos sql server
+
+  -----------------------------------------------------------------------------------------------------------------------------
+
+
+
+   Archivo de facturas:
+
+   - poner filtros a la pagina de archivo facturas
+
+
+   Registro:
+
+   - pagina de registro de usuario
+   - pagina de pago con tarjeta
+
+
+   Diseño de pagina 
+
+    - Precios
+    - Beneficios 
+    - videos tutoriales
+    - Acerca de ...
+
+
+
+
+  
+ 
