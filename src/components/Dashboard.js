@@ -24,6 +24,7 @@ function Dashboard()
     
     const [Sesion, setSesion] = useState();
     const [Archivos, setArchivo] = useState([]);
+    const [Solicitud, setSolicitud] = useState();
 
     const confirmation = useConfirm();
     const Toast = useToast();
@@ -32,7 +33,8 @@ function Dashboard()
     function abrirAyuda()
     {
         //alert('abrirAyuda !');
-        setAyudaFacturas(true)
+        //setAyudaFacturas(true)
+        SAT_Verificacion_Descarga();
     }
 
     function cerrarAyuda()
@@ -45,15 +47,53 @@ function Dashboard()
     {
         //alert('TraerFacturas !');
 
-        // AUTENTIFICARSE A API SAT
+        // SOLICITUD DESCARGA MASIVA
+        //SAT_Solicitud_Descarga();
 
-        // CHECAR SI YA ESTA EL PAQUETE
-
-        // BAJAR PAQUETE
+        // VERIFICACION DESCARGA MASIVA
+        SAT_Verificacion_Descarga();
 
         // LEER FACTURAS XML Y GUARDARLAS
-        LeerArchivos();
+        //LeerArchivos();
     } 
+
+    async function SAT_Solicitud_Descarga()
+    {  
+         //alert('SAT_Solicitud_Descarga !');
+
+         try
+         {
+             let res = await Wrapper.post(`Archivo/SatSolicitudDescarga`);
+             let { datos } = res.data;              
+             
+             setSolicitud(res.data);
+             console.log(res.data);
+
+             Toast('Solicitud realizada');
+         }
+         catch (error) 
+         {
+             // Handle errors
+             console.log(error);
+         }
+    }
+
+    async function SAT_Verificacion_Descarga()
+    {  
+         //alert('SAT_Verificacion_Descarga: ' + Solicitud);
+
+         try
+         {
+             let res = await Wrapper.post(`Archivo/SatVerificacionDescarga`);
+             let { data } = res.data;             
+             Toast('Verificacion realizada');             
+         }
+         catch (error) 
+         {
+             // Handle errors
+             console.log(error);
+         }
+    }
 
     function LeerArchivos()
     {        
@@ -397,8 +437,14 @@ function Dashboard()
             </div>       
 
             <center>
+                
+                Solicitud: {  Solicitud }
+                
+                <br/><br/>
+
                 Archivos: 
                 { Archivos.map(archivo =>(  <p> {archivo.arC_NOMBRE} </p> )) }
+
             </center>
 
         </React.Fragment>
