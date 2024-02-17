@@ -13,11 +13,12 @@ using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 
 using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Security;
-//using wsContaExpres;
+
 using System.Net;
 using System.Runtime.ConstrainedExecution;
 using System.IO.Compression;
 using Microsoft.IdentityModel.Tokens;
+
 using ServiceReference1;
 
 namespace Library.Controllers
@@ -96,8 +97,8 @@ namespace Library.Controllers
         {
             string RfcEmisor = "IATG9306278W9";
             string RfcReceptor = "";
-            string FechaInicial = "2023-01-01";
-            string FechaFinal = "2023-10-30";
+            string FechaInicial = "2023-02-01";
+            string FechaFinal = "2023-03-24";
 
             try
             {
@@ -215,7 +216,7 @@ namespace Library.Controllers
         public IActionResult SatVerificacionDescarga()
         {
             string RfcEmisor = "IATG9306278W9";
-            string idSolicitud = "640bc97e-fa4a-4bf4-b02b-171516608d5c";
+            string idSolicitud = "17d14109-02fc-4145-878d-95130e778b9b";
 
             try
             {
@@ -232,7 +233,10 @@ namespace Library.Controllers
                     if (idPaquete.IsNullOrEmpty() == false)
                     {
                         string response = this.SatDescargaMasiva(certificate, autorizacion, RfcEmisor, idPaquete);
-                        if (response.IsNullOrEmpty() == false) { GuardarSolicitud(idPaquete, response); }
+                        if (response.IsNullOrEmpty() == false) 
+                        {
+                            GuardarSolicitud(RfcEmisor, idPaquete, response); 
+                        }
                     }
 
                     return Ok(idPaquete);
@@ -263,24 +267,30 @@ namespace Library.Controllers
             }
         }
 
-        private void GuardarSolicitud(string idPaquete, string descargaResponse)
+        private void GuardarSolicitud(string psCliente, string idPaquete, string descargaResponse)
         {
-            string path = "./Paquetes/";
+            string path = "./facturas/usuario_1/" + psCliente + "/";
             string filePath = path + idPaquete + ".zip";
             string pathExtract = path + idPaquete + "/";
             byte[] file = Convert.FromBase64String(descargaResponse);
 
-            Directory.CreateDirectory(path);
-
-            using (FileStream fs = System.IO.File.Create(filePath, file.Length))
+            if (Directory.Exists(path) == false)
             {
-                fs.Write(file, 0, file.Length);
+                Directory.CreateDirectory(path);
+
+                if (System.IO.File.Exists(filePath) == false)
+                {
+                    using (FileStream fs = System.IO.File.Create(filePath, file.Length))
+                    {
+                        fs.Write(file, 0, file.Length);
+                    }
+
+                    Console.WriteLine("FileCreated: " + filePath);
+
+                    ZipFile.ExtractToDirectory(filePath, pathExtract);
+                    Console.WriteLine("Unzip file: " + pathExtract);
+                }
             }
-
-            Console.WriteLine("FileCreated: " + filePath);
-
-            ZipFile.ExtractToDirectory(filePath, pathExtract);
-            Console.WriteLine("Unzip file: " + pathExtract);
         }
 
     }
