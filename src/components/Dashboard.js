@@ -85,7 +85,7 @@ function Dashboard()
          try
          {
              let res = await Wrapper.post(`Archivo/SatVerificacionDescarga`);
-             let { data } = res.data;             
+             let { data } = res.data;
              Toast('Verificacion realizada');             
          }
          catch (error) 
