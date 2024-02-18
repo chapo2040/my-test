@@ -41,9 +41,9 @@ export const Input = ({ name, label, register, errors, required, type, validatio
 );
 
 
-export const Select = ({ name, className, options, value, descripcion, register }) => 
+export const Select = ({ name, className, options, value, descripcion, handlerChange, hasFirst, register }) => 
 (    
-    <select name={name} class={className} {...register(name)}> 
+    <select name={name} class={className} onChange={handlerChange} {...register(name)}>        
         {options.map(option =>(            
             <option value={option[value]}> {option[descripcion]} </option>
         ))}

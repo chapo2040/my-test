@@ -77,7 +77,8 @@ function ClienteAgregar()
             setCliente(state.cliente);
 
             //alert('Cargar Cliente ! ');  
-            Wrapper.get(`Clientes/cliente?piUsuario=${piUsuario}&plCliente=${state.cliente}`).then(response => 
+            Wrapper.get(`Clientes/cliente?piUsuario=${piUsuario}&plCliente=${state.cliente}`)
+            .then(response => 
             {             
                 //alert('Cliente: ' + response.data[0].clI_NOMBRE);
                 
@@ -90,9 +91,8 @@ function ClienteAgregar()
                     txtKey: response.data[0].clI_KEY,
                     txtPassword: response.data[0].clI_PASSWORD
                 });
-    
-                })
-                .catch(error => { alert(error);});
+
+            }).catch(error => { alert(error);});
         }
         else
         {

@@ -212,15 +212,15 @@ export const MovimientoRenglon = ({ register, errors }) =>
   <div class='itemMovimiento'>
 
     <div class='descripcion'>      
-      <TextBox name='txtDescripcion' placeholder="Concepto" className='txtDescripcion' register={register} validationSchema={{required:"Concepto requerido."}} errors={errors} />
+      <TextBox name='txtDescripcion' placeholder="Concepto" className='txtDescripcion' register={register} errors={errors} />
     </div>
 
     <div class='cargo'>      
-      <TextBox name='txtCargo' placeholder="Cargo" className='txtCargo' register={register} validationSchema={{required:"Cargo requerido."}} errors={errors} />
+      <TextBox name='txtCargo' placeholder="Cargo" className='txtCargo' register={register} errors={errors} />
     </div>
 
     <div class='abono'>        
-      <TextBox name='txtAbono' placeholder="Abono" className='txtAbono' register={register} validationSchema={{required:"Abono requerido."}} errors={errors} />
+      <TextBox name='txtAbono' placeholder="Abono" className='txtAbono' register={register} errors={errors} />
     </div>  
 
   </div>  

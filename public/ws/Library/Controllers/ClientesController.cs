@@ -30,6 +30,51 @@ namespace Library.Controllers
             return await _context.Cliente.ToListAsync();
         }
 
+        [HttpGet("comboCliente")]
+        public IActionResult ComboCliente(int piUsuario)
+        {
+            try
+            {
+                SqlConnection conexion = (SqlConnection)_context.Database.GetDbConnection();
+                SqlCommand comando = conexion.CreateCommand();
+                conexion.Open();
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "APP_LST_CLIENTE";
+                comando.Parameters.Add("@usuario", SqlDbType.Int).Value = piUsuario;
+                comando.Parameters.Add("@cliente", SqlDbType.BigInt).Value = 0;
+                SqlDataReader reader = comando.ExecuteReader();
+
+                List<Cliente> lstClientes = new List<Cliente>();
+                
+                Cliente loClienteComodin = new Cliente();
+                loClienteComodin.CLI_CLAVE = 0;
+                loClienteComodin.CLI_RFC = "";
+                loClienteComodin.CLI_NOMBRE = "SELECCIONE CLIENTE";
+                lstClientes.Add(loClienteComodin);
+
+                while (reader.Read())
+                {
+                    Cliente loCliente = new Cliente();
+                    loCliente.CLI_USUCVE = reader.GetInt32("CLI_USUCVE");
+                    loCliente.CLI_CLAVE = reader.GetInt64("CLI_CLAVE");
+                    loCliente.CLI_RFC = reader.GetString("CLI_RFC");
+                    loCliente.CLI_NOMBRE = reader.GetString("CLI_NOMBRE");
+                    loCliente.CLI_FIEL = reader.GetString("CLI_FIEL");
+                    loCliente.CLI_KEY = reader.GetString("CLI_KEY");
+                    loCliente.CLI_PASSWORD = reader.GetString("CLI_PASSWORD");
+                    lstClientes.Add(loCliente);
+                }
+
+                conexion.Close();
+
+                return Ok(lstClientes);
+            }
+            catch
+            {
+                return BadRequest("Errors.");
+            }
+        }
+
         [HttpGet("cliente")]
         public IActionResult Clientes(int piUsuario, long plCliente)
         {

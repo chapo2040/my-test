@@ -48,13 +48,17 @@ namespace Library.Controllers
 
         [HttpGet("Archivos")]
         //public IActionResult Archivos(int piUsuario, long plCliente, int piAno, int piMes)
-        public IActionResult Archivos()
+        public IActionResult Archivos(int usuario, string cliente, string paquete)
         {
             try
             {
                 // HACER BUQUEDA DE ARCHIVOS EN CARPETA DEL HOSTING  FILE IO
                 string executingPath = Directory.GetCurrentDirectory();
-                string lsPath = executingPath + @"\facturas\";
+                string lsUsuario = "1";
+                string lsCliente = "IATG9306278W9";
+                string lsPaquete = "84FC3A97-21DC-459D-BBBB-E6193304DF9D_01";
+                string lsPath = executingPath + @"\facturas\" + "usuario_" + lsUsuario + @"\" + lsCliente + @"\" + lsPaquete + @"\";
+
                 int liContador = 1;
 
                 List<Archivo> lstArchivos = new List<Archivo>();
@@ -93,12 +97,12 @@ namespace Library.Controllers
         }
 
         [HttpPost("SatSolicitudDescarga")]
-        public IActionResult SatSolicitudDescarga()
+        public IActionResult SatSolicitudDescarga(SolicitudEntrada solicitudEntrada)
         {
-            string RfcEmisor = "IATG9306278W9";
-            string RfcReceptor = "";
-            string FechaInicial = "2023-02-01";
-            string FechaFinal = "2023-03-23";
+            string RfcEmisor = solicitudEntrada.SOL_RFC_EMISOR; // "IATG9306278W9";
+            string RfcReceptor = solicitudEntrada.SOL_RFC_RECEPTOR;
+            string FechaInicial = solicitudEntrada.SOL_FECHA_INICIAL.ToString("yyyy-MM-dd"); //"2023-02-01";
+            string FechaFinal = calcularFecha(solicitudEntrada.SOL_FECHA_FINAL);
 
             try
             {
@@ -110,10 +114,10 @@ namespace Library.Controllers
                     // Solicitud de descarga masiva                
                     Solicitud solicitud = new Solicitud(this.urlSolicitud, this.urlSolicitudAction);
                     string xmlSolicitud = solicitud.Generate(certificate, RfcEmisor, RfcReceptor, RfcEmisor, FechaInicial, FechaFinal, "CFDI");
-                    string idSolicitud = solicitud.Send(autorizacion);
-                    Console.WriteLine("IdSolicitud: " + idSolicitud);
+                    solicitudEntrada.SOL_CODIGO = solicitud.Send(autorizacion);
+                    Console.WriteLine("IdSolicitud: " + solicitudEntrada.SOL_CODIGO);
 
-                    return Ok(idSolicitud);
+                    return Ok(solicitudEntrada);
                 }
             }
             catch
@@ -122,6 +126,13 @@ namespace Library.Controllers
             }
 
             return Ok();
+        }
+
+        private string calcularFecha(DateTime fecha)
+        {
+            DateTime calcular = fecha.AddMonths(1);            
+            calcular = calcular.AddDays(-1);
+            return calcular.ToString("yyyy-MM-dd");
         }
 
         private X509Certificate2 crearCertificado()
@@ -213,10 +224,10 @@ namespace Library.Controllers
         }
 
         [HttpPost("SatVerificacionDescarga")]
-        public IActionResult SatVerificacionDescarga()
+        public IActionResult SatVerificacionDescarga(SolicitudEntrada solicitudEntrada)
         {
-            string RfcEmisor = "IATG9306278W9";
-            string idSolicitud = "0bceec31-48ba-41d7-a6d9-69ba22f1b2b7";
+            string RfcEmisor = solicitudEntrada.SOL_RFC_EMISOR; // "IATG9306278W9";
+            string idSolicitud = solicitudEntrada.SOL_CODIGO; // "0bceec31-48ba-41d7-a6d9-69ba22f1b2b7";
 
             try
             {

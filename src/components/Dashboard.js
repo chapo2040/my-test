@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import Wrapper from './Wrapper';
 
 import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
-import Controles, { Button, Password, TextBox, CheckBox } from "./Controles";
+import Controles, { Button, Password, TextBox, CheckBox, Input, Select } from "./Controles";
 
 import { useConfirm } from './ConfirmationContext';
 import { useAlert } from './AlertContext';
@@ -13,7 +13,7 @@ import { AyuFacturas } from './ayuFacturas';
 
 function Dashboard() 
 {   
-    const {register, handleSubmit, reset, formState: { errors }} = useForm();   
+    const {register, handleSubmit, setValue, reset, formState: { errors }} = useForm();
     const location = useLocation();  
 
     const [Clientes, setCliente] = useState([]);
@@ -25,6 +25,7 @@ function Dashboard()
     const [Sesion, setSesion] = useState();
     const [Archivos, setArchivo] = useState([]);
     const [Solicitud, setSolicitud] = useState();
+    const [Paquetes, setPaquete] = useState();
 
     const confirmation = useConfirm();
     const Toast = useToast();
@@ -41,82 +42,34 @@ function Dashboard()
     {
         //alert('cerrarAyuda !');
         setAyudaFacturas(false)
-    }
-
-    function TraerFacturas()
-    {
-        //alert('TraerFacturas !');
-
-        // SOLICITUD DESCARGA MASIVA
-        //SAT_Solicitud_Descarga();
-
-        // VERIFICACION DESCARGA MASIVA
-        SAT_Verificacion_Descarga();
-
-        // LEER FACTURAS XML Y GUARDARLAS
-        //LeerArchivos();
     } 
-
-    async function SAT_Solicitud_Descarga()
-    {  
-         //alert('SAT_Solicitud_Descarga !');
-
-         try
-         {
-             let res = await Wrapper.post(`Archivo/SatSolicitudDescarga`);
-             let { datos } = res.data;              
-             
-             setSolicitud(res.data);
-             console.log(res.data);
-
-             Toast('Solicitud realizada');
-         }
-         catch (error) 
-         {
-             // Handle errors
-             console.log(error);
-         }
-    }
-
-    async function SAT_Verificacion_Descarga()
-    {  
-         //alert('SAT_Verificacion_Descarga: ' + Solicitud);
-
-         try
-         {
-             let res = await Wrapper.post(`Archivo/SatVerificacionDescarga`);
-             let { data } = res.data;
-             Toast('Verificacion realizada');             
-         }
-         catch (error) 
-         {
-             // Handle errors
-             console.log(error);
-         }
-    }
 
     function LeerArchivos()
     {        
         //alert('LeerArchivos !');
-        
-        //LeerXML('factura1.xml');
-        //LeerXML('factura4.xml');
-        //LeerXML('factura5.xml');
 
-        //var llFolio = 0;
+        var lsCliente = "312312";
+        var lsPaquete = "12312";
         
-        Wrapper.get(`Archivo/Archivos`).then(async response => 
-        //Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}&piStatus=1`).then(response =>         
-        {
-            //alert('archivos: ' + response.data.length);  
-            setArchivo(response.data);
+        Wrapper.get(`Archivo/Archivos?usuario=${Sesion.clave}&cliente=${lsCliente}&paquete=${lsPaquete}`)
+        .then(async response =>         
+        {            
+            setArchivo(response.data);            
+            var arrArchivos = response.data;
+            
+            //alert('archivos: ' + arrArchivos.length);  
 
-            var factura1 = response.data[0];
-            var factura2 = response.data[1];
-            var factura3 = response.data[2];
-            await LeerXML(factura1.arC_NOMBRE);
-            await LeerXML(factura2.arC_NOMBRE);
-            await LeerXML(factura3.arC_NOMBRE);
+            for(let pos = 0; pos < 1; pos++)
+            {
+                var factura = arrArchivos[pos];
+                await LeerXML(factura.arC_NOMBRE);
+                //alert('factura: ' + factura.arC_NOMBRE); 
+            }            
+
+            /*
+                var factura1 = response.data[0];
+                await LeerXML(factura1.arC_NOMBRE);     
+            */
 
             //alert('facturas: ' + factura2.arC_NOMBRE); 
         })
@@ -126,11 +79,16 @@ function Dashboard()
     async function LeerXML(psFileXML)
     {
         //alert('LeerXML: ' + psFileXML);
-        var llCliente = 2;
+        var lsUsuario = "usuario_1";
+        var lsRFC = "IATG9306278W9";
+        var lsPaquete = "84FC3A97-21DC-459D-BBBB-E6193304DF9D_01";
+
+        var llCliente = 4;
         var liTipo = 1;    //  1: Emitidas  2: Recividas
 
-        var lsFilePath = process.env.PUBLIC_URL + '/ws/Library/facturas/' + psFileXML;    
-        
+        var lsFilePath = process.env.PUBLIC_URL + '/ws/Library/facturas/' + lsUsuario + "/" + lsRFC + "/" + lsPaquete + "/" + psFileXML;    
+        alert(lsFilePath);
+
         const response = await fetch(lsFilePath);
         const xmlText = await response.text();
         //console.log(xmlText);        
@@ -269,15 +227,21 @@ function Dashboard()
         if (loUsuario) 
         {
             setSesion(loUsuario);
+            //alert('ObtenerSesion: ' + loUsuario.clave);
+            LlenaClientes(loUsuario.clave); 
         }
         //alert('Sesion | Clave ' + Sesion.clave + ' - Nombre: ' + Sesion.nombre + ' - Plan: ' + Sesion.membresia);
     }
 
-    function LlenaClientes()
+    function LlenaClientes(usuario)
     {
-        //alert('LlenaClientes ! ');   
-        Wrapper.get(`Clientes`).then(response => { setCliente(response.data); })
+        //alert('LlenaClientes ! ');
+        Wrapper.get(`Clientes/comboCliente?piUsuario=${usuario}`)        
+        .then(response => { setCliente(response.data); })
         .catch(error => { alert(error);});
+
+        //Wrapper.get(`Clientes`).then(response => { setCliente(response.data); })
+        //.catch(error => { alert(error);});
     }
 
     function LlenaFacturas(cliente)
@@ -294,12 +258,6 @@ function Dashboard()
         })
         .catch(error => { alert(error);});        
     }
-
-    useEffect(() => 
-    { 
-        ObtenerSesion();
-        LlenaClientes();        
-    }, []);  
 
     function HazCuentas(paFacturas)
     {
@@ -396,6 +354,121 @@ function Dashboard()
         }   
     }   
 
+    const targetYears = [ {value:2020, display: "2020"}, {value:2021, display: "2021"}, {value:2022, display: "2022"}, {value:2023, display: "2023"}, {value:2024, display: "2024"}];
+    const targetMonths = [
+        {value:"01", display: "ENERO"}, 
+        {value:"02", display: "FEBRERO"}, 
+        {value:"03", display: "MARZO"}, 
+        {value:"04", display: "ABRIL"}, 
+        {value:"05", display: "MAYO"}, 
+        {value:"06", display: "JUNIO"}, 
+        {value:"07", display: "JULIO"}, 
+        {value:"08", display: "AGOSTO"}, 
+        {value:"09", display: "SEPTIEMBRE"}, 
+        {value:"10", display: "OCTUBRE"}, 
+        {value:"11", display: "NOVIEMBRE"}, 
+        {value:"12", display: "DICIEMBRE"}];
+  
+    useEffect(() => 
+    { 
+        ObtenerSesion();     
+        setValue("cbxAno", 2024);
+        setValue("cbxMes", "02");
+    }, []);  
+
+    async function SAT_Verificacion_Descarga()
+    {  
+        //alert('SAT_Verificacion_Descarga: ' + Solicitud);
+
+        try
+        {
+            let res = await Wrapper.post(`Archivo/SatVerificacionDescarga`, { soL_ID: 0, soL_CODIGO: Solicitud, soL_USUARIO: Sesion.clave, soL_RFC_EMISOR: "IATG9306278W9", soL_RFC_RECEPTOR: "", soL_FECHA_INICIAL: "2023-02-01", soL_FECHA_FINAL: "2023-03-20", soL_TIPO: 1 });
+            let { data } = res.data;
+            
+            setPaquete(res.data);
+            console.log(res.data);
+
+            Toast('Verificacion realizada');             
+        }
+        catch (error) 
+        {
+            // Handle errors
+            console.log(error);
+        }
+    }
+
+    async function SAT_Solicitud_Descarga(rfc, ano, mes)
+    {  
+        //alert('SAT_Solicitud_Descarga: ' + rfc + " - fecha: " + ano + "-" + mes);
+
+        var fechaInicial = ano + "-" + mes + "-01";
+        var fechaFinal = ano + "-" + mes + "-01";
+        //alert('SAT_Solicitud_Descarga: ' + fechaInicial);
+
+        try
+        {
+            let res = await Wrapper.post(`Archivo/SatSolicitudDescarga`, { soL_ID: 0, soL_CODIGO: "", soL_USUARIO: Sesion.clave, soL_RFC_EMISOR: rfc, soL_RFC_RECEPTOR: "", soL_FECHA_INICIAL: fechaInicial, soL_FECHA_FINAL: fechaFinal, soL_TIPO: 1 });
+            let { datos } = res.data;              
+            
+            setSolicitud(res.data.soL_CODIGO);
+            console.log(res.data.soL_CODIGO);
+
+            Toast('Solicitud realizada');
+        }
+        catch (error) 
+        {
+            // Handle errors
+            console.log(error);
+        }
+    }
+
+    async function OnSolicitud(data)
+    {   
+        //alert('OnSubmit ' + data.cbxAno);
+        if(validateForm(data)===true)
+        {
+            // SOLICITUD DESCARGA MASIVA
+            SAT_Solicitud_Descarga(data.cbxCliente, data.cbxAno, data.cbxMes);
+            //setSolicitud("Hola mundo !");
+            Toast('Orden Enviada');
+        }
+    }      
+    
+    async function OnVerificacion(data)
+    {   
+        if(validateForm(data)===true)
+        {            
+            // VERIFICACION DESCARGA MASIVA
+            SAT_Verificacion_Descarga();
+            Toast('Verificacion Enviada');
+        }
+    } 
+
+    async function OnLeerArchivos(data)
+    {   
+        if(validateForm(data)===true)
+        {            
+            // LEER FACTURAS XML Y GUARDARLAS
+            LeerArchivos();
+            Toast('Leyendo Archivos');  
+        }
+    } 
+
+    
+    function validateForm(data)
+    {        
+        //alert("validateForm | cbxCliente: " + data.cbxCliente);
+
+        if(data.cbxCliente == '' || data.cbxCliente == undefined)
+        {
+            //alert("¡ Seleccione Cliente !");
+            Toast('Seleccione Cliente');     
+            return false;
+        }
+        
+        return true;
+    } 
+
     return (
 
         <React.Fragment>
@@ -406,31 +479,35 @@ function Dashboard()
 
                 <div class='pnlMovimientos'>
 
-                    <div class='pnlFiltros'>
-                        <ComboCliente clientes={Clientes} handlerChange={handlerCbxCliente}/>
-                        <ComboAno handlerChange={handlerCbxAno}/>
-                        <ComboMes handlerChange={handlerCbxMes}/>
-                    </div>
+                    <form class='frmFacturas'>
 
-                    <div class='pnlFacturas'>
-                        
-                        <AyuFacturas isOpen={isOpenFacturas} handler={cerrarAyuda} />
-
-                        <MovimientoTitulo />
-                        <div class='renglones'>
-                            { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} folio={factura.faC_FOLIO} descripcion={factura.faC_DESCRIPCION} tipo={factura.faC_TIPO} importe={factura.faC_IMPORTE} impuesto={factura.faC_IMPUESTO} impuestoImporte={factura.faC_IMPUESTO_IMPORTE} handlerBorrar={OnDelete} handlerVer={OnView} /> )) }                        
-                            <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
+                        <div class='pnlFiltros'>                            
+                            <Select name='cbxCliente' className='comboCliente' options={Clientes} value='clI_RFC' descripcion='clI_NOMBRE' hasFirst={true} register={register} />
+                            <Select name='cbxAno' className='comboAno' options={targetYears} value='value' descripcion='display' handlerChange={handlerCbxAno} register={register} />
+                            <Select name='cbxMes' className='comboMes' options={targetMonths} value='value' descripcion='display' handlerChange={handlerCbxMes} register={register} />
                         </div>
-                        <MovimientoTotal totalCargo={gdCargo} totalAbono={gdAbono} />
-                        <br />
-                        
-                        <p align="right">
-                            <Button name='btnAyuda' text='Catalogo' className ='custom-button boton' handlerSubmit={abrirAyuda} />
-                            <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={TraerFacturas} />
-                            <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={Imprimir} />                            
-                        </p>                    
 
-                    </div>    
+                        <div class='pnlFacturas'>
+                            
+                            <AyuFacturas isOpen={isOpenFacturas} handler={cerrarAyuda} />
+
+                            <MovimientoTitulo />
+                            <div class='renglones'>
+                                { Facturas.map(factura =>(<Movimiento usuario={factura.faC_USUCVE} cliente={factura.faC_CLICVE} factura={factura.faC_CLAVE} folio={factura.faC_FOLIO} descripcion={factura.faC_DESCRIPCION} tipo={factura.faC_TIPO} importe={factura.faC_IMPORTE} impuesto={factura.faC_IMPUESTO} impuestoImporte={factura.faC_IMPUESTO_IMPORTE} handlerBorrar={OnDelete} handlerVer={OnView} /> )) }                        
+                                <MovimientoRenglon className='input-underline input' register={register} errors={errors} />
+                            </div>
+                            <MovimientoTotal totalCargo={gdCargo} totalAbono={gdAbono} />
+                            <br />
+                            
+                            <p align="right">
+                                <Button name='btnAyuda' text='Catalogo' className ='custom-button boton' handlerSubmit={handleSubmit(OnVerificacion)} />
+                                <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={handleSubmit(OnSolicitud)} />
+                                <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={handleSubmit(OnLeerArchivos)} />
+                            </p>                    
+
+                        </div>    
+                    
+                    </form>
 
                 </div>                
                 
@@ -438,8 +515,10 @@ function Dashboard()
 
             <center>
                 
-                Solicitud: {  Solicitud }
-                
+                Solicitud: {  Solicitud }                
+                <br/><br/>
+
+                Paquete: { Paquetes }                
                 <br/><br/>
 
                 Archivos: 

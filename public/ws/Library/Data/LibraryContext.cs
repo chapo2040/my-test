@@ -14,6 +14,7 @@ namespace Library.Data
         {
         }
         public DbSet<Library.Models.Archivo> Archivo { get; set; } = default!;
+        public DbSet<Library.Models.SolicitudEntrada> SolicitudEntrada { get; set; } = default!;
         public DbSet<Library.Models.Book> Book { get; set; } = default!;
         public DbSet<Library.Models.Usuario> Usuario { get; set; } = default!;
         public DbSet<Library.Models.Cliente> Cliente { get; set; } = default!;
