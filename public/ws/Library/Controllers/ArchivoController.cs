@@ -46,18 +46,19 @@ namespace Library.Controllers
             _context = context;
         }
 
-        [HttpGet("Archivos")]
-        //public IActionResult Archivos(int piUsuario, long plCliente, int piAno, int piMes)
-        public IActionResult Archivos(int usuario, string cliente, string paquete)
+        [HttpGet("Archivos")]        
+        public IActionResult Archivos(int usuario, string cliente, string paquete, int Ano, int Mes)
         {
             try
             {
                 // HACER BUQUEDA DE ARCHIVOS EN CARPETA DEL HOSTING  FILE IO
                 string executingPath = Directory.GetCurrentDirectory();
-                string lsUsuario = "1";
-                string lsCliente = "IATG9306278W9";
-                string lsPaquete = "84FC3A97-21DC-459D-BBBB-E6193304DF9D_01";
-                string lsPath = executingPath + @"\facturas\" + "usuario_" + lsUsuario + @"\" + lsCliente + @"\" + lsPaquete + @"\";
+                //string lsUsuario = "1";
+                //string lsCliente = "IATG9306278W9";
+                //string lsPaquete = "84FC3A97-21DC-459D-BBBB-E6193304DF9D_01";
+                int liAno = Ano;
+                int liMes = Mes;
+                string lsPath = executingPath + @"\facturas\" + "usuario_" + usuario + @"\" + cliente + @"\" + paquete + @"\";
 
                 int liContador = 1;
 

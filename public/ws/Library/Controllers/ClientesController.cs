@@ -46,11 +46,11 @@ namespace Library.Controllers
 
                 List<Cliente> lstClientes = new List<Cliente>();
                 
-                Cliente loClienteComodin = new Cliente();
-                loClienteComodin.CLI_CLAVE = 0;
-                loClienteComodin.CLI_RFC = "";
-                loClienteComodin.CLI_NOMBRE = "SELECCIONE CLIENTE";
-                lstClientes.Add(loClienteComodin);
+                //Cliente loClienteComodin = new Cliente();
+                //loClienteComodin.CLI_CLAVE = 0;
+                //loClienteComodin.CLI_RFC = "";
+                //loClienteComodin.CLI_NOMBRE = "SELECCIONE CLIENTE";
+                //lstClientes.Add(loClienteComodin);
 
                 while (reader.Read())
                 {

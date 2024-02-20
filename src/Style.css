@@ -347,6 +347,32 @@ dialog .buttonNo
     100% { opacity: 1; transform: translateX(30%); }
 }  
 
+.loading
+{   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0px 0px 500px 800px rgba(92, 90, 88, 0.4);    
+    border: solid 2px rgb(164, 165, 165); 
+    border-radius: 10px;   
+    width: 240px;   
+    height: 80px;     
+}
+
+.loading .spinner
+{   
+   margin-top: 7px;
+   margin-bottom: 6px;  
+}
+
+.loading .statusMessage
+{   
+   font-size: 14px;
+   color: #4a4c4d;
+}
+
 .ayudaFactura
 {   
     top: 80%;
@@ -815,6 +841,25 @@ dialog .buttonNo
     margin-left: 10px;    
     margin-right: 10px;
     margin-bottom: 30px;
+}
+
+.pnlMovimientos .pnlFacturas .btnTest
+{
+    width: 130px;
+    background-color: whitesmoke;
+    border-color: #92908d;
+    border-radius: 10px;
+    color: #e97401;    
+    font-size: 15px;    
+    margin-right: 8px;
+    margin-bottom: 10px;
+}
+
+.pnlMovimientos .pnlFacturas .btnTest:hover
+{    
+    background-color: #e97401;    
+    border: solid 1px gray;
+    color: #ffffff;
 }
 
 .pnlMovimientos .pnlFacturas .pnlTotales

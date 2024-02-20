@@ -31,10 +31,14 @@ namespace Library.Controllers
         }
 
         [HttpGet("facturas")]
-        public IActionResult Facturas(int piUsuario, long plCliente, long plFolio, int piStatus)
+        public IActionResult Facturas(int piUsuario, long plCliente, int piAno, int piMes, long plFolio, int piStatus)
         {
             try
             {
+                DateTime FechaInicial = new DateTime(piAno, piMes, 1);
+                DateTime FechaFinal = FechaInicial.AddMonths(1);   
+                FechaFinal.AddDays(-1);
+
                 SqlConnection conexion = (SqlConnection)_context.Database.GetDbConnection();
                 SqlCommand comando = conexion.CreateCommand();
                 conexion.Open();
@@ -43,6 +47,8 @@ namespace Library.Controllers
                 comando.Parameters.Add("@usuario", SqlDbType.Int).Value = piUsuario;
                 comando.Parameters.Add("@cliente", SqlDbType.BigInt).Value = plCliente;
                 comando.Parameters.Add("@folio", SqlDbType.BigInt).Value = plFolio;
+                comando.Parameters.Add("@fechaInicial", SqlDbType.DateTime).Value = FechaInicial;
+                comando.Parameters.Add("@fechaFinal", SqlDbType.DateTime).Value = FechaFinal;
                 comando.Parameters.Add("@status", SqlDbType.Int).Value = piStatus;
                 SqlDataReader reader = comando.ExecuteReader();
 
@@ -58,6 +64,7 @@ namespace Library.Controllers
                     loFactura.FAC_DESCRIPCION = reader.GetString("FAC_DESCRIPCION");
                     loFactura.FAC_TIPO = reader.GetInt32("FAC_TIPO");
                     loFactura.FAC_IMPORTE = reader.GetDecimal("FAC_IMPORTE");
+                    loFactura.FAC_FECHA = reader.GetDateTime("FAC_FECHA");
                     loFactura.FAC_STATUS = reader.GetInt32("FAC_STATUS");
                     loFactura.FAC_IMPUESTO = reader.GetString("FAC_IMPUESTO");
                     loFactura.FAC_IMPUESTO_IMPORTE = reader.GetDecimal("FAC_IMPUESTO_IMPORTE");

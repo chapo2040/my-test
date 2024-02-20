@@ -27,7 +27,7 @@ function Facturas()
         else if(liArchivo==2){lsExtencion='xml';}        
         
         const windowFeatures = "left=100,top=100,width=800,height=800";        
-        const handle = window.open(process.env.PUBLIC_URL + "/docs/factura" + llFactura + "." + lsExtencion, "_blank", windowFeatures);                
+        const handle = window.open(process.env.PUBLIC_URL + "/ws/Library/facturas/factura" + llFactura + "." + lsExtencion, "_blank", windowFeatures);                
         
         if (!handle){
 

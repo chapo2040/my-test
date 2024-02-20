@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useForm} from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
+import { Cargando } from './Cargando';
 import Wrapper from './Wrapper';
 
 import Utils, { Menu, Movimiento, MovimientoTitulo, MovimientoRenglon, MovimientoTotal, ComboCliente, ComboAno, ComboMes } from "./Utils";
@@ -23,6 +24,10 @@ function Dashboard()
     const [isOpenFacturas, setAyudaFacturas] = useState(false);
     
     const [Sesion, setSesion] = useState();
+    
+    const [isLoading, setLoading] = useState(false);
+    const [messageDialog, SetMessageDialog] = useState('Cargando, espere ...');    
+
     const [Archivos, setArchivo] = useState([]);
     const [Solicitud, setSolicitud] = useState();
     const [Paquetes, setPaquete] = useState();
@@ -44,32 +49,30 @@ function Dashboard()
         setAyudaFacturas(false)
     } 
 
-    function LeerArchivos()
+    function LeerArchivos(cliente, ano, mes)
     {        
-        //alert('LeerArchivos !');
-
-        var lsCliente = "312312";
-        var lsPaquete = "12312";
-        
-        Wrapper.get(`Archivo/Archivos?usuario=${Sesion.clave}&cliente=${lsCliente}&paquete=${lsPaquete}`)
+        //alert('LeerArchivos | cliente: ' + cliente);
+        var rfc = buscarClienteRFC(cliente);
+        var lsPaquete = Paquetes;
+        alert('LeerArchivos | rfc: ' + rfc + " - Paquete: " + Paquetes + " - Año: " + ano + " - Mes: " + mes);
+                
+        Wrapper.get(`Archivo/Archivos?usuario=${Sesion.clave}&cliente=${rfc}&paquete=${lsPaquete}&Ano=${ano}&Mes=${mes}`)
         .then(async response =>         
         {            
             setArchivo(response.data);            
             var arrArchivos = response.data;
             
-            //alert('archivos: ' + arrArchivos.length);  
+            alert('archivos: ' + arrArchivos.length);  
 
             for(let pos = 0; pos < 1; pos++)
             {
                 var factura = arrArchivos[pos];
-                await LeerXML(factura.arC_NOMBRE);
+                //await LeerXML(factura.arC_NOMBRE);
                 //alert('factura: ' + factura.arC_NOMBRE); 
             }            
 
-            /*
-                var factura1 = response.data[0];
-                await LeerXML(factura1.arC_NOMBRE);     
-            */
+            //var factura1 = response.data[0];
+            // await LeerXML(factura1.arC_NOMBRE);            
 
             //alert('facturas: ' + factura2.arC_NOMBRE); 
         })
@@ -82,6 +85,8 @@ function Dashboard()
         var lsUsuario = "usuario_1";
         var lsRFC = "IATG9306278W9";
         var lsPaquete = "84FC3A97-21DC-459D-BBBB-E6193304DF9D_01";
+        var liAno = 2024;
+        var liMes = 1;
 
         var llCliente = 4;
         var liTipo = 1;    //  1: Emitidas  2: Recividas
@@ -197,7 +202,7 @@ function Dashboard()
             let res = await Wrapper.post(`Facturas/agregar`, { faC_USUCVE: Sesion.clave, faC_CLICVE: plCliente, faC_CLAVE: 0, faC_FOLIO: psFolio, faC_DESCRIPCION: psDescripcion, faC_TIPO: piTipo, faC_IMPORTE: pdImporte, faC_FECHA: null, faC_IMPUESTO: psImpuesto, faC_IMPUESTO_IMPORTE: pdImpuestoImporte });
             let { data } = res.data;
             Toast('Factura agregada');
-            LlenaFacturas(2);  
+            LlenaFacturas(plCliente, data.cbxAno, data.cbxMes);  
         }
         catch (error) 
         {
@@ -244,13 +249,13 @@ function Dashboard()
         //.catch(error => { alert(error);});
     }
 
-    function LlenaFacturas(cliente)
+    function LlenaFacturas(cliente, ano, mes)
     {        
         var llFolio = 0;
 
-        //alert('LlenaFacturas | cliente: ' + cliente); 
-        //Wrapper.get(`Facturas`).then(response =>         
-        Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&plFolio=${llFolio}&piStatus=1`).then(response =>         
+        //alert('LlenaFacturas | cliente: ' + cliente + " - ano: " + ano + " - mes: " + mes);
+        Wrapper.get(`Facturas/facturas?piUsuario=${Sesion.clave}&plCliente=${cliente}&piAno=${ano}&piMes=${mes}&plFolio=${llFolio}&piStatus=1`)
+        .then(response =>
         {
             //alert('LlenaFacturas | registros: ' + response.data.length);  
             setFactura(response.data); 
@@ -294,20 +299,22 @@ function Dashboard()
         setAbono(ldAbono);
     }
 
-    function handlerCbxCliente(event)
+    function handlerCbxCliente(data, event)
     {
-        //alert('Cliente: ' + event.target.value); 
-        LlenaFacturas(event.target.value);
+        //alert('Cliente | data: ' + data.cbxMes  + " - value: " + event.target.value); 
+        LlenaFacturas(event.target.value, data.cbxAno, data.cbxMes);
     }
 
-    function handlerCbxAno(event)
+    function handlerCbxAno(data, event)
     {
-        alert('Año: ' + event.target.value); 
-    }    
+        //alert('Año | value' + event.target.value + " - cliente: " + data.cbxCliente); 
+        LlenaFacturas(data.cbxCliente, event.target.value, data.cbxMes);
+    }
 
-    function handlerCbxMes(event)
+    function handlerCbxMes(data, event)
     {
-        alert('Mes: ' + event.target.value); 
+        //alert('Mes | value' + event.target.value + " - cliente: " + data.cbxCliente); 
+        LlenaFacturas(data.cbxCliente, data.cbxAno, event.target.value);
     }
 
     async function OnDelete(event)
@@ -331,7 +338,7 @@ function Dashboard()
             {
                 //alert('Factura borrada con éxito ! '); 
                 Toast('Factura borrada');
-                LlenaFacturas(llCliente);
+                LlenaFacturas(llCliente, 2024, 2);
             }).catch(error => { alert(error);});
         }
     } 
@@ -346,7 +353,7 @@ function Dashboard()
         
         //alert('OnView | Usuario: ' + liUsuario + ' - Cliente: ' + llCliente + ' - factura: ' + llFactura + ' - tipo: ' + liTipo);
         const windowFeatures = "left=100,top=100,width=800,height=800";        
-        const handle = window.open(process.env.PUBLIC_URL + "/docs/factura" + lsFolio + ".pdf", "_blank", windowFeatures);
+        const handle = window.open(process.env.PUBLIC_URL + "ws/Library/facturas/factura" + lsFolio + ".pdf", "_blank", windowFeatures);
                 
         if (!handle) 
         {
@@ -369,6 +376,7 @@ function Dashboard()
         {value:"11", display: "NOVIEMBRE"}, 
         {value:"12", display: "DICIEMBRE"}];
   
+
     useEffect(() => 
     { 
         ObtenerSesion();     
@@ -376,13 +384,16 @@ function Dashboard()
         setValue("cbxMes", "02");
     }, []);  
 
-    async function SAT_Verificacion_Descarga()
-    {  
-        //alert('SAT_Verificacion_Descarga: ' + Solicitud);
 
+    async function SAT_Verificacion_Descarga(cliente, idSolicitud, ano, mes)
+    {  
+        //alert('SAT_Verificacion_Descarga | cliente: ' + cliente + " - solicitud: " + idSolicitud);
+        var emisor = buscarClienteRFC(cliente);
+        //alert('SAT_Verificacion_Descarga | rfc: ' + emisor);
+        
         try
         {
-            let res = await Wrapper.post(`Archivo/SatVerificacionDescarga`, { soL_ID: 0, soL_CODIGO: Solicitud, soL_USUARIO: Sesion.clave, soL_RFC_EMISOR: "IATG9306278W9", soL_RFC_RECEPTOR: "", soL_FECHA_INICIAL: "2023-02-01", soL_FECHA_FINAL: "2023-03-20", soL_TIPO: 1 });
+            let res = await Wrapper.post(`Archivo/SatVerificacionDescarga`, { soL_ID: 0, soL_CODIGO: idSolicitud, soL_USUARIO: Sesion.clave, soL_RFC_EMISOR: "IATG9306278W9", soL_RFC_RECEPTOR: "", soL_FECHA_INICIAL: "2023-02-01", soL_FECHA_FINAL: "2023-03-20", soL_TIPO: 1 });
             let { data } = res.data;
             
             setPaquete(res.data);
@@ -394,17 +405,42 @@ function Dashboard()
         {
             // Handle errors
             console.log(error);
-        }
+        }        
     }
 
-    async function SAT_Solicitud_Descarga(rfc, ano, mes)
+    async function OnVerificacion(data)
+    {           
+        // VERIFICACION DESCARGA MASIVA
+        SAT_Verificacion_Descarga(data.cbxCliente, Solicitud, data.cbxAno, data.cbxMes);           
+        Toast('Orden Enviada');        
+    }  
+
+    function buscarClienteRFC(cliente_id)
+    {
+        //alert("buscar cliente: " + cliente);
+        for(let pos=0; pos < Clientes.length; pos++)
+        {
+            var actualCliente = Clientes[pos];
+            if(actualCliente.clI_CLAVE == cliente_id)
+            {
+                return actualCliente.clI_RFC;
+            }
+        }
+
+        return "";
+    }
+
+    async function SAT_Solicitud_Descarga(cliente, ano, mes)
     {  
-        //alert('SAT_Solicitud_Descarga: ' + rfc + " - fecha: " + ano + "-" + mes);
+        //alert('SAT_Solicitud_Descarga: ' + cliente + " - fecha: " + ano + "-" + mes);
+
+        var rfc = buscarClienteRFC(cliente);
+        //alert('SAT_Solicitud_Descarga | rfc: ' + rfc);
 
         var fechaInicial = ano + "-" + mes + "-01";
         var fechaFinal = ano + "-" + mes + "-01";
         //alert('SAT_Solicitud_Descarga: ' + fechaInicial);
-
+        
         try
         {
             let res = await Wrapper.post(`Archivo/SatSolicitudDescarga`, { soL_ID: 0, soL_CODIGO: "", soL_USUARIO: Sesion.clave, soL_RFC_EMISOR: rfc, soL_RFC_RECEPTOR: "", soL_FECHA_INICIAL: fechaInicial, soL_FECHA_FINAL: fechaFinal, soL_TIPO: 1 });
@@ -419,7 +455,7 @@ function Dashboard()
         {
             // Handle errors
             console.log(error);
-        }
+        }        
     }
 
     async function OnSolicitud(data)
@@ -433,23 +469,16 @@ function Dashboard()
             Toast('Orden Enviada');
         }
     }      
-    
-    async function OnVerificacion(data)
-    {   
-        if(validateForm(data)===true)
-        {            
-            // VERIFICACION DESCARGA MASIVA
-            SAT_Verificacion_Descarga();
-            Toast('Verificacion Enviada');
-        }
-    } 
 
     async function OnLeerArchivos(data)
     {   
+        //SetMessageDialog("Leyendo Archvos XML");
+        //setLoading(!isLoading);
+
         if(validateForm(data)===true)
         {            
             // LEER FACTURAS XML Y GUARDARLAS
-            LeerArchivos();
+            LeerArchivos(data.cbxCliente, data.cbxAno, data.cbxMes);
             Toast('Leyendo Archivos');  
         }
     } 
@@ -459,7 +488,7 @@ function Dashboard()
     {        
         //alert("validateForm | cbxCliente: " + data.cbxCliente);
 
-        if(data.cbxCliente == '' || data.cbxCliente == undefined)
+        if(data.cbxCliente === '0' || data.cbxCliente === undefined)
         {
             //alert("¡ Seleccione Cliente !");
             Toast('Seleccione Cliente');     
@@ -482,9 +511,9 @@ function Dashboard()
                     <form class='frmFacturas'>
 
                         <div class='pnlFiltros'>                            
-                            <Select name='cbxCliente' className='comboCliente' options={Clientes} value='clI_RFC' descripcion='clI_NOMBRE' hasFirst={true} register={register} />
-                            <Select name='cbxAno' className='comboAno' options={targetYears} value='value' descripcion='display' handlerChange={handlerCbxAno} register={register} />
-                            <Select name='cbxMes' className='comboMes' options={targetMonths} value='value' descripcion='display' handlerChange={handlerCbxMes} register={register} />
+                            <Select name='cbxCliente' className='comboCliente' options={Clientes} value='clI_CLAVE' descripcion='clI_NOMBRE' FirstElement={ {value:0, display: "SELECCIONE CLIENTE" } } handlerChange={handleSubmit(handlerCbxCliente)} register={register} />
+                            <Select name='cbxAno' className='comboAno' options={targetYears} value='value' descripcion='display' handlerChange={handleSubmit(handlerCbxAno)} register={register} />
+                            <Select name='cbxMes' className='comboMes' options={targetMonths} value='value' descripcion='display' handlerChange={handleSubmit(handlerCbxMes)} register={register} />
                         </div>
 
                         <div class='pnlFacturas'>
@@ -499,11 +528,24 @@ function Dashboard()
                             <MovimientoTotal totalCargo={gdCargo} totalAbono={gdAbono} />
                             <br />
                             
-                            <p align="right">
-                                <Button name='btnAyuda' text='Catalogo' className ='custom-button boton' handlerSubmit={handleSubmit(OnVerificacion)} />
-                                <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={handleSubmit(OnSolicitud)} />
-                                <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={handleSubmit(OnLeerArchivos)} />
-                            </p>                    
+                            <p align="center">                  
+
+                                <Cargando message={messageDialog} isOpen={isLoading} />
+
+                                <Button name='btnEmitidas' text='Emitidas' className ='btnTest' handlerSubmit={handleSubmit(OnSolicitud)} />
+                                <Button name='btnRecibidas' text='Recibidas' className ='btnTest' handlerSubmit={handleSubmit(OnSolicitud)} /> 
+                                <Button name='btnDescarga' text='Descarga' className ='btnTest' handlerSubmit={handleSubmit(OnVerificacion)} />
+                                <Button name='btnArchivos' text='Archivos' className ='btnTest' handlerSubmit={handleSubmit(OnLeerArchivos)} />
+                                                                                               
+                                { 
+                                    /*
+                                    <Button name='btnAyuda' text='Catalogo' className ='custom-button boton' handlerSubmit={handleSubmit(OnVerificacion)} />
+                                    <Button name='btnFacturas' text='FACTURAS' className ='custom-button boton' handlerSubmit={handleSubmit(OnSolicitud)} />
+                                    <Button name='btnImprimir' text='IMPRIMIR' className ='custom-button boton' handlerSubmit={handleSubmit(OnLeerArchivos)} />
+                                    */
+                                }
+
+                                </p>                    
 
                         </div>    
                     
